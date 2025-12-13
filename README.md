@@ -30,68 +30,152 @@ Banks face reconciliation issues when transactions flowing through multiple syst
 The system uses an Event-Driven Architecture (EDA) to ingest and process transactions securely.
 
 ```mermaid
-%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#fff', 'edgeLabelBackground':'#ffffff', 'tertiaryColor': '#f4f4f4'}}}%%
 graph TD
-    %% --- Define Subgraphs ---
-    subgraph "Simulation Layer"
-        style SIM_NOTE fill:#ffcccc,stroke:#ff0000,color:#000
-        SIM_NOTE[/"⚠️ NOTE: EVENTS ARE SIMULATED.<br/>NO REAL USERS OR PAYMENTS."/]
-        P_CORE["core_producer.py"]
-        P_GW["gateway_producer.py"]
-        P_MOB["mobile_producer.py"]
+    %% Warning
+    WARNING["⚠️ NO REAL USERS MAKE REAL PAYMENTS - Events are simulated"]
+    style WARNING fill:#ffcccc,stroke:#ff0000,color:#000
+
+    %% Producer Layer
+    subgraph PROD["🎭 PRODUCER SCRIPTS"]
+        CORE["core_producer.py"]
+        GATEWAY["gateway_producer.py"] 
+        MOBILE["mobile_producer.py"]
     end
 
-    subgraph "Governance & Security"
-        SR["Schema Registry<br/>(Avro)"]
-        KC["Keycloak<br/>(OAuth2 / JWT / RBAC)"]
-    end
+    %% Schema & Kafka
+    SR["📋 Schema Registry<br/>(Avro)"]
+    KAFKA["📨 Apache Kafka<br/>(Message Bus)"]
 
-    subgraph "Data Ingestion Bus"
-        KAFKA["Apache Kafka<br/>(TLS Secured)"]
-    end
+    %% Security
+    KC["🔐 Keycloak<br/>(OAuth2 + JWT)"]
 
-    subgraph "Processing Layer"
-        API["Reconciliation Engine<br/>FastAPI Backend"]
-    end
+    %% Backend Processing
+    API["⚙️ FastAPI Backend<br/>(Reconciliation Engine)"]
 
-    subgraph "Storage Layer"
-        REDIS[("Redis<br/>Temporary In-flight State")]
-        PG[("PostgreSQL<br/>Events, Results, audit_logs")]
-    end
+    %% Storage
+    REDIS[("💾 Redis<br/>(Temp State)")]
+    PG[("💾 PostgreSQL<br/>(Results & Audit)")]
 
-    subgraph "Frontend"
-        DASH["React Dashboard<br/>(HTTPS)"]
-    end
+    %% Frontend
+    DASH["🖥️ React Dashboard"]
 
-    %% --- Define Connections ---
-    SIM_NOTE --- P_CORE & P_GW & P_MOB
-    P_CORE -->|"core_txns (TLS)"| KAFKA
-    P_GW -->|"gateway_txns (TLS)"| KAFKA
-    P_MOB -->|"mobile_txns (TLS)"| KAFKA
+    %% Flow
+    WARNING -.-> PROD
+    CORE -->|core_txns| KAFKA
+    GATEWAY -->|gateway_txns| KAFKA
+    MOBILE -->|mobile_txns| KAFKA
+    
+    SR -.->|Schema Validation| KAFKA
+    KAFKA -->|Consumer| API
+    
+    API <-->|Temp Storage| REDIS
+    API -->|Store Results| PG
+    
+    DASH -->|Login| KC
+    KC -->|JWT| DASH
+    DASH -->|HTTPS + JWT| API
+    API -->|Socket.IO| DASH
 
-    SR -.-|Enforces Strict Schema| KAFKA
+    %% Styling
+    classDef producer fill:#e1f5fe,stroke:#0277bd
+    classDef infra fill:#fff3e0,stroke:#ef6c00
+    classDef security fill:#f3e5f5,stroke:#7b1fa2
+    classDef backend fill:#e8f5e8,stroke:#2e7d32
+    classDef storage fill:#fce4ec,stroke:#c2185b
+    classDef frontend fill:#e3f2fd,stroke:#1976d2
 
-    KAFKA -->|Consumer (TLS)| API
-    API <-->|"Read/Write State"| REDIS
-    API -->|"Store Final Results"| PG
+    class CORE,GATEWAY,MOBILE producer
+    class SR,KAFKA infra
+    class KC security
+    class API backend
+    class REDIS,PG storage
+    class DASH frontend
+```
 
-    DASH -.->|"1. Login (Creds)"| KC
-    KC -.->|"2. Returns JWT"| DASH
-    DASH -->|"3. HTTPS API Call (+JWT)"| API
-    API -.-|Validate JWT on every request| KC
-    API -->|"4. Real-time Update (Socket.IO)"| DASH
+### 🔄 Data Flow Breakdown
 
-    %% --- Apply Styling ---
-    classDef py fill:#f9f2f4,stroke:#d15b93,stroke-width:2px;
-    classDef kafka fill:#333,stroke:#000,stroke-width:2px,color:#fff;
-    classDef gov fill:#fff3cd,stroke:#856404,stroke-width:2px,stroke-dasharray: 5 5;
-    classDef api fill:#d1e7dd,stroke:#0f5132,stroke-width:2px;
-    classDef db fill:#e2e3e5,stroke:#383d41,stroke-width:2px;
-    classDef ui fill:#cff4fc,stroke:#055160,stroke-width:2px;
+**1. PRODUCER SCRIPTS (SIMULATION)**
+- `core_producer.py` → Kafka topic: `core_txns`
+- `gateway_producer.py` → Kafka topic: `gateway_txns`  
+- `mobile_producer.py` → Kafka topic: `mobile_txns`
+- Pretend to be real banking systems
+- Create random transaction events
+- Inject mismatches intentionally
 
-    class P_CORE,P_GW,P_MOB py;
-    class KAFKA kafka;
-    class SR,KC gov;
-    class API api;
-    class REDIS,PG db;
-    class DASH ui;
+**2. SCHEMA REGISTRY (Avro)**
+- Enforces strict schema for all producers
+- Prevents malformed/corrupted data
+- Guarantees consistent transaction structure
+
+**3. KAFKA (Message Bus)**
+- Stores events from all 3 sources
+- Guarantees durability, ordering & no data loss
+- TLS secured communication (Producers ↔ Kafka ↔ Backend)
+
+**4. AUTHENTICATION + AUTHORIZATION (KEYCLOAK)**
+- Provides OAuth2 + JWT
+- Provides login UI for Dashboard
+- Implements RBAC (admin, viewer roles)
+- Protects backend API endpoints
+- Backend verifies JWT on every request
+
+**5. RECONCILIATION ENGINE (FastAPI Backend)**
+1. Kafka Consumer reads events (TLS secure)
+2. Keycloak auth validates JWT
+3. Optional schema validation
+4. Temporary event state stored in Redis
+5. When ≥2 sources → perform reconciliation:
+   - Amount mismatch
+   - Status mismatch
+   - Timestamp mismatch
+   - Missing event from core/gateway/mobile
+6. Store results in PostgreSQL
+7. Create audit log entry
+8. Emit real-time update to dashboard via Socket.IO
+
+**6. DATABASES (PostgreSQL + Redis)**
+- **PostgreSQL** (Encrypted at-rest optional):
+  - `raw_events` table
+  - `reconciliation_results` table
+  - `audit_logs` table (who accessed what & when)
+- **Redis**: Temporary in-flight event storage
+
+**7. REACT DASHBOARD**
+- User logs in via Keycloak login screen
+- Receives JWT token
+- Uses HTTPS (TLS) to call backend APIs
+- Listens to Socket.IO for real-time mismatches
+- Displays results, charts, summaries & audit logs
+
+---
+
+## 🛠 Technology Stack
+
+| Component | Technology | Role |
+|-----------|------------|------|
+| Backend | FastAPI (Python) | High-performance API & reconciliation logic |
+| Frontend | React.js | Interactive dashboard for operations |
+| Streaming | Apache Kafka | Real-time event ingestion & buffering |
+| Cache | Redis | Temporary in-flight event state storage |
+| Database | PostgreSQL | Permanent storage for results & audit logs |
+| Auth | Keycloak | IAM, OAuth2, and Role-Based Access Control |
+| Real-Time | Socket.IO | Push updates to frontend |
+
+---
+
+## 🔍 Core Features
+
+✔ **Real-time Ingestion**: Three producer scripts simulate live banking systems.
+
+✔ **Strict Schema Validation**: Ensures every transaction follows identical structure (Avro).
+
+✔ **Enterprise-Grade Security**:
+- Keycloak (OAuth2 + JWT)
+- Role-based access (admin/viewer)
+- TLS encryption for all communication
+
+✔ **Real-time Reconciliation**: Detects mismatches instantly when ≥2 sources are available.
+
+✔ **Live Dashboard**: Socket.IO updates → no page refresh needed.
+
+✔ **Full Auditing**: Logs who accessed what and when (critical bank requirement).
