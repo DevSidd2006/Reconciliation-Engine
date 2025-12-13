@@ -200,3 +200,24 @@ TLS-secure HTTPS calls
 Apache Kafka
 Schema Registry (Avro)
 TLS-secured producers & consumers
+
+
+🚀 How the System Works (Simple Flow)
+Producers send events → Kafka
+Kafka stores securely → Backend reads
+Backend validates → puts partial events into Redis
+When enough events arrive:
+→ compare
+→ detect mismatch
+→ save result
+→ create audit log
+→ push update to dashboard
+React dashboard shows live output
+
+🛡 Security Features
+TLS enabled across all services
+JWT validation on every request
+Role-based access (admin/viewer)
+Optional at-rest encryption for PostgreSQL
+Schema-enforced producers
+This makes the system bank-ready for production-scale reconciliation.
