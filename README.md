@@ -179,3 +179,24 @@ graph TD
 ✔ **Live Dashboard**: Socket.IO updates → no page refresh needed.
 
 ✔ **Full Auditing**: Logs who accessed what and when (critical bank requirement).
+
+
+🧩 Tech Stack
+🟪 Backend
+FastAPI (high-performance Python API)
+Kafka Consumer (real-time ingestion)
+Redis (temporary event state)
+PostgreSQL (permanent storage)
+Keycloak (Auth + RBAC)
+Socket.IO (real-time push updates)
+
+🟩 Frontend
+React.js
+Keycloak JS Adapter (for login)
+Socket.IO client
+TLS-secure HTTPS calls
+
+🟧 Data Streaming
+Apache Kafka
+Schema Registry (Avro)
+TLS-secured producers & consumers
