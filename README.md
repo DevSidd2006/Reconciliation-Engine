@@ -1,228 +1,97 @@
-🚀 Real-Time Transaction Reconciliation Engine
-A production-grade, bank-level mismatch detection system using Kafka, FastAPI, Redis, PostgreSQL, Keycloak & React.
+# 🚀 Real-Time Transaction Reconciliation Engine
 
-📌 Overview
-Banks face reconciliation issues when transactions flowing through multiple systems
-(Core Banking, Payment Gateway, Mobile App) do not match due to delays, failures, or inconsistencies.
+![Status](https://img.shields.io/badge/Status-Prototype-blue)
+![Python](https://img.shields.io/badge/Backend-FastAPI-green)
+![React](https://img.shields.io/badge/Frontend-React-61DAFB)
+![Kafka](https://img.shields.io/badge/Streaming-Kafka-black)
+![License](https://img.shields.io/badge/License-MIT-yellow)
 
-This project simulates a real-time reconciliation system that:
+**A production-grade, bank-level mismatch detection system using Kafka, FastAPI, Redis, PostgreSQL, Keycloak & React.**
 
-Ingests live transaction events from three sources
+---
 
-Detects mismatches (amount, status, timestamp, missing entries)
+## 📌 Overview
 
-Stores results securely in a database
+Banks face reconciliation issues when transactions flowing through multiple systems (Core Banking, Payment Gateway, Mobile App) do not match due to delays, failures, or inconsistencies.
 
-Logs every action for compliance
+**This project simulates a real-time reconciliation system that:**
+* **Ingests** live transaction events from three sources.
+* **Detects mismatches** (amount, status, timestamp, missing entries).
+* **Stores results** securely in a database.
+* **Logs every action** for compliance.
+* **Updates a dashboard** in real-time.
 
-Updates a dashboard in real-time
+> **⚠️ Note:** Even though no real payments occur, the architecture is built exactly like a real bank system using modern enterprise-grade components.
 
-Uses modern enterprise-grade components (Kafka, Keycloak, TLS, Redis)
+---
 
-Even though no real payments occur, the architecture is built exactly like a real bank system.
+## 🏗 System Architecture
 
-🏛 System Architecture
-                NO REAL USER MAKES A REAL PAYMENT
-                     (Events are simulated)
-                                │
-                                ▼
-─────────────────────────────────────────────────────────────
-              PRODUCER SCRIPTS (SIMULATION)
-─────────────────────────────────────────────────────────────
-core_producer.py     → Kafka topic: core_txns
-gateway_producer.py  → Kafka topic: gateway_txns
-mobile_producer.py   → Kafka topic: mobile_txns
-• Pretend to be real banking systems
-• Create random transaction events
-• Inject mismatches intentionally
-                                │
-                                ▼
-─────────────────────────────────────────────────────────────
-                 SCHEMA REGISTRY (Avro)
-─────────────────────────────────────────────────────────────
-• Enforces strict schema for all producers  
-• Prevents malformed/corrupted data  
-• Guarantees consistent transaction structure
-                                │
-                                ▼
-─────────────────────────────────────────────────────────────
-                     KAFKA (Message Bus)
-─────────────────────────────────────────────────────────────
-• Stores events from all 3 sources  
-• Guarantees durability, ordering & no data loss  
-• TLS secured communication (Producers ↔ Kafka ↔ Backend)
-                                │
-                                ▼
-─────────────────────────────────────────────────────────────
-         AUTHENTICATION + AUTHORIZATION (KEYCLOAK)
-─────────────────────────────────────────────────────────────
-• Provides OAuth2 + JWT  
-• Provides login UI for Dashboard  
-• Implements RBAC (admin, viewer roles)  
-• Protects backend API endpoints  
-• Backend verifies JWT on every request
-                                │
-                                ▼
-─────────────────────────────────────────────────────────────
-     RECONCILIATION ENGINE (FastAPI Backend)
-─────────────────────────────────────────────────────────────
-1. Kafka Consumer reads events (TLS secure)  
-2. Keycloak auth validates JWT  
-3. Optional schema validation  
-4. Temporary event state stored in Redis  
-5. When ≥2 sources → perform reconciliation  
-   - amount mismatch  
-   - status mismatch  
-   - timestamp mismatch  
-   - missing event from core/gateway/mobile  
-6. Store results in PostgreSQL  
-7. Create audit log entry  
-8. Emit real-time update to dashboard via Socket.IO  
-                                │
-                                ▼
-─────────────────────────────────────────────────────────────
-     DATABASES (PostgreSQL + Redis)
-─────────────────────────────────────────────────────────────
-PostgreSQL (Encrypted at-rest optional)
-• raw_events table  
-• reconciliation_results table  
-• audit_logs table (who accessed what & when)
+The system uses an Event-Driven Architecture (EDA) to ingest and process transactions securely.
 
-Redis  
-• Temporary in-flight event storage
-                                │
-                                ▼
-─────────────────────────────────────────────────────────────
-                     REACT DASHBOARD
-─────────────────────────────────────────────────────────────
-• User logs in via Keycloak login screen  
-• Receives JWT token  
-• Uses HTTPS (TLS) to call backend APIs  
-• Listens to Socket.IO for real-time mismatches  
-• Displays results, charts, summaries & audit logs
-🧩 Tech Stack
-🟪 Backend
-FastAPI (high-performance Python API)
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#fff', 'edgeLabelBackground':'#ffffff', 'tertiaryColor': '#f4f4f4'}}}%%
+graph TD
+    %% --- Define Subgraphs ---
+    subgraph "Simulation Layer"
+        style SIM_NOTE fill:#ffcccc,stroke:#ff0000,color:#000
+        SIM_NOTE[/"⚠️ NOTE: EVENTS ARE SIMULATED.<br/>NO REAL USERS OR PAYMENTS."/]
+        P_CORE["core_producer.py"]
+        P_GW["gateway_producer.py"]
+        P_MOB["mobile_producer.py"]
+    end
 
-Kafka Consumer (real-time ingestion)
+    subgraph "Governance & Security"
+        SR["Schema Registry<br/>(Avro)"]
+        KC["Keycloak<br/>(OAuth2 / JWT / RBAC)"]
+    end
 
-Redis (temporary event state)
+    subgraph "Data Ingestion Bus"
+        KAFKA["Apache Kafka<br/>(TLS Secured)"]
+    end
 
-PostgreSQL (permanent storage)
+    subgraph "Processing Layer"
+        API["Reconciliation Engine<br/>FastAPI Backend"]
+    end
 
-Keycloak (Auth + RBAC)
+    subgraph "Storage Layer"
+        REDIS[("Redis<br/>Temporary In-flight State")]
+        PG[("PostgreSQL<br/>Events, Results, audit_logs")]
+    end
 
-Socket.IO (real-time push updates)
+    subgraph "Frontend"
+        DASH["React Dashboard<br/>(HTTPS)"]
+    end
 
-🟩 Frontend
-React.js
+    %% --- Define Connections ---
+    SIM_NOTE --- P_CORE & P_GW & P_MOB
+    P_CORE -->|"core_txns (TLS)"| KAFKA
+    P_GW -->|"gateway_txns (TLS)"| KAFKA
+    P_MOB -->|"mobile_txns (TLS)"| KAFKA
 
-Keycloak JS Adapter (for login)
+    SR -.-|Enforces Strict Schema| KAFKA
 
-Socket.IO client
+    KAFKA -->|Consumer (TLS)| API
+    API <-->|"Read/Write State"| REDIS
+    API -->|"Store Final Results"| PG
 
-TLS-secure HTTPS calls
+    DASH -.->|"1. Login (Creds)"| KC
+    KC -.->|"2. Returns JWT"| DASH
+    DASH -->|"3. HTTPS API Call (+JWT)"| API
+    API -.-|Validate JWT on every request| KC
+    API -->|"4. Real-time Update (Socket.IO)"| DASH
 
-🟧 Data Streaming
-Apache Kafka
+    %% --- Apply Styling ---
+    classDef py fill:#f9f2f4,stroke:#d15b93,stroke-width:2px;
+    classDef kafka fill:#333,stroke:#000,stroke-width:2px,color:#fff;
+    classDef gov fill:#fff3cd,stroke:#856404,stroke-width:2px,stroke-dasharray: 5 5;
+    classDef api fill:#d1e7dd,stroke:#0f5132,stroke-width:2px;
+    classDef db fill:#e2e3e5,stroke:#383d41,stroke-width:2px;
+    classDef ui fill:#cff4fc,stroke:#055160,stroke-width:2px;
 
-Schema Registry (Avro)
-
-TLS-secured producers & consumers
-
-🔍 Core Features
-✔ Real-time ingestion
-Three producer scripts simulate live banking systems.
-
-✔ Strict schema validation
-Ensures every transaction follows identical structure.
-
-✔ Enterprise-grade security
-Keycloak (OAuth2 + JWT)
-
-Role-based access
-
-TLS encryption for all communication
-
-✔ Real-time reconciliation
-Detects mismatches instantly when ≥2 sources are available.
-
-✔ Live dashboard
-Socket.IO updates → no refresh needed.
-
-✔ Full auditing
-Logs who accessed what and when (bank requirement).
-
-🧪 Mismatch Types Detected
-Type	Description
-Amount Mismatch	Core vs Gateway vs Mobile amount differs
-Status Mismatch	SUCCESS vs FAILED differences
-Timestamp Mismatch	Delay beyond threshold
-Missing Event	One system didn’t report the transaction
-🗄 Database Schema Summary
-PostgreSQL Tables
-raw_events → Each event from producer
-
-reconciliation_results → Final status per transaction
-
-audit_logs → Who accessed what, when
-
-Redis
-Temporary holding of events until reconciliation is possible
-
-🚀 How the System Works (Simple Flow)
-Producers send events → Kafka
-
-Kafka stores securely → Backend reads
-
-Backend validates → puts partial events into Redis
-
-When enough events arrive:
-→ compare
-→ detect mismatch
-→ save result
-→ create audit log
-→ push update to dashboard
-
-React dashboard shows live output
-
-🛡 Security Features
-TLS enabled across all services
-
-JWT validation on every request
-
-Role-based access (admin/viewer)
-
-Optional at-rest encryption for PostgreSQL
-
-Schema-enforced producers
-
-This makes the system bank-ready for production-scale reconciliation.
-
-📊 Dashboard Capabilities
-Live mismatch stream
-
-Summary stats
-
-Charts & visualizations
-
-Search and filter transactions
-
-Audit log viewer
-
-Admin-only insights
-
-🙌 Why This Project Stands Out in a Hackathon
-Real-world banking problem
-
-Enterprise-grade components
-
-Fully secure system
-
-Real-time pipeline
-
-Modular & scalable
-
-Professional architecture
-
-Easy to extend into production
+    class P_CORE,P_GW,P_MOB py;
+    class KAFKA kafka;
+    class SR,KC gov;
+    class API api;
+    class REDIS,PG db;
+    class DASH ui;
