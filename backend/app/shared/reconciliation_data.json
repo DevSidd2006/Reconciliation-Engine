@@ -1,0 +1,5161 @@
+{
+  "reconciled_transactions": [
+    {
+      "txn_id": "65a88d87-0772-4d30-b10e-2a90932d6d6f",
+      "sources": [
+        "gateway",
+        "mobile"
+      ],
+      "timestamp": "2025-12-14T23:39:24.567030",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "CURRENCY_MISMATCH",
+          "severity": "HIGH",
+          "details": "Currency differs: gateway=INR, mobile=EUR",
+          "sources": [
+            "gateway",
+            "mobile"
+          ],
+          "values": {
+            "gateway": "INR",
+            "mobile": "EUR"
+          }
+        }
+      ],
+      "transactions": {
+        "gateway": {
+          "txn_id": "65a88d87-0772-4d30-b10e-2a90932d6d6f",
+          "amount": 350.45,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:09:21.890508",
+          "account_id": "956921",
+          "source": "gateway",
+          "invalid_field": "malformed_data",
+          "extra_field": 6571
+        },
+        "mobile": {
+          "txn_id": "65a88d87-0772-4d30-b10e-2a90932d6d6f",
+          "amount": 350.45,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:09:21.890508",
+          "currency": "EUR",
+          "account_id": "956921",
+          "source": "mobile"
+        }
+      }
+    },
+    {
+      "txn_id": "955ebb7c-6367-4c5d-911c-e7e93e8c382e",
+      "sources": [
+        "gateway",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:39:27.032177",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "STATUS_MISMATCH",
+          "severity": "MEDIUM",
+          "details": "Status differs: gateway=FAILED, core=SUCCESS",
+          "sources": [
+            "gateway",
+            "core"
+          ],
+          "values": {
+            "gateway": "FAILED",
+            "core": "SUCCESS"
+          }
+        },
+        {
+          "type": "CURRENCY_MISMATCH",
+          "severity": "HIGH",
+          "details": "Currency differs: gateway=USD, core=INR",
+          "sources": [
+            "gateway",
+            "core"
+          ],
+          "values": {
+            "gateway": "USD",
+            "core": "INR"
+          }
+        }
+      ],
+      "transactions": {
+        "gateway": {
+          "txn_id": "955ebb7c-6367-4c5d-911c-e7e93e8c382e",
+          "amount": 711.86,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:09:24.500812",
+          "currency": "USD",
+          "account_id": "538284",
+          "source": "gateway"
+        },
+        "core": {
+          "txn_id": "955ebb7c-6367-4c5d-911c-e7e93e8c382e",
+          "amount": 711.86,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:09:24.500812",
+          "currency": "INR",
+          "account_id": "538284",
+          "source": "core"
+        }
+      }
+    },
+    {
+      "txn_id": "12fcd40e-aa88-4a17-96e7-3d19fe03f734",
+      "sources": [
+        "mobile",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:39:31.185766",
+      "status": "MATCHED",
+      "mismatches": [],
+      "transactions": {
+        "mobile": {
+          "txn_id": "12fcd40e-aa88-4a17-96e7-3d19fe03f734",
+          "amount": 630.7,
+          "status": "PENDING",
+          "timestamp": "2025-12-14T18:09:28.700955",
+          "currency": "INR",
+          "account_id": "321792",
+          "source": "mobile"
+        },
+        "gateway": {
+          "txn_id": "12fcd40e-aa88-4a17-96e7-3d19fe03f734",
+          "amount": 630.7,
+          "status": "PENDING",
+          "timestamp": "2025-12-14T18:09:28.700955",
+          "currency": "INR",
+          "account_id": "321792",
+          "source": "gateway"
+        }
+      }
+    },
+    {
+      "txn_id": "5977b2b9-5d94-4c29-bd22-3b1eeb0b9043",
+      "sources": [
+        "mobile",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:39:36.298752",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "CURRENCY_MISMATCH",
+          "severity": "HIGH",
+          "details": "Currency differs: mobile=EUR, core=INR",
+          "sources": [
+            "mobile",
+            "core"
+          ],
+          "values": {
+            "mobile": "EUR",
+            "core": "INR"
+          }
+        }
+      ],
+      "transactions": {
+        "mobile": {
+          "txn_id": "5977b2b9-5d94-4c29-bd22-3b1eeb0b9043",
+          "amount": 1964.06,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:09:33.777095",
+          "currency": "EUR",
+          "account_id": "690297",
+          "source": "mobile"
+        },
+        "core": {
+          "txn_id": "5977b2b9-5d94-4c29-bd22-3b1eeb0b9043",
+          "amount": 1964.06,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:09:33.777095",
+          "currency": "INR",
+          "account_id": "690297",
+          "source": "core"
+        }
+      }
+    },
+    {
+      "txn_id": "02dbad34-4d57-4a8e-a3f9-ec44a3a03c0c",
+      "sources": [
+        "mobile",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:39:40.601037",
+      "status": "MATCHED",
+      "mismatches": [],
+      "transactions": {
+        "mobile": {
+          "txn_id": "02dbad34-4d57-4a8e-a3f9-ec44a3a03c0c",
+          "amount": 1077.83,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:09:37.802755",
+          "currency": "INR",
+          "account_id": "471896",
+          "source": "mobile"
+        },
+        "gateway": {
+          "txn_id": "02dbad34-4d57-4a8e-a3f9-ec44a3a03c0c",
+          "amount": 1077.83,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:09:37.802755",
+          "currency": "INR",
+          "account_id": "471896",
+          "source": "gateway"
+        }
+      }
+    },
+    {
+      "txn_id": "fff49108-2e23-48fb-961f-0b0b6e88d797",
+      "sources": [
+        "core",
+        "mobile"
+      ],
+      "timestamp": "2025-12-14T23:39:46.282505",
+      "status": "MATCHED",
+      "mismatches": [],
+      "transactions": {
+        "core": {
+          "txn_id": "fff49108-2e23-48fb-961f-0b0b6e88d797",
+          "amount": 701.14,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:09:43.452987",
+          "currency": "INR",
+          "account_id": "486515",
+          "source": "core"
+        },
+        "mobile": {
+          "txn_id": "fff49108-2e23-48fb-961f-0b0b6e88d797",
+          "amount": 701.14,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:09:43.452987",
+          "currency": "INR",
+          "account_id": "486515",
+          "source": "mobile"
+        }
+      }
+    },
+    {
+      "txn_id": "0409d731-8375-41a1-97c9-e0ef3767e8d9",
+      "sources": [
+        "core",
+        "mobile"
+      ],
+      "timestamp": "2025-12-14T23:39:49.211433",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "AMOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Amount differs: core=\u20b91739.64, mobile=\u20b91823.64",
+          "sources": [
+            "core",
+            "mobile"
+          ],
+          "values": {
+            "core": 1739.64,
+            "mobile": 1823.64
+          }
+        }
+      ],
+      "transactions": {
+        "core": {
+          "txn_id": "0409d731-8375-41a1-97c9-e0ef3767e8d9",
+          "amount": 1739.64,
+          "status": "PENDING",
+          "timestamp": "2025-12-14T18:09:46.616368",
+          "currency": "INR",
+          "account_id": "351298",
+          "source": "core"
+        },
+        "mobile": {
+          "txn_id": "0409d731-8375-41a1-97c9-e0ef3767e8d9",
+          "amount": 1823.64,
+          "status": "PENDING",
+          "timestamp": "2025-12-14T18:09:46.616368",
+          "currency": "INR",
+          "account_id": "351298",
+          "source": "mobile"
+        }
+      }
+    },
+    {
+      "txn_id": "0409d731-8375-41a1-97c9-e0ef3767e8d9",
+      "sources": [
+        "core",
+        "mobile",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:39:51.098047",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "AMOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Amount differs: core=\u20b91739.64, mobile=\u20b91823.64",
+          "sources": [
+            "core",
+            "mobile"
+          ],
+          "values": {
+            "core": 1739.64,
+            "mobile": 1823.64
+          }
+        },
+        {
+          "type": "AMOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Amount differs: mobile=\u20b91823.64, gateway=\u20b91739.64",
+          "sources": [
+            "mobile",
+            "gateway"
+          ],
+          "values": {
+            "mobile": 1823.64,
+            "gateway": 1739.64
+          }
+        }
+      ],
+      "transactions": {
+        "core": {
+          "txn_id": "0409d731-8375-41a1-97c9-e0ef3767e8d9",
+          "amount": 1739.64,
+          "status": "PENDING",
+          "timestamp": "2025-12-14T18:09:46.616368",
+          "currency": "INR",
+          "account_id": "351298",
+          "source": "core"
+        },
+        "mobile": {
+          "txn_id": "0409d731-8375-41a1-97c9-e0ef3767e8d9",
+          "amount": 1823.64,
+          "status": "PENDING",
+          "timestamp": "2025-12-14T18:09:46.616368",
+          "currency": "INR",
+          "account_id": "351298",
+          "source": "mobile"
+        },
+        "gateway": {
+          "txn_id": "0409d731-8375-41a1-97c9-e0ef3767e8d9",
+          "amount": 1739.64,
+          "status": "PENDING",
+          "timestamp": "2025-12-14T18:09:46.616368",
+          "currency": "INR",
+          "account_id": "351298",
+          "source": "gateway"
+        }
+      }
+    },
+    {
+      "txn_id": "29263202-23fb-4eaa-95f4-df388183754a",
+      "sources": [
+        "core",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:39:57.692585",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "AMOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Amount differs: core=\u20b9414.34, gateway=\u20b9333.34",
+          "sources": [
+            "core",
+            "gateway"
+          ],
+          "values": {
+            "core": 414.34,
+            "gateway": 333.34
+          }
+        }
+      ],
+      "transactions": {
+        "core": {
+          "txn_id": "29263202-23fb-4eaa-95f4-df388183754a",
+          "amount": 414.34,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:09:54.729424",
+          "currency": "INR",
+          "account_id": "485491",
+          "source": "core"
+        },
+        "gateway": {
+          "txn_id": "29263202-23fb-4eaa-95f4-df388183754a",
+          "amount": 333.34,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:09:54.729424",
+          "currency": "INR",
+          "account_id": "485491",
+          "source": "gateway"
+        }
+      }
+    },
+    {
+      "txn_id": "ec7549a1-4c8a-4a3b-8e1a-0fd8b0b135c7",
+      "sources": [
+        "core",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:40:01.865392",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "STATUS_MISMATCH",
+          "severity": "MEDIUM",
+          "details": "Status differs: core=FAILED, gateway=PENDING",
+          "sources": [
+            "core",
+            "gateway"
+          ],
+          "values": {
+            "core": "FAILED",
+            "gateway": "PENDING"
+          }
+        }
+      ],
+      "transactions": {
+        "core": {
+          "txn_id": "ec7549a1-4c8a-4a3b-8e1a-0fd8b0b135c7",
+          "amount": 393.03,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:09:59.075669",
+          "currency": "INR",
+          "account_id": "245539",
+          "source": "core"
+        },
+        "gateway": {
+          "txn_id": "ec7549a1-4c8a-4a3b-8e1a-0fd8b0b135c7",
+          "amount": 393.03,
+          "status": "PENDING",
+          "timestamp": "2025-12-14T18:09:59.075669",
+          "currency": "INR",
+          "account_id": "245539",
+          "source": "gateway"
+        }
+      }
+    },
+    {
+      "txn_id": "ab31ab46-9837-4a10-b84d-f5b35439fd72",
+      "sources": [
+        "gateway",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:40:07.694461",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "AMOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Amount differs: gateway=\u20b9775.04, core=\u20b9949.04",
+          "sources": [
+            "gateway",
+            "core"
+          ],
+          "values": {
+            "gateway": 775.04,
+            "core": 949.04
+          }
+        }
+      ],
+      "transactions": {
+        "gateway": {
+          "txn_id": "ab31ab46-9837-4a10-b84d-f5b35439fd72",
+          "amount": 775.04,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:10:05.234636",
+          "currency": "INR",
+          "account_id": "115234",
+          "source": "gateway"
+        },
+        "core": {
+          "txn_id": "ab31ab46-9837-4a10-b84d-f5b35439fd72",
+          "amount": 949.04,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:10:05.234636",
+          "currency": "INR",
+          "account_id": "115234",
+          "source": "core"
+        }
+      }
+    },
+    {
+      "txn_id": "caf65cfa-1f2d-457d-b878-e41a55c50447",
+      "sources": [
+        "mobile",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:40:08.778836",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "AMOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Amount differs: mobile=\u20b91138.69, core=\u20b91266.69",
+          "sources": [
+            "mobile",
+            "core"
+          ],
+          "values": {
+            "mobile": 1138.69,
+            "core": 1266.69
+          }
+        }
+      ],
+      "transactions": {
+        "mobile": {
+          "txn_id": "caf65cfa-1f2d-457d-b878-e41a55c50447",
+          "amount": 1138.69,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:10:16.206004",
+          "currency": "INR",
+          "account_id": "683813",
+          "source": "mobile"
+        },
+        "core": {
+          "txn_id": "caf65cfa-1f2d-457d-b878-e41a55c50447",
+          "amount": 1266.69,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:10:06.205098",
+          "currency": "INR",
+          "account_id": "683813",
+          "source": "core"
+        }
+      }
+    },
+    {
+      "txn_id": "2ac8ce88-b414-4b87-a3e2-fc88dc894686",
+      "sources": [
+        "mobile",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:40:16.161390",
+      "status": "MATCHED",
+      "mismatches": [],
+      "transactions": {
+        "mobile": {
+          "txn_id": "2ac8ce88-b414-4b87-a3e2-fc88dc894686",
+          "amount": 1613.95,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:10:13.524684",
+          "currency": "INR",
+          "account_id": "396990",
+          "source": "mobile"
+        },
+        "core": {
+          "txn_id": "2ac8ce88-b414-4b87-a3e2-fc88dc894686",
+          "amount": 1613.95,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:10:13.524684",
+          "currency": "INR",
+          "account_id": "396990",
+          "source": "core"
+        }
+      }
+    },
+    {
+      "txn_id": "6437a36b-9354-4666-939e-f804b9e52925",
+      "sources": [
+        "mobile",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:40:16.872437",
+      "status": "MATCHED",
+      "mismatches": [],
+      "transactions": {
+        "mobile": {
+          "txn_id": "6437a36b-9354-4666-939e-f804b9e52925",
+          "amount": 735.82,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:10:13.919308",
+          "currency": "INR",
+          "account_id": "833469",
+          "source": "mobile"
+        },
+        "core": {
+          "txn_id": "6437a36b-9354-4666-939e-f804b9e52925",
+          "amount": 735.82,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:10:33.913522",
+          "currency": "INR",
+          "account_id": "833469",
+          "source": "core"
+        }
+      }
+    },
+    {
+      "txn_id": "2ac8ce88-b414-4b87-a3e2-fc88dc894686",
+      "sources": [
+        "mobile",
+        "core",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:40:17.652352",
+      "status": "MATCHED",
+      "mismatches": [],
+      "transactions": {
+        "mobile": {
+          "txn_id": "2ac8ce88-b414-4b87-a3e2-fc88dc894686",
+          "amount": 1613.95,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:10:13.524684",
+          "currency": "INR",
+          "account_id": "396990",
+          "source": "mobile"
+        },
+        "core": {
+          "txn_id": "2ac8ce88-b414-4b87-a3e2-fc88dc894686",
+          "amount": 1613.95,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:10:13.524684",
+          "currency": "INR",
+          "account_id": "396990",
+          "source": "core"
+        },
+        "gateway": {
+          "txn_id": "2ac8ce88-b414-4b87-a3e2-fc88dc894686",
+          "amount": 1613.95,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:10:13.524684",
+          "currency": "INR",
+          "account_id": "396990",
+          "source": "gateway"
+        }
+      }
+    },
+    {
+      "txn_id": "1fc39fde-70c1-47c4-98c9-f3b4f3af37fb",
+      "sources": [
+        "mobile",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:40:27.914285",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "ACCOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Account ID differs: mobile=8874532, core=960563",
+          "sources": [
+            "mobile",
+            "core"
+          ],
+          "values": {
+            "mobile": "8874532",
+            "core": "960563"
+          }
+        }
+      ],
+      "transactions": {
+        "mobile": {
+          "txn_id": "1fc39fde-70c1-47c4-98c9-f3b4f3af37fb",
+          "amount": 1448.8,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:10:25.312004",
+          "currency": "INR",
+          "account_id": "8874532",
+          "source": "mobile"
+        },
+        "core": {
+          "txn_id": "1fc39fde-70c1-47c4-98c9-f3b4f3af37fb",
+          "amount": 1448.8,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:10:25.312004",
+          "currency": "INR",
+          "account_id": "960563",
+          "source": "core"
+        }
+      }
+    },
+    {
+      "txn_id": "ce80a455-44c1-419c-8cb0-9fb3595fabf3",
+      "sources": [
+        "gateway",
+        "mobile"
+      ],
+      "timestamp": "2025-12-14T23:40:28.336639",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "AMOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Amount differs: gateway=\u20b91178.99, mobile=\u20b91361.99",
+          "sources": [
+            "gateway",
+            "mobile"
+          ],
+          "values": {
+            "gateway": 1178.99,
+            "mobile": 1361.99
+          }
+        }
+      ],
+      "transactions": {
+        "gateway": {
+          "txn_id": "ce80a455-44c1-419c-8cb0-9fb3595fabf3",
+          "amount": 1178.99,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:10:25.785037",
+          "currency": "INR",
+          "account_id": "630394",
+          "source": "gateway"
+        },
+        "mobile": {
+          "txn_id": "ce80a455-44c1-419c-8cb0-9fb3595fabf3",
+          "amount": 1361.99,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:10:25.785037",
+          "currency": "INR",
+          "account_id": "630394",
+          "source": "mobile"
+        }
+      }
+    },
+    {
+      "txn_id": "1fc39fde-70c1-47c4-98c9-f3b4f3af37fb",
+      "sources": [
+        "mobile",
+        "core",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:40:29.947729",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "ACCOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Account ID differs: mobile=8874532, core=960563",
+          "sources": [
+            "mobile",
+            "core"
+          ],
+          "values": {
+            "mobile": "8874532",
+            "core": "960563"
+          }
+        },
+        {
+          "type": "ACCOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Account ID differs: mobile=8874532, gateway=960563",
+          "sources": [
+            "mobile",
+            "gateway"
+          ],
+          "values": {
+            "mobile": "8874532",
+            "gateway": "960563"
+          }
+        }
+      ],
+      "transactions": {
+        "mobile": {
+          "txn_id": "1fc39fde-70c1-47c4-98c9-f3b4f3af37fb",
+          "amount": 1448.8,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:10:25.312004",
+          "currency": "INR",
+          "account_id": "8874532",
+          "source": "mobile"
+        },
+        "core": {
+          "txn_id": "1fc39fde-70c1-47c4-98c9-f3b4f3af37fb",
+          "amount": 1448.8,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:10:25.312004",
+          "currency": "INR",
+          "account_id": "960563",
+          "source": "core"
+        },
+        "gateway": {
+          "txn_id": "1fc39fde-70c1-47c4-98c9-f3b4f3af37fb",
+          "amount": 1448.8,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:10:25.312004",
+          "currency": "INR",
+          "account_id": "960563",
+          "source": "gateway"
+        }
+      }
+    },
+    {
+      "txn_id": "ce80a455-44c1-419c-8cb0-9fb3595fabf3",
+      "sources": [
+        "gateway",
+        "mobile",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:40:30.073448",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "AMOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Amount differs: gateway=\u20b91178.99, mobile=\u20b91361.99",
+          "sources": [
+            "gateway",
+            "mobile"
+          ],
+          "values": {
+            "gateway": 1178.99,
+            "mobile": 1361.99
+          }
+        },
+        {
+          "type": "AMOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Amount differs: mobile=\u20b91361.99, core=\u20b91178.99",
+          "sources": [
+            "mobile",
+            "core"
+          ],
+          "values": {
+            "mobile": 1361.99,
+            "core": 1178.99
+          }
+        }
+      ],
+      "transactions": {
+        "gateway": {
+          "txn_id": "ce80a455-44c1-419c-8cb0-9fb3595fabf3",
+          "amount": 1178.99,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:10:25.785037",
+          "currency": "INR",
+          "account_id": "630394",
+          "source": "gateway"
+        },
+        "mobile": {
+          "txn_id": "ce80a455-44c1-419c-8cb0-9fb3595fabf3",
+          "amount": 1361.99,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:10:25.785037",
+          "currency": "INR",
+          "account_id": "630394",
+          "source": "mobile"
+        },
+        "core": {
+          "txn_id": "ce80a455-44c1-419c-8cb0-9fb3595fabf3",
+          "amount": 1178.99,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:10:25.785037",
+          "currency": "INR",
+          "account_id": "630394",
+          "source": "core"
+        }
+      }
+    },
+    {
+      "txn_id": "739c8b51-2f86-4a32-a63d-8c49e62fa145",
+      "sources": [
+        "gateway",
+        "mobile"
+      ],
+      "timestamp": "2025-12-14T23:40:39.766454",
+      "status": "MATCHED",
+      "mismatches": [],
+      "transactions": {
+        "gateway": {
+          "txn_id": "739c8b51-2f86-4a32-a63d-8c49e62fa145",
+          "amount": 720.59,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:10:37.166416",
+          "currency": "INR",
+          "account_id": "594710",
+          "source": "gateway"
+        },
+        "mobile": {
+          "txn_id": "739c8b51-2f86-4a32-a63d-8c49e62fa145",
+          "amount": 720.59,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:10:37.166416",
+          "currency": "INR",
+          "account_id": "594710",
+          "source": "mobile"
+        }
+      }
+    },
+    {
+      "txn_id": "4afd77e3-bf68-43b6-b421-c65354eec748",
+      "sources": [
+        "gateway",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:40:41.263277",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "AMOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Amount differs: gateway=\u20b91576.84, core=\u20b91729.84",
+          "sources": [
+            "gateway",
+            "core"
+          ],
+          "values": {
+            "gateway": 1576.84,
+            "core": 1729.84
+          }
+        }
+      ],
+      "transactions": {
+        "gateway": {
+          "txn_id": "4afd77e3-bf68-43b6-b421-c65354eec748",
+          "amount": 1576.84,
+          "status": "PENDING",
+          "timestamp": "2025-12-14T18:10:38.291636",
+          "currency": "INR",
+          "account_id": "523471",
+          "source": "gateway"
+        },
+        "core": {
+          "txn_id": "4afd77e3-bf68-43b6-b421-c65354eec748",
+          "amount": 1729.84,
+          "status": "PENDING",
+          "timestamp": "2025-12-14T18:10:38.291636",
+          "currency": "INR",
+          "account_id": "523471",
+          "source": "core"
+        }
+      }
+    },
+    {
+      "txn_id": "739c8b51-2f86-4a32-a63d-8c49e62fa145",
+      "sources": [
+        "gateway",
+        "mobile",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:40:41.494543",
+      "status": "MATCHED",
+      "mismatches": [],
+      "transactions": {
+        "gateway": {
+          "txn_id": "739c8b51-2f86-4a32-a63d-8c49e62fa145",
+          "amount": 720.59,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:10:37.166416",
+          "currency": "INR",
+          "account_id": "594710",
+          "source": "gateway"
+        },
+        "mobile": {
+          "txn_id": "739c8b51-2f86-4a32-a63d-8c49e62fa145",
+          "amount": 720.59,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:10:37.166416",
+          "currency": "INR",
+          "account_id": "594710",
+          "source": "mobile"
+        },
+        "core": {
+          "txn_id": "739c8b51-2f86-4a32-a63d-8c49e62fa145",
+          "amount": 720.59,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:10:37.166416",
+          "currency": "INR",
+          "account_id": "594710",
+          "source": "core"
+        }
+      }
+    },
+    {
+      "txn_id": "4afd77e3-bf68-43b6-b421-c65354eec748",
+      "sources": [
+        "gateway",
+        "core",
+        "mobile"
+      ],
+      "timestamp": "2025-12-14T23:40:42.717321",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "AMOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Amount differs: gateway=\u20b91576.84, core=\u20b91729.84",
+          "sources": [
+            "gateway",
+            "core"
+          ],
+          "values": {
+            "gateway": 1576.84,
+            "core": 1729.84
+          }
+        },
+        {
+          "type": "AMOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Amount differs: gateway=\u20b91576.84, mobile=\u20b91705.84",
+          "sources": [
+            "gateway",
+            "mobile"
+          ],
+          "values": {
+            "gateway": 1576.84,
+            "mobile": 1705.84
+          }
+        },
+        {
+          "type": "AMOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Amount differs: core=\u20b91729.84, mobile=\u20b91705.84",
+          "sources": [
+            "core",
+            "mobile"
+          ],
+          "values": {
+            "core": 1729.84,
+            "mobile": 1705.84
+          }
+        }
+      ],
+      "transactions": {
+        "gateway": {
+          "txn_id": "4afd77e3-bf68-43b6-b421-c65354eec748",
+          "amount": 1576.84,
+          "status": "PENDING",
+          "timestamp": "2025-12-14T18:10:38.291636",
+          "currency": "INR",
+          "account_id": "523471",
+          "source": "gateway"
+        },
+        "core": {
+          "txn_id": "4afd77e3-bf68-43b6-b421-c65354eec748",
+          "amount": 1729.84,
+          "status": "PENDING",
+          "timestamp": "2025-12-14T18:10:38.291636",
+          "currency": "INR",
+          "account_id": "523471",
+          "source": "core"
+        },
+        "mobile": {
+          "txn_id": "4afd77e3-bf68-43b6-b421-c65354eec748",
+          "amount": 1705.84,
+          "status": "PENDING",
+          "timestamp": "2025-12-14T18:10:38.291636",
+          "currency": "INR",
+          "account_id": "523471",
+          "source": "mobile"
+        }
+      }
+    },
+    {
+      "txn_id": "a6c3c037-6d27-4347-bccb-c191c6f75c97",
+      "sources": [
+        "gateway",
+        "mobile"
+      ],
+      "timestamp": "2025-12-14T23:40:49.949654",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "ACCOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Account ID differs: gateway=157348, mobile=7896808",
+          "sources": [
+            "gateway",
+            "mobile"
+          ],
+          "values": {
+            "gateway": "157348",
+            "mobile": "7896808"
+          }
+        }
+      ],
+      "transactions": {
+        "gateway": {
+          "txn_id": "a6c3c037-6d27-4347-bccb-c191c6f75c97",
+          "amount": 1894.5,
+          "status": "PENDING",
+          "timestamp": "2025-12-14T18:10:47.197338",
+          "currency": "INR",
+          "account_id": "157348",
+          "source": "gateway"
+        },
+        "mobile": {
+          "txn_id": "a6c3c037-6d27-4347-bccb-c191c6f75c97",
+          "amount": 1894.5,
+          "status": "PENDING",
+          "timestamp": "2025-12-14T18:10:47.197338",
+          "currency": "INR",
+          "account_id": "7896808",
+          "source": "mobile"
+        }
+      }
+    },
+    {
+      "txn_id": "a6c3c037-6d27-4347-bccb-c191c6f75c97",
+      "sources": [
+        "gateway",
+        "mobile",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:40:51.749513",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "ACCOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Account ID differs: gateway=157348, mobile=7896808",
+          "sources": [
+            "gateway",
+            "mobile"
+          ],
+          "values": {
+            "gateway": "157348",
+            "mobile": "7896808"
+          }
+        },
+        {
+          "type": "ACCOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Account ID differs: mobile=7896808, core=157348",
+          "sources": [
+            "mobile",
+            "core"
+          ],
+          "values": {
+            "mobile": "7896808",
+            "core": "157348"
+          }
+        }
+      ],
+      "transactions": {
+        "gateway": {
+          "txn_id": "a6c3c037-6d27-4347-bccb-c191c6f75c97",
+          "amount": 1894.5,
+          "status": "PENDING",
+          "timestamp": "2025-12-14T18:10:47.197338",
+          "currency": "INR",
+          "account_id": "157348",
+          "source": "gateway"
+        },
+        "mobile": {
+          "txn_id": "a6c3c037-6d27-4347-bccb-c191c6f75c97",
+          "amount": 1894.5,
+          "status": "PENDING",
+          "timestamp": "2025-12-14T18:10:47.197338",
+          "currency": "INR",
+          "account_id": "7896808",
+          "source": "mobile"
+        },
+        "core": {
+          "txn_id": "a6c3c037-6d27-4347-bccb-c191c6f75c97",
+          "amount": 1894.5,
+          "status": "PENDING",
+          "timestamp": "2025-12-14T18:11:02.441056",
+          "currency": "INR",
+          "account_id": "157348",
+          "source": "core"
+        }
+      }
+    },
+    {
+      "txn_id": "d2f1166a-2850-4290-8863-270338947b2d",
+      "sources": [
+        "gateway",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:40:53.110579",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "ACCOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Account ID differs: gateway=119523, core=3879491",
+          "sources": [
+            "gateway",
+            "core"
+          ],
+          "values": {
+            "gateway": "119523",
+            "core": "3879491"
+          }
+        }
+      ],
+      "transactions": {
+        "gateway": {
+          "txn_id": "d2f1166a-2850-4290-8863-270338947b2d",
+          "amount": 276.45,
+          "status": "PENDING",
+          "timestamp": "2025-12-14T18:10:50.340272",
+          "currency": "INR",
+          "account_id": "119523",
+          "source": "gateway"
+        },
+        "core": {
+          "txn_id": "d2f1166a-2850-4290-8863-270338947b2d",
+          "amount": 276.45,
+          "status": "PENDING",
+          "timestamp": "2025-12-14T18:10:50.340272",
+          "currency": "INR",
+          "account_id": "3879491",
+          "source": "core"
+        }
+      }
+    },
+    {
+      "txn_id": "d2f1166a-2850-4290-8863-270338947b2d",
+      "sources": [
+        "gateway",
+        "core",
+        "mobile"
+      ],
+      "timestamp": "2025-12-14T23:40:54.951502",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "ACCOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Account ID differs: gateway=119523, core=3879491",
+          "sources": [
+            "gateway",
+            "core"
+          ],
+          "values": {
+            "gateway": "119523",
+            "core": "3879491"
+          }
+        },
+        {
+          "type": "AMOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Amount differs: gateway=\u20b9276.45, mobile=\u20b9341.45",
+          "sources": [
+            "gateway",
+            "mobile"
+          ],
+          "values": {
+            "gateway": 276.45,
+            "mobile": 341.45
+          }
+        },
+        {
+          "type": "AMOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Amount differs: core=\u20b9276.45, mobile=\u20b9341.45",
+          "sources": [
+            "core",
+            "mobile"
+          ],
+          "values": {
+            "core": 276.45,
+            "mobile": 341.45
+          }
+        },
+        {
+          "type": "ACCOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Account ID differs: core=3879491, mobile=119523",
+          "sources": [
+            "core",
+            "mobile"
+          ],
+          "values": {
+            "core": "3879491",
+            "mobile": "119523"
+          }
+        }
+      ],
+      "transactions": {
+        "gateway": {
+          "txn_id": "d2f1166a-2850-4290-8863-270338947b2d",
+          "amount": 276.45,
+          "status": "PENDING",
+          "timestamp": "2025-12-14T18:10:50.340272",
+          "currency": "INR",
+          "account_id": "119523",
+          "source": "gateway"
+        },
+        "core": {
+          "txn_id": "d2f1166a-2850-4290-8863-270338947b2d",
+          "amount": 276.45,
+          "status": "PENDING",
+          "timestamp": "2025-12-14T18:10:50.340272",
+          "currency": "INR",
+          "account_id": "3879491",
+          "source": "core"
+        },
+        "mobile": {
+          "txn_id": "d2f1166a-2850-4290-8863-270338947b2d",
+          "amount": 341.45,
+          "status": "PENDING",
+          "timestamp": "2025-12-14T18:10:50.340272",
+          "currency": "INR",
+          "account_id": "119523",
+          "source": "mobile"
+        }
+      }
+    },
+    {
+      "txn_id": "559203d1-7c8a-4013-bc6a-3fbfc12fceeb",
+      "sources": [
+        "core",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:40:59.880887",
+      "status": "MATCHED",
+      "mismatches": [],
+      "transactions": {
+        "core": {
+          "txn_id": "559203d1-7c8a-4013-bc6a-3fbfc12fceeb",
+          "amount": 162.37,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:11:10.021409",
+          "currency": "INR",
+          "account_id": "552811",
+          "source": "core"
+        },
+        "gateway": {
+          "txn_id": "559203d1-7c8a-4013-bc6a-3fbfc12fceeb",
+          "amount": 162.37,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:10:57.020855",
+          "currency": "INR",
+          "account_id": "552811",
+          "source": "gateway"
+        }
+      }
+    },
+    {
+      "txn_id": "7c1a1cdc-08bb-4697-b64e-cd705cb69550",
+      "sources": [
+        "gateway",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:41:01.772340",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "STATUS_MISMATCH",
+          "severity": "MEDIUM",
+          "details": "Status differs: gateway=FAILED, core=SUCCESS",
+          "sources": [
+            "gateway",
+            "core"
+          ],
+          "values": {
+            "gateway": "FAILED",
+            "core": "SUCCESS"
+          }
+        },
+        {
+          "type": "ACCOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Account ID differs: gateway=5683476, core=186798",
+          "sources": [
+            "gateway",
+            "core"
+          ],
+          "values": {
+            "gateway": "5683476",
+            "core": "186798"
+          }
+        }
+      ],
+      "transactions": {
+        "gateway": {
+          "txn_id": "7c1a1cdc-08bb-4697-b64e-cd705cb69550",
+          "amount": 127.02,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:10:58.864668",
+          "currency": "INR",
+          "account_id": "5683476",
+          "source": "gateway"
+        },
+        "core": {
+          "txn_id": "7c1a1cdc-08bb-4697-b64e-cd705cb69550",
+          "amount": 127.02,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:10:58.864668",
+          "currency": "INR",
+          "account_id": "186798",
+          "source": "core"
+        }
+      }
+    },
+    {
+      "txn_id": "559203d1-7c8a-4013-bc6a-3fbfc12fceeb",
+      "sources": [
+        "core",
+        "gateway",
+        "mobile"
+      ],
+      "timestamp": "2025-12-14T23:41:01.923556",
+      "status": "MATCHED",
+      "mismatches": [],
+      "transactions": {
+        "core": {
+          "txn_id": "559203d1-7c8a-4013-bc6a-3fbfc12fceeb",
+          "amount": 162.37,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:11:10.021409",
+          "currency": "INR",
+          "account_id": "552811",
+          "source": "core"
+        },
+        "gateway": {
+          "txn_id": "559203d1-7c8a-4013-bc6a-3fbfc12fceeb",
+          "amount": 162.37,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:10:57.020855",
+          "currency": "INR",
+          "account_id": "552811",
+          "source": "gateway"
+        },
+        "mobile": {
+          "txn_id": "559203d1-7c8a-4013-bc6a-3fbfc12fceeb",
+          "amount": 162.37,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:10:57.020855",
+          "currency": "INR",
+          "account_id": "552811",
+          "source": "mobile"
+        }
+      }
+    },
+    {
+      "txn_id": "7b23af8b-c638-474e-a36c-0ae2c47e06ad",
+      "sources": [
+        "core",
+        "mobile"
+      ],
+      "timestamp": "2025-12-14T23:41:12.022695",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "AMOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Amount differs: core=\u20b91436.55, mobile=\u20b91497.55",
+          "sources": [
+            "core",
+            "mobile"
+          ],
+          "values": {
+            "core": 1436.55,
+            "mobile": 1497.55
+          }
+        }
+      ],
+      "transactions": {
+        "core": {
+          "txn_id": "7b23af8b-c638-474e-a36c-0ae2c47e06ad",
+          "amount": 1436.55,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:11:09.352175",
+          "currency": "INR",
+          "account_id": "559469",
+          "source": "core"
+        },
+        "mobile": {
+          "txn_id": "7b23af8b-c638-474e-a36c-0ae2c47e06ad",
+          "amount": 1497.55,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:11:09.352175",
+          "currency": "INR",
+          "account_id": "559469",
+          "source": "mobile"
+        }
+      }
+    },
+    {
+      "txn_id": "4177019e-290d-4ea9-8e09-7515fae24bda",
+      "sources": [
+        "gateway",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:41:12.211464",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "ACCOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Account ID differs: gateway=7800296, core=803378",
+          "sources": [
+            "gateway",
+            "core"
+          ],
+          "values": {
+            "gateway": "7800296",
+            "core": "803378"
+          }
+        }
+      ],
+      "transactions": {
+        "gateway": {
+          "txn_id": "4177019e-290d-4ea9-8e09-7515fae24bda",
+          "amount": 1137.0,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:11:09.364728",
+          "currency": "INR",
+          "account_id": "7800296",
+          "source": "gateway"
+        },
+        "core": {
+          "txn_id": "4177019e-290d-4ea9-8e09-7515fae24bda",
+          "amount": 1137.0,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:11:09.364728",
+          "currency": "INR",
+          "account_id": "803378",
+          "source": "core"
+        }
+      }
+    },
+    {
+      "txn_id": "7b23af8b-c638-474e-a36c-0ae2c47e06ad",
+      "sources": [
+        "core",
+        "mobile",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:41:13.495448",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "AMOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Amount differs: core=\u20b91436.55, mobile=\u20b91497.55",
+          "sources": [
+            "core",
+            "mobile"
+          ],
+          "values": {
+            "core": 1436.55,
+            "mobile": 1497.55
+          }
+        },
+        {
+          "type": "AMOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Amount differs: mobile=\u20b91497.55, gateway=\u20b91436.55",
+          "sources": [
+            "mobile",
+            "gateway"
+          ],
+          "values": {
+            "mobile": 1497.55,
+            "gateway": 1436.55
+          }
+        }
+      ],
+      "transactions": {
+        "core": {
+          "txn_id": "7b23af8b-c638-474e-a36c-0ae2c47e06ad",
+          "amount": 1436.55,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:11:09.352175",
+          "currency": "INR",
+          "account_id": "559469",
+          "source": "core"
+        },
+        "mobile": {
+          "txn_id": "7b23af8b-c638-474e-a36c-0ae2c47e06ad",
+          "amount": 1497.55,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:11:09.352175",
+          "currency": "INR",
+          "account_id": "559469",
+          "source": "mobile"
+        },
+        "gateway": {
+          "txn_id": "7b23af8b-c638-474e-a36c-0ae2c47e06ad",
+          "amount": 1436.55,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:11:09.352175",
+          "currency": "INR",
+          "account_id": "559469",
+          "source": "gateway"
+        }
+      }
+    },
+    {
+      "txn_id": "ee3951cf-b0a0-4757-8af5-53f7f2bdc42f",
+      "sources": [
+        "gateway",
+        "mobile"
+      ],
+      "timestamp": "2025-12-14T23:41:21.125272",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "AMOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Amount differs: gateway=\u20b9843.34, mobile=\u20b9949.34",
+          "sources": [
+            "gateway",
+            "mobile"
+          ],
+          "values": {
+            "gateway": 843.34,
+            "mobile": 949.34
+          }
+        }
+      ],
+      "transactions": {
+        "gateway": {
+          "txn_id": "ee3951cf-b0a0-4757-8af5-53f7f2bdc42f",
+          "amount": 843.34,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:11:18.129652",
+          "currency": "INR",
+          "account_id": "173986",
+          "source": "gateway"
+        },
+        "mobile": {
+          "txn_id": "ee3951cf-b0a0-4757-8af5-53f7f2bdc42f",
+          "amount": 949.34,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:11:18.129652",
+          "currency": "INR",
+          "account_id": "173986",
+          "source": "mobile"
+        }
+      }
+    },
+    {
+      "txn_id": "f2fa823e-8cc0-45eb-9897-a4e3e48a00fe",
+      "sources": [
+        "mobile",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:41:21.197133",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "AMOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Amount differs: mobile=\u20b92006.0, core=\u20b91960.0",
+          "sources": [
+            "mobile",
+            "core"
+          ],
+          "values": {
+            "mobile": 2006.0,
+            "core": 1960.0
+          }
+        }
+      ],
+      "transactions": {
+        "mobile": {
+          "txn_id": "f2fa823e-8cc0-45eb-9897-a4e3e48a00fe",
+          "amount": 2006.0,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:11:18.359011",
+          "currency": "INR",
+          "account_id": "249655",
+          "source": "mobile"
+        },
+        "core": {
+          "txn_id": "f2fa823e-8cc0-45eb-9897-a4e3e48a00fe",
+          "amount": 1960.0,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:11:18.359011",
+          "currency": "INR",
+          "account_id": "249655",
+          "source": "core"
+        }
+      }
+    },
+    {
+      "txn_id": "f2fa823e-8cc0-45eb-9897-a4e3e48a00fe",
+      "sources": [
+        "mobile",
+        "core",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:41:23.053059",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "AMOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Amount differs: mobile=\u20b92006.0, core=\u20b91960.0",
+          "sources": [
+            "mobile",
+            "core"
+          ],
+          "values": {
+            "mobile": 2006.0,
+            "core": 1960.0
+          }
+        },
+        {
+          "type": "AMOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Amount differs: mobile=\u20b92006.0, gateway=\u20b91935.0",
+          "sources": [
+            "mobile",
+            "gateway"
+          ],
+          "values": {
+            "mobile": 2006.0,
+            "gateway": 1935.0
+          }
+        },
+        {
+          "type": "AMOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Amount differs: core=\u20b91960.0, gateway=\u20b91935.0",
+          "sources": [
+            "core",
+            "gateway"
+          ],
+          "values": {
+            "core": 1960.0,
+            "gateway": 1935.0
+          }
+        }
+      ],
+      "transactions": {
+        "mobile": {
+          "txn_id": "f2fa823e-8cc0-45eb-9897-a4e3e48a00fe",
+          "amount": 2006.0,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:11:18.359011",
+          "currency": "INR",
+          "account_id": "249655",
+          "source": "mobile"
+        },
+        "core": {
+          "txn_id": "f2fa823e-8cc0-45eb-9897-a4e3e48a00fe",
+          "amount": 1960.0,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:11:18.359011",
+          "currency": "INR",
+          "account_id": "249655",
+          "source": "core"
+        },
+        "gateway": {
+          "txn_id": "f2fa823e-8cc0-45eb-9897-a4e3e48a00fe",
+          "amount": 1935.0,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:11:18.359011",
+          "currency": "INR",
+          "account_id": "249655",
+          "source": "gateway"
+        }
+      }
+    },
+    {
+      "txn_id": "e2fec156-6010-4172-9f53-5eda010408a4",
+      "sources": [
+        "gateway",
+        "mobile"
+      ],
+      "timestamp": "2025-12-14T23:41:28.815953",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "AMOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Amount differs: gateway=\u20b91438.04, mobile=\u20b91518.04",
+          "sources": [
+            "gateway",
+            "mobile"
+          ],
+          "values": {
+            "gateway": 1438.04,
+            "mobile": 1518.04
+          }
+        }
+      ],
+      "transactions": {
+        "gateway": {
+          "txn_id": "e2fec156-6010-4172-9f53-5eda010408a4",
+          "amount": 1438.04,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:11:25.720834",
+          "account_id": "752386",
+          "source": "gateway",
+          "invalid_field": "malformed_data",
+          "extra_field": 1940
+        },
+        "mobile": {
+          "txn_id": "e2fec156-6010-4172-9f53-5eda010408a4",
+          "amount": 1518.04,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:11:25.720834",
+          "currency": "INR",
+          "account_id": "752386",
+          "source": "mobile"
+        }
+      }
+    },
+    {
+      "txn_id": "e2fec156-6010-4172-9f53-5eda010408a4",
+      "sources": [
+        "gateway",
+        "mobile",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:41:30.432692",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "AMOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Amount differs: gateway=\u20b91438.04, mobile=\u20b91518.04",
+          "sources": [
+            "gateway",
+            "mobile"
+          ],
+          "values": {
+            "gateway": 1438.04,
+            "mobile": 1518.04
+          }
+        },
+        {
+          "type": "AMOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Amount differs: gateway=\u20b91438.04, core=\u20b91526.04",
+          "sources": [
+            "gateway",
+            "core"
+          ],
+          "values": {
+            "gateway": 1438.04,
+            "core": 1526.04
+          }
+        },
+        {
+          "type": "AMOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Amount differs: mobile=\u20b91518.04, core=\u20b91526.04",
+          "sources": [
+            "mobile",
+            "core"
+          ],
+          "values": {
+            "mobile": 1518.04,
+            "core": 1526.04
+          }
+        }
+      ],
+      "transactions": {
+        "gateway": {
+          "txn_id": "e2fec156-6010-4172-9f53-5eda010408a4",
+          "amount": 1438.04,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:11:25.720834",
+          "account_id": "752386",
+          "source": "gateway",
+          "invalid_field": "malformed_data",
+          "extra_field": 1940
+        },
+        "mobile": {
+          "txn_id": "e2fec156-6010-4172-9f53-5eda010408a4",
+          "amount": 1518.04,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:11:25.720834",
+          "currency": "INR",
+          "account_id": "752386",
+          "source": "mobile"
+        },
+        "core": {
+          "txn_id": "e2fec156-6010-4172-9f53-5eda010408a4",
+          "amount": 1526.04,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:11:25.720834",
+          "currency": "INR",
+          "account_id": "752386",
+          "source": "core"
+        }
+      }
+    },
+    {
+      "txn_id": "8b21ffec-5b72-4475-a87c-2c095fe6c974",
+      "sources": [
+        "core",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:41:33.021689",
+      "status": "MATCHED",
+      "mismatches": [],
+      "transactions": {
+        "core": {
+          "txn_id": "8b21ffec-5b72-4475-a87c-2c095fe6c974",
+          "amount": 1116.2,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:11:30.294220",
+          "currency": "INR",
+          "account_id": "790477",
+          "source": "core"
+        },
+        "gateway": {
+          "txn_id": "8b21ffec-5b72-4475-a87c-2c095fe6c974",
+          "amount": 1116.2,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:11:30.294220",
+          "currency": "INR",
+          "account_id": "790477",
+          "source": "gateway"
+        }
+      }
+    },
+    {
+      "txn_id": "8b21ffec-5b72-4475-a87c-2c095fe6c974",
+      "sources": [
+        "core",
+        "gateway",
+        "mobile"
+      ],
+      "timestamp": "2025-12-14T23:41:34.649278",
+      "status": "MATCHED",
+      "mismatches": [],
+      "transactions": {
+        "core": {
+          "txn_id": "8b21ffec-5b72-4475-a87c-2c095fe6c974",
+          "amount": 1116.2,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:11:30.294220",
+          "currency": "INR",
+          "account_id": "790477",
+          "source": "core"
+        },
+        "gateway": {
+          "txn_id": "8b21ffec-5b72-4475-a87c-2c095fe6c974",
+          "amount": 1116.2,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:11:30.294220",
+          "currency": "INR",
+          "account_id": "790477",
+          "source": "gateway"
+        },
+        "mobile": {
+          "txn_id": "8b21ffec-5b72-4475-a87c-2c095fe6c974",
+          "amount": 1116.2,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:11:30.294220",
+          "currency": "INR",
+          "account_id": "790477",
+          "source": "mobile"
+        }
+      }
+    },
+    {
+      "txn_id": "6b4abccb-21f9-4c4c-a34a-75c859e9d68e",
+      "sources": [
+        "core",
+        "mobile"
+      ],
+      "timestamp": "2025-12-14T23:41:40.806119",
+      "status": "MATCHED",
+      "mismatches": [],
+      "transactions": {
+        "core": {
+          "txn_id": "6b4abccb-21f9-4c4c-a34a-75c859e9d68e",
+          "amount": 1178.23,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:11:37.876201",
+          "currency": "INR",
+          "account_id": "129138",
+          "source": "core"
+        },
+        "mobile": {
+          "txn_id": "6b4abccb-21f9-4c4c-a34a-75c859e9d68e",
+          "amount": 1178.23,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:11:37.876201",
+          "currency": "INR",
+          "account_id": "129138",
+          "source": "mobile"
+        }
+      }
+    },
+    {
+      "txn_id": "6b4abccb-21f9-4c4c-a34a-75c859e9d68e",
+      "sources": [
+        "core",
+        "mobile",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:41:42.324378",
+      "status": "MATCHED",
+      "mismatches": [],
+      "transactions": {
+        "core": {
+          "txn_id": "6b4abccb-21f9-4c4c-a34a-75c859e9d68e",
+          "amount": 1178.23,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:11:37.876201",
+          "currency": "INR",
+          "account_id": "129138",
+          "source": "core"
+        },
+        "mobile": {
+          "txn_id": "6b4abccb-21f9-4c4c-a34a-75c859e9d68e",
+          "amount": 1178.23,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:11:37.876201",
+          "currency": "INR",
+          "account_id": "129138",
+          "source": "mobile"
+        },
+        "gateway": {
+          "txn_id": "6b4abccb-21f9-4c4c-a34a-75c859e9d68e",
+          "amount": 1178.23,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:11:37.876201",
+          "currency": "INR",
+          "account_id": "129138",
+          "source": "gateway"
+        }
+      }
+    },
+    {
+      "txn_id": "62ce50ff-025f-4178-a648-97c4f05bcc0c",
+      "sources": [
+        "gateway",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:41:45.824524",
+      "status": "MATCHED",
+      "mismatches": [],
+      "transactions": {
+        "gateway": {
+          "txn_id": "62ce50ff-025f-4178-a648-97c4f05bcc0c",
+          "amount": 1437.21,
+          "status": "PENDING",
+          "timestamp": "2025-12-14T18:11:42.844802",
+          "account_id": "889005",
+          "source": "gateway",
+          "invalid_field": "malformed_data",
+          "extra_field": 8973
+        },
+        "core": {
+          "txn_id": "62ce50ff-025f-4178-a648-97c4f05bcc0c",
+          "amount": 1437.21,
+          "status": "PENDING",
+          "timestamp": "2025-12-14T18:11:42.844802",
+          "currency": "INR",
+          "account_id": "889005",
+          "source": "core"
+        }
+      }
+    },
+    {
+      "txn_id": "62ce50ff-025f-4178-a648-97c4f05bcc0c",
+      "sources": [
+        "gateway",
+        "core",
+        "mobile"
+      ],
+      "timestamp": "2025-12-14T23:41:47.737008",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "STATUS_MISMATCH",
+          "severity": "MEDIUM",
+          "details": "Status differs: gateway=PENDING, mobile=SUCCESS",
+          "sources": [
+            "gateway",
+            "mobile"
+          ],
+          "values": {
+            "gateway": "PENDING",
+            "mobile": "SUCCESS"
+          }
+        },
+        {
+          "type": "STATUS_MISMATCH",
+          "severity": "MEDIUM",
+          "details": "Status differs: core=PENDING, mobile=SUCCESS",
+          "sources": [
+            "core",
+            "mobile"
+          ],
+          "values": {
+            "core": "PENDING",
+            "mobile": "SUCCESS"
+          }
+        }
+      ],
+      "transactions": {
+        "gateway": {
+          "txn_id": "62ce50ff-025f-4178-a648-97c4f05bcc0c",
+          "amount": 1437.21,
+          "status": "PENDING",
+          "timestamp": "2025-12-14T18:11:42.844802",
+          "account_id": "889005",
+          "source": "gateway",
+          "invalid_field": "malformed_data",
+          "extra_field": 8973
+        },
+        "core": {
+          "txn_id": "62ce50ff-025f-4178-a648-97c4f05bcc0c",
+          "amount": 1437.21,
+          "status": "PENDING",
+          "timestamp": "2025-12-14T18:11:42.844802",
+          "currency": "INR",
+          "account_id": "889005",
+          "source": "core"
+        },
+        "mobile": {
+          "txn_id": "62ce50ff-025f-4178-a648-97c4f05bcc0c",
+          "amount": 1437.21,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:11:42.844802",
+          "currency": "INR",
+          "account_id": "889005",
+          "source": "mobile"
+        }
+      }
+    },
+    {
+      "txn_id": "fb53f2e9-a3e5-42a1-9c01-91a30e72921e",
+      "sources": [
+        "mobile",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:41:52.356123",
+      "status": "MATCHED",
+      "mismatches": [],
+      "transactions": {
+        "mobile": {
+          "txn_id": "fb53f2e9-a3e5-42a1-9c01-91a30e72921e",
+          "amount": 1081.14,
+          "status": "PENDING",
+          "timestamp": "2025-12-14T18:11:49.841938",
+          "currency": "INR",
+          "account_id": "728168",
+          "source": "mobile"
+        },
+        "core": {
+          "txn_id": "fb53f2e9-a3e5-42a1-9c01-91a30e72921e",
+          "amount": 1081.14,
+          "status": "PENDING",
+          "timestamp": "2025-12-14T18:11:49.841938",
+          "currency": "INR",
+          "account_id": "728168",
+          "source": "core"
+        }
+      }
+    },
+    {
+      "txn_id": "fb53f2e9-a3e5-42a1-9c01-91a30e72921e",
+      "sources": [
+        "mobile",
+        "core",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:41:54.189350",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "AMOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Amount differs: mobile=\u20b91081.14, gateway=\u20b91137.14",
+          "sources": [
+            "mobile",
+            "gateway"
+          ],
+          "values": {
+            "mobile": 1081.14,
+            "gateway": 1137.14
+          }
+        },
+        {
+          "type": "AMOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Amount differs: core=\u20b91081.14, gateway=\u20b91137.14",
+          "sources": [
+            "core",
+            "gateway"
+          ],
+          "values": {
+            "core": 1081.14,
+            "gateway": 1137.14
+          }
+        }
+      ],
+      "transactions": {
+        "mobile": {
+          "txn_id": "fb53f2e9-a3e5-42a1-9c01-91a30e72921e",
+          "amount": 1081.14,
+          "status": "PENDING",
+          "timestamp": "2025-12-14T18:11:49.841938",
+          "currency": "INR",
+          "account_id": "728168",
+          "source": "mobile"
+        },
+        "core": {
+          "txn_id": "fb53f2e9-a3e5-42a1-9c01-91a30e72921e",
+          "amount": 1081.14,
+          "status": "PENDING",
+          "timestamp": "2025-12-14T18:11:49.841938",
+          "currency": "INR",
+          "account_id": "728168",
+          "source": "core"
+        },
+        "gateway": {
+          "txn_id": "fb53f2e9-a3e5-42a1-9c01-91a30e72921e",
+          "amount": 1137.14,
+          "status": "PENDING",
+          "timestamp": "2025-12-14T18:11:49.841938",
+          "currency": "INR",
+          "account_id": "728168",
+          "source": "gateway"
+        }
+      }
+    },
+    {
+      "txn_id": "e9067838-d932-41a4-a54a-58039d40cbca",
+      "sources": [
+        "core",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:41:55.430857",
+      "status": "MATCHED",
+      "mismatches": [],
+      "transactions": {
+        "core": {
+          "txn_id": "e9067838-d932-41a4-a54a-58039d40cbca",
+          "amount": 249.95,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:11:52.713712",
+          "currency": "INR",
+          "account_id": "553077",
+          "source": "core"
+        },
+        "gateway": {
+          "txn_id": "e9067838-d932-41a4-a54a-58039d40cbca",
+          "amount": 249.95,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:11:52.713712",
+          "currency": "INR",
+          "account_id": "553077",
+          "source": "gateway"
+        }
+      }
+    },
+    {
+      "txn_id": "2c47414e-1af9-4ec9-a284-68beb781ab0f",
+      "sources": [
+        "core",
+        "mobile"
+      ],
+      "timestamp": "2025-12-14T23:42:04.802966",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "AMOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Amount differs: core=\u20b91169.65, mobile=\u20b91060.65",
+          "sources": [
+            "core",
+            "mobile"
+          ],
+          "values": {
+            "core": 1169.65,
+            "mobile": 1060.65
+          }
+        }
+      ],
+      "transactions": {
+        "core": {
+          "txn_id": "2c47414e-1af9-4ec9-a284-68beb781ab0f",
+          "amount": 1169.65,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:12:02.233702",
+          "currency": "INR",
+          "account_id": "445250",
+          "source": "core"
+        },
+        "mobile": {
+          "txn_id": "2c47414e-1af9-4ec9-a284-68beb781ab0f",
+          "amount": 1060.65,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:12:02.233702",
+          "currency": "INR",
+          "account_id": "445250",
+          "source": "mobile"
+        }
+      }
+    },
+    {
+      "txn_id": "a1aa0d84-c626-4e68-b5b8-3c0517a9f907",
+      "sources": [
+        "mobile",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:42:06.260480",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "CURRENCY_MISMATCH",
+          "severity": "HIGH",
+          "details": "Currency differs: mobile=INR, core=EUR",
+          "sources": [
+            "mobile",
+            "core"
+          ],
+          "values": {
+            "mobile": "INR",
+            "core": "EUR"
+          }
+        }
+      ],
+      "transactions": {
+        "mobile": {
+          "txn_id": "a1aa0d84-c626-4e68-b5b8-3c0517a9f907",
+          "amount": 569.95,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:12:03.263115",
+          "currency": "INR",
+          "account_id": "253019",
+          "source": "mobile"
+        },
+        "core": {
+          "txn_id": "a1aa0d84-c626-4e68-b5b8-3c0517a9f907",
+          "amount": 569.95,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:12:03.263115",
+          "currency": "EUR",
+          "account_id": "253019",
+          "source": "core"
+        }
+      }
+    },
+    {
+      "txn_id": "2c47414e-1af9-4ec9-a284-68beb781ab0f",
+      "sources": [
+        "core",
+        "mobile",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:42:06.705357",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "AMOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Amount differs: core=\u20b91169.65, mobile=\u20b91060.65",
+          "sources": [
+            "core",
+            "mobile"
+          ],
+          "values": {
+            "core": 1169.65,
+            "mobile": 1060.65
+          }
+        },
+        {
+          "type": "AMOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Amount differs: core=\u20b91169.65, gateway=\u20b91212.65",
+          "sources": [
+            "core",
+            "gateway"
+          ],
+          "values": {
+            "core": 1169.65,
+            "gateway": 1212.65
+          }
+        },
+        {
+          "type": "AMOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Amount differs: mobile=\u20b91060.65, gateway=\u20b91212.65",
+          "sources": [
+            "mobile",
+            "gateway"
+          ],
+          "values": {
+            "mobile": 1060.65,
+            "gateway": 1212.65
+          }
+        }
+      ],
+      "transactions": {
+        "core": {
+          "txn_id": "2c47414e-1af9-4ec9-a284-68beb781ab0f",
+          "amount": 1169.65,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:12:02.233702",
+          "currency": "INR",
+          "account_id": "445250",
+          "source": "core"
+        },
+        "mobile": {
+          "txn_id": "2c47414e-1af9-4ec9-a284-68beb781ab0f",
+          "amount": 1060.65,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:12:02.233702",
+          "currency": "INR",
+          "account_id": "445250",
+          "source": "mobile"
+        },
+        "gateway": {
+          "txn_id": "2c47414e-1af9-4ec9-a284-68beb781ab0f",
+          "amount": 1212.65,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:12:02.233702",
+          "currency": "INR",
+          "account_id": "445250",
+          "source": "gateway"
+        }
+      }
+    },
+    {
+      "txn_id": "a1aa0d84-c626-4e68-b5b8-3c0517a9f907",
+      "sources": [
+        "mobile",
+        "core",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:42:07.632434",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "CURRENCY_MISMATCH",
+          "severity": "HIGH",
+          "details": "Currency differs: mobile=INR, core=EUR",
+          "sources": [
+            "mobile",
+            "core"
+          ],
+          "values": {
+            "mobile": "INR",
+            "core": "EUR"
+          }
+        },
+        {
+          "type": "CURRENCY_MISMATCH",
+          "severity": "HIGH",
+          "details": "Currency differs: core=EUR, gateway=INR",
+          "sources": [
+            "core",
+            "gateway"
+          ],
+          "values": {
+            "core": "EUR",
+            "gateway": "INR"
+          }
+        }
+      ],
+      "transactions": {
+        "mobile": {
+          "txn_id": "a1aa0d84-c626-4e68-b5b8-3c0517a9f907",
+          "amount": 569.95,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:12:03.263115",
+          "currency": "INR",
+          "account_id": "253019",
+          "source": "mobile"
+        },
+        "core": {
+          "txn_id": "a1aa0d84-c626-4e68-b5b8-3c0517a9f907",
+          "amount": 569.95,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:12:03.263115",
+          "currency": "EUR",
+          "account_id": "253019",
+          "source": "core"
+        },
+        "gateway": {
+          "txn_id": "a1aa0d84-c626-4e68-b5b8-3c0517a9f907",
+          "amount": 569.95,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:12:03.263115",
+          "currency": "INR",
+          "account_id": "253019",
+          "source": "gateway"
+        }
+      }
+    },
+    {
+      "txn_id": "c4b80bf8-8856-4b3a-93cc-ee628dbd86f9",
+      "sources": [
+        "mobile",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:42:13.335251",
+      "status": "MATCHED",
+      "mismatches": [],
+      "transactions": {
+        "mobile": {
+          "txn_id": "c4b80bf8-8856-4b3a-93cc-ee628dbd86f9",
+          "amount": 1340.19,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:12:10.983446",
+          "currency": "INR",
+          "account_id": "978908",
+          "source": "mobile"
+        },
+        "core": {
+          "txn_id": "c4b80bf8-8856-4b3a-93cc-ee628dbd86f9",
+          "amount": 1340.19,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:12:10.983446",
+          "currency": "INR",
+          "account_id": "978908",
+          "source": "core"
+        }
+      }
+    },
+    {
+      "txn_id": "c4b80bf8-8856-4b3a-93cc-ee628dbd86f9",
+      "sources": [
+        "mobile",
+        "core",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:42:14.854675",
+      "status": "MATCHED",
+      "mismatches": [],
+      "transactions": {
+        "mobile": {
+          "txn_id": "c4b80bf8-8856-4b3a-93cc-ee628dbd86f9",
+          "amount": 1340.19,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:12:10.983446",
+          "currency": "INR",
+          "account_id": "978908",
+          "source": "mobile"
+        },
+        "core": {
+          "txn_id": "c4b80bf8-8856-4b3a-93cc-ee628dbd86f9",
+          "amount": 1340.19,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:12:10.983446",
+          "currency": "INR",
+          "account_id": "978908",
+          "source": "core"
+        },
+        "gateway": {
+          "txn_id": "c4b80bf8-8856-4b3a-93cc-ee628dbd86f9",
+          "amount": 1340.19,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:12:10.983446",
+          "currency": "INR",
+          "account_id": "978908",
+          "source": "gateway"
+        }
+      }
+    },
+    {
+      "txn_id": "20550685-9713-4d24-a8a2-35bff8902bbf",
+      "sources": [
+        "mobile",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:42:16.601737",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "AMOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Amount differs: mobile=\u20b9128.69, core=\u20b9209.69",
+          "sources": [
+            "mobile",
+            "core"
+          ],
+          "values": {
+            "mobile": 128.69,
+            "core": 209.69
+          }
+        }
+      ],
+      "transactions": {
+        "mobile": {
+          "txn_id": "20550685-9713-4d24-a8a2-35bff8902bbf",
+          "amount": 128.69,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:12:13.918544",
+          "currency": "INR",
+          "account_id": "636588",
+          "source": "mobile"
+        },
+        "core": {
+          "txn_id": "20550685-9713-4d24-a8a2-35bff8902bbf",
+          "amount": 209.69,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:12:13.918544",
+          "currency": "INR",
+          "account_id": "636588",
+          "source": "core"
+        }
+      }
+    },
+    {
+      "txn_id": "20550685-9713-4d24-a8a2-35bff8902bbf",
+      "sources": [
+        "mobile",
+        "core",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:42:18.239030",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "AMOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Amount differs: mobile=\u20b9128.69, core=\u20b9209.69",
+          "sources": [
+            "mobile",
+            "core"
+          ],
+          "values": {
+            "mobile": 128.69,
+            "core": 209.69
+          }
+        },
+        {
+          "type": "AMOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Amount differs: mobile=\u20b9128.69, gateway=\u20b9226.69",
+          "sources": [
+            "mobile",
+            "gateway"
+          ],
+          "values": {
+            "mobile": 128.69,
+            "gateway": 226.69
+          }
+        },
+        {
+          "type": "AMOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Amount differs: core=\u20b9209.69, gateway=\u20b9226.69",
+          "sources": [
+            "core",
+            "gateway"
+          ],
+          "values": {
+            "core": 209.69,
+            "gateway": 226.69
+          }
+        }
+      ],
+      "transactions": {
+        "mobile": {
+          "txn_id": "20550685-9713-4d24-a8a2-35bff8902bbf",
+          "amount": 128.69,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:12:13.918544",
+          "currency": "INR",
+          "account_id": "636588",
+          "source": "mobile"
+        },
+        "core": {
+          "txn_id": "20550685-9713-4d24-a8a2-35bff8902bbf",
+          "amount": 209.69,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:12:13.918544",
+          "currency": "INR",
+          "account_id": "636588",
+          "source": "core"
+        },
+        "gateway": {
+          "txn_id": "20550685-9713-4d24-a8a2-35bff8902bbf",
+          "amount": 226.69,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:12:13.918544",
+          "currency": "INR",
+          "account_id": "636588",
+          "source": "gateway"
+        }
+      }
+    },
+    {
+      "txn_id": "b03dbc9d-c819-44cf-9f67-2aec06c2b079",
+      "sources": [
+        "gateway",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:42:25.896045",
+      "status": "MATCHED",
+      "mismatches": [],
+      "transactions": {
+        "gateway": {
+          "txn_id": "b03dbc9d-c819-44cf-9f67-2aec06c2b079",
+          "amount": 170.11,
+          "status": "PENDING",
+          "timestamp": "2025-12-14T18:12:23.105087",
+          "currency": "INR",
+          "account_id": "818324",
+          "source": "gateway"
+        },
+        "core": {
+          "txn_id": "b03dbc9d-c819-44cf-9f67-2aec06c2b079",
+          "amount": 170.11,
+          "status": "PENDING",
+          "timestamp": "2025-12-14T18:12:35.725469",
+          "currency": "INR",
+          "account_id": "818324",
+          "source": "core"
+        }
+      }
+    },
+    {
+      "txn_id": "ef1c09ab-dde5-4ce5-8655-b4b6d046966d",
+      "sources": [
+        "mobile",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:42:27.202034",
+      "status": "MATCHED",
+      "mismatches": [],
+      "transactions": {
+        "mobile": {
+          "txn_id": "ef1c09ab-dde5-4ce5-8655-b4b6d046966d",
+          "amount": 1015.9,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:12:24.500232",
+          "currency": "INR",
+          "account_id": "361254",
+          "source": "mobile"
+        },
+        "gateway": {
+          "txn_id": "ef1c09ab-dde5-4ce5-8655-b4b6d046966d",
+          "amount": 1015.9,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:12:24.500232",
+          "currency": "INR",
+          "account_id": "361254",
+          "source": "gateway"
+        }
+      }
+    },
+    {
+      "txn_id": "08b03e51-f59a-447b-8ed2-7ce7dc45e511",
+      "sources": [
+        "core",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:42:33.034116",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "AMOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Amount differs: core=\u20b9215.16, gateway=\u20b9357.15999999999997",
+          "sources": [
+            "core",
+            "gateway"
+          ],
+          "values": {
+            "core": 215.16,
+            "gateway": 357.15999999999997
+          }
+        }
+      ],
+      "transactions": {
+        "core": {
+          "txn_id": "08b03e51-f59a-447b-8ed2-7ce7dc45e511",
+          "amount": 215.16,
+          "status": "FAILED",
+          "timestamp": null,
+          "currency": "INR",
+          "account_id": "146693",
+          "source": "core"
+        },
+        "gateway": {
+          "txn_id": "08b03e51-f59a-447b-8ed2-7ce7dc45e511",
+          "amount": 357.15999999999997,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:12:30.351585",
+          "currency": "INR",
+          "account_id": "146693",
+          "source": "gateway"
+        }
+      }
+    },
+    {
+      "txn_id": "e8ece0cf-aa6d-4e87-acb2-74469437a988",
+      "sources": [
+        "core",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:42:35.977242",
+      "status": "MATCHED",
+      "mismatches": [],
+      "transactions": {
+        "core": {
+          "txn_id": "e8ece0cf-aa6d-4e87-acb2-74469437a988",
+          "amount": 466.62,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:12:33.255117",
+          "currency": "INR",
+          "account_id": "465538",
+          "source": "core"
+        },
+        "gateway": {
+          "txn_id": "e8ece0cf-aa6d-4e87-acb2-74469437a988",
+          "amount": 466.62,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:12:33.255117",
+          "currency": "INR",
+          "account_id": "465538",
+          "source": "gateway"
+        }
+      }
+    },
+    {
+      "txn_id": "e8ece0cf-aa6d-4e87-acb2-74469437a988",
+      "sources": [
+        "core",
+        "gateway",
+        "mobile"
+      ],
+      "timestamp": "2025-12-14T23:42:37.666456",
+      "status": "MATCHED",
+      "mismatches": [],
+      "transactions": {
+        "core": {
+          "txn_id": "e8ece0cf-aa6d-4e87-acb2-74469437a988",
+          "amount": 466.62,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:12:33.255117",
+          "currency": "INR",
+          "account_id": "465538",
+          "source": "core"
+        },
+        "gateway": {
+          "txn_id": "e8ece0cf-aa6d-4e87-acb2-74469437a988",
+          "amount": 466.62,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:12:33.255117",
+          "currency": "INR",
+          "account_id": "465538",
+          "source": "gateway"
+        },
+        "mobile": {
+          "txn_id": "e8ece0cf-aa6d-4e87-acb2-74469437a988",
+          "amount": 466.62,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:12:48.462494",
+          "currency": "INR",
+          "account_id": "465538",
+          "source": "mobile"
+        }
+      }
+    },
+    {
+      "txn_id": "e0b1be11-7f10-475e-8c61-6a06577d8743",
+      "sources": [
+        "mobile",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:42:42.409135",
+      "status": "MATCHED",
+      "mismatches": [],
+      "transactions": {
+        "mobile": {
+          "txn_id": "e0b1be11-7f10-475e-8c61-6a06577d8743",
+          "amount": 1440.38,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:12:39.783822",
+          "currency": "INR",
+          "account_id": "842440",
+          "source": "mobile"
+        },
+        "core": {
+          "txn_id": "e0b1be11-7f10-475e-8c61-6a06577d8743",
+          "amount": 1440.38,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:12:39.783822",
+          "currency": "INR",
+          "account_id": "842440",
+          "source": "core"
+        }
+      }
+    },
+    {
+      "txn_id": "e0b1be11-7f10-475e-8c61-6a06577d8743",
+      "sources": [
+        "mobile",
+        "core",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:42:44.500642",
+      "status": "MATCHED",
+      "mismatches": [],
+      "transactions": {
+        "mobile": {
+          "txn_id": "e0b1be11-7f10-475e-8c61-6a06577d8743",
+          "amount": 1440.38,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:12:39.783822",
+          "currency": "INR",
+          "account_id": "842440",
+          "source": "mobile"
+        },
+        "core": {
+          "txn_id": "e0b1be11-7f10-475e-8c61-6a06577d8743",
+          "amount": 1440.38,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:12:39.783822",
+          "currency": "INR",
+          "account_id": "842440",
+          "source": "core"
+        },
+        "gateway": {
+          "txn_id": "e0b1be11-7f10-475e-8c61-6a06577d8743",
+          "amount": 1440.38,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:13:03.221023",
+          "currency": "INR",
+          "account_id": "842440",
+          "source": "gateway"
+        }
+      }
+    },
+    {
+      "txn_id": "b37652e2-3283-4d13-b3a3-3c004a122b07",
+      "sources": [
+        "mobile",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:42:45.675252",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "AMOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Amount differs: mobile=\u20b91055.75, gateway=\u20b9867.75",
+          "sources": [
+            "mobile",
+            "gateway"
+          ],
+          "values": {
+            "mobile": 1055.75,
+            "gateway": 867.75
+          }
+        }
+      ],
+      "transactions": {
+        "mobile": {
+          "txn_id": "b37652e2-3283-4d13-b3a3-3c004a122b07",
+          "amount": 1055.75,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:12:42.763308",
+          "currency": "INR",
+          "account_id": "495856",
+          "source": "mobile"
+        },
+        "gateway": {
+          "txn_id": "b37652e2-3283-4d13-b3a3-3c004a122b07",
+          "amount": 867.75,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:12:42.763308",
+          "currency": "INR",
+          "account_id": "495856",
+          "source": "gateway"
+        }
+      }
+    },
+    {
+      "txn_id": "2f8052e5-2d18-4325-a3da-a79c5ba842e2",
+      "sources": [
+        "core",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:42:52.871105",
+      "status": "MATCHED",
+      "mismatches": [],
+      "transactions": {
+        "core": {
+          "txn_id": "2f8052e5-2d18-4325-a3da-a79c5ba842e2",
+          "amount": 1216.81,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:13:04.743965",
+          "currency": "INR",
+          "account_id": "976188",
+          "source": "core"
+        },
+        "gateway": {
+          "txn_id": "2f8052e5-2d18-4325-a3da-a79c5ba842e2",
+          "amount": 1216.81,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:12:49.743501",
+          "currency": "INR",
+          "account_id": "976188",
+          "source": "gateway"
+        }
+      }
+    },
+    {
+      "txn_id": "b9a17073-d03a-4451-9b72-67fb76e144b0",
+      "sources": [
+        "core",
+        "mobile"
+      ],
+      "timestamp": "2025-12-14T23:42:54.129544",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "AMOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Amount differs: core=\u20b91988.62, mobile=\u20b92039.62",
+          "sources": [
+            "core",
+            "mobile"
+          ],
+          "values": {
+            "core": 1988.62,
+            "mobile": 2039.62
+          }
+        }
+      ],
+      "transactions": {
+        "core": {
+          "txn_id": "b9a17073-d03a-4451-9b72-67fb76e144b0",
+          "amount": 1988.62,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:12:51.331386",
+          "currency": "INR",
+          "account_id": "891178",
+          "source": "core"
+        },
+        "mobile": {
+          "txn_id": "b9a17073-d03a-4451-9b72-67fb76e144b0",
+          "amount": 2039.62,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:12:51.331386",
+          "currency": "INR",
+          "account_id": "891178",
+          "source": "mobile"
+        }
+      }
+    },
+    {
+      "txn_id": "2f8052e5-2d18-4325-a3da-a79c5ba842e2",
+      "sources": [
+        "core",
+        "gateway",
+        "mobile"
+      ],
+      "timestamp": "2025-12-14T23:42:54.670599",
+      "status": "MATCHED",
+      "mismatches": [],
+      "transactions": {
+        "core": {
+          "txn_id": "2f8052e5-2d18-4325-a3da-a79c5ba842e2",
+          "amount": 1216.81,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:13:04.743965",
+          "currency": "INR",
+          "account_id": "976188",
+          "source": "core"
+        },
+        "gateway": {
+          "txn_id": "2f8052e5-2d18-4325-a3da-a79c5ba842e2",
+          "amount": 1216.81,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:12:49.743501",
+          "currency": "INR",
+          "account_id": "976188",
+          "source": "gateway"
+        },
+        "mobile": {
+          "txn_id": "2f8052e5-2d18-4325-a3da-a79c5ba842e2",
+          "amount": 1216.81,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:12:49.743501",
+          "currency": "INR",
+          "account_id": "976188",
+          "source": "mobile"
+        }
+      }
+    },
+    {
+      "txn_id": "fd86f54f-746e-45e2-8c6e-9dc97f0cec77",
+      "sources": [
+        "mobile",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:43:01.347834",
+      "status": "MATCHED",
+      "mismatches": [],
+      "transactions": {
+        "mobile": {
+          "txn_id": "fd86f54f-746e-45e2-8c6e-9dc97f0cec77",
+          "amount": 1410.69,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:12:58.418747",
+          "currency": "INR",
+          "account_id": "449490",
+          "source": "mobile"
+        },
+        "core": {
+          "txn_id": "fd86f54f-746e-45e2-8c6e-9dc97f0cec77",
+          "amount": 1410.69,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:13:10.151614",
+          "currency": "INR",
+          "account_id": "449490",
+          "source": "core"
+        }
+      }
+    },
+    {
+      "txn_id": "fd86f54f-746e-45e2-8c6e-9dc97f0cec77",
+      "sources": [
+        "mobile",
+        "core",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:43:03.126428",
+      "status": "MATCHED",
+      "mismatches": [],
+      "transactions": {
+        "mobile": {
+          "txn_id": "fd86f54f-746e-45e2-8c6e-9dc97f0cec77",
+          "amount": 1410.69,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:12:58.418747",
+          "currency": "INR",
+          "account_id": "449490",
+          "source": "mobile"
+        },
+        "core": {
+          "txn_id": "fd86f54f-746e-45e2-8c6e-9dc97f0cec77",
+          "amount": 1410.69,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:13:10.151614",
+          "currency": "INR",
+          "account_id": "449490",
+          "source": "core"
+        },
+        "gateway": {
+          "txn_id": "fd86f54f-746e-45e2-8c6e-9dc97f0cec77",
+          "amount": 1410.69,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:12:58.418747",
+          "currency": "INR",
+          "account_id": "449490",
+          "source": "gateway"
+        }
+      }
+    },
+    {
+      "txn_id": "f587c2c7-f27a-4daa-8542-cd37385ddf29",
+      "sources": [
+        "mobile",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:43:05.426138",
+      "status": "MATCHED",
+      "mismatches": [],
+      "transactions": {
+        "mobile": {
+          "txn_id": "f587c2c7-f27a-4daa-8542-cd37385ddf29",
+          "amount": 735.22,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:13:02.816420",
+          "currency": "INR",
+          "account_id": "196604",
+          "source": "mobile"
+        },
+        "gateway": {
+          "txn_id": "f587c2c7-f27a-4daa-8542-cd37385ddf29",
+          "amount": 735.22,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:13:02.816420",
+          "currency": "INR",
+          "account_id": "196604",
+          "source": "gateway"
+        }
+      }
+    },
+    {
+      "txn_id": "f587c2c7-f27a-4daa-8542-cd37385ddf29",
+      "sources": [
+        "mobile",
+        "gateway",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:43:07.208313",
+      "status": "MATCHED",
+      "mismatches": [],
+      "transactions": {
+        "mobile": {
+          "txn_id": "f587c2c7-f27a-4daa-8542-cd37385ddf29",
+          "amount": 735.22,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:13:02.816420",
+          "currency": "INR",
+          "account_id": "196604",
+          "source": "mobile"
+        },
+        "gateway": {
+          "txn_id": "f587c2c7-f27a-4daa-8542-cd37385ddf29",
+          "amount": 735.22,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:13:02.816420",
+          "currency": "INR",
+          "account_id": "196604",
+          "source": "gateway"
+        },
+        "core": {
+          "txn_id": "f587c2c7-f27a-4daa-8542-cd37385ddf29",
+          "amount": 735.22,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:13:02.816420",
+          "currency": "INR",
+          "account_id": "196604",
+          "source": "core"
+        }
+      }
+    },
+    {
+      "txn_id": "761f6e76-dbd7-450d-99a1-7965b465ea45",
+      "sources": [
+        "mobile",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:43:12.095836",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "STATUS_MISMATCH",
+          "severity": "MEDIUM",
+          "details": "Status differs: mobile=SUCCESS, gateway=FAILED",
+          "sources": [
+            "mobile",
+            "gateway"
+          ],
+          "values": {
+            "mobile": "SUCCESS",
+            "gateway": "FAILED"
+          }
+        }
+      ],
+      "transactions": {
+        "mobile": {
+          "txn_id": "761f6e76-dbd7-450d-99a1-7965b465ea45",
+          "amount": 1351.89,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:13:08.913030",
+          "currency": "INR",
+          "account_id": "669502",
+          "source": "mobile"
+        },
+        "gateway": {
+          "txn_id": "761f6e76-dbd7-450d-99a1-7965b465ea45",
+          "amount": 1351.89,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:13:08.913030",
+          "currency": "INR",
+          "account_id": "669502",
+          "source": "gateway"
+        }
+      }
+    },
+    {
+      "txn_id": "761f6e76-dbd7-450d-99a1-7965b465ea45",
+      "sources": [
+        "mobile",
+        "gateway",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:43:13.795529",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "STATUS_MISMATCH",
+          "severity": "MEDIUM",
+          "details": "Status differs: mobile=SUCCESS, gateway=FAILED",
+          "sources": [
+            "mobile",
+            "gateway"
+          ],
+          "values": {
+            "mobile": "SUCCESS",
+            "gateway": "FAILED"
+          }
+        },
+        {
+          "type": "AMOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Amount differs: mobile=\u20b91351.89, core=\u20b91366.89",
+          "sources": [
+            "mobile",
+            "core"
+          ],
+          "values": {
+            "mobile": 1351.89,
+            "core": 1366.89
+          }
+        },
+        {
+          "type": "STATUS_MISMATCH",
+          "severity": "MEDIUM",
+          "details": "Status differs: mobile=SUCCESS, core=FAILED",
+          "sources": [
+            "mobile",
+            "core"
+          ],
+          "values": {
+            "mobile": "SUCCESS",
+            "core": "FAILED"
+          }
+        },
+        {
+          "type": "AMOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Amount differs: gateway=\u20b91351.89, core=\u20b91366.89",
+          "sources": [
+            "gateway",
+            "core"
+          ],
+          "values": {
+            "gateway": 1351.89,
+            "core": 1366.89
+          }
+        }
+      ],
+      "transactions": {
+        "mobile": {
+          "txn_id": "761f6e76-dbd7-450d-99a1-7965b465ea45",
+          "amount": 1351.89,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:13:08.913030",
+          "currency": "INR",
+          "account_id": "669502",
+          "source": "mobile"
+        },
+        "gateway": {
+          "txn_id": "761f6e76-dbd7-450d-99a1-7965b465ea45",
+          "amount": 1351.89,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:13:08.913030",
+          "currency": "INR",
+          "account_id": "669502",
+          "source": "gateway"
+        },
+        "core": {
+          "txn_id": "761f6e76-dbd7-450d-99a1-7965b465ea45",
+          "amount": 1366.89,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:13:08.913030",
+          "currency": "INR",
+          "account_id": "669502",
+          "source": "core"
+        }
+      }
+    },
+    {
+      "txn_id": "28ca9234-8d9f-4bde-81a3-19b43a087415",
+      "sources": [
+        "mobile",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:43:16.639503",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "CURRENCY_MISMATCH",
+          "severity": "HIGH",
+          "details": "Currency differs: mobile=INR, core=USD",
+          "sources": [
+            "mobile",
+            "core"
+          ],
+          "values": {
+            "mobile": "INR",
+            "core": "USD"
+          }
+        }
+      ],
+      "transactions": {
+        "mobile": {
+          "txn_id": "28ca9234-8d9f-4bde-81a3-19b43a087415",
+          "amount": 429.27,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:13:14.127188",
+          "currency": "INR",
+          "account_id": "128809",
+          "source": "mobile"
+        },
+        "core": {
+          "txn_id": "28ca9234-8d9f-4bde-81a3-19b43a087415",
+          "amount": 429.27,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:13:14.127188",
+          "currency": "USD",
+          "account_id": "128809",
+          "source": "core"
+        }
+      }
+    },
+    {
+      "txn_id": "28ca9234-8d9f-4bde-81a3-19b43a087415",
+      "sources": [
+        "mobile",
+        "core",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:43:18.275704",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "CURRENCY_MISMATCH",
+          "severity": "HIGH",
+          "details": "Currency differs: mobile=INR, core=USD",
+          "sources": [
+            "mobile",
+            "core"
+          ],
+          "values": {
+            "mobile": "INR",
+            "core": "USD"
+          }
+        },
+        {
+          "type": "CURRENCY_MISMATCH",
+          "severity": "HIGH",
+          "details": "Currency differs: core=USD, gateway=INR",
+          "sources": [
+            "core",
+            "gateway"
+          ],
+          "values": {
+            "core": "USD",
+            "gateway": "INR"
+          }
+        }
+      ],
+      "transactions": {
+        "mobile": {
+          "txn_id": "28ca9234-8d9f-4bde-81a3-19b43a087415",
+          "amount": 429.27,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:13:14.127188",
+          "currency": "INR",
+          "account_id": "128809",
+          "source": "mobile"
+        },
+        "core": {
+          "txn_id": "28ca9234-8d9f-4bde-81a3-19b43a087415",
+          "amount": 429.27,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:13:14.127188",
+          "currency": "USD",
+          "account_id": "128809",
+          "source": "core"
+        },
+        "gateway": {
+          "txn_id": "28ca9234-8d9f-4bde-81a3-19b43a087415",
+          "amount": 429.27,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:13:14.127188",
+          "currency": "INR",
+          "account_id": "128809",
+          "source": "gateway"
+        }
+      }
+    },
+    {
+      "txn_id": "e95b272a-0e9f-4f07-8e90-d12d4ca6bb05",
+      "sources": [
+        "mobile",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:43:21.988207",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "ACCOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Account ID differs: mobile=1036050, gateway=457976",
+          "sources": [
+            "mobile",
+            "gateway"
+          ],
+          "values": {
+            "mobile": "1036050",
+            "gateway": "457976"
+          }
+        }
+      ],
+      "transactions": {
+        "mobile": {
+          "txn_id": "e95b272a-0e9f-4f07-8e90-d12d4ca6bb05",
+          "amount": 181.45,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:13:19.436945",
+          "currency": "INR",
+          "account_id": "1036050",
+          "source": "mobile"
+        },
+        "gateway": {
+          "txn_id": "e95b272a-0e9f-4f07-8e90-d12d4ca6bb05",
+          "amount": 181.45,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:13:19.436945",
+          "currency": "INR",
+          "account_id": "457976",
+          "source": "gateway"
+        }
+      }
+    },
+    {
+      "txn_id": "e95b272a-0e9f-4f07-8e90-d12d4ca6bb05",
+      "sources": [
+        "mobile",
+        "gateway",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:43:23.736435",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "ACCOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Account ID differs: mobile=1036050, gateway=457976",
+          "sources": [
+            "mobile",
+            "gateway"
+          ],
+          "values": {
+            "mobile": "1036050",
+            "gateway": "457976"
+          }
+        },
+        {
+          "type": "ACCOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Account ID differs: mobile=1036050, core=457976",
+          "sources": [
+            "mobile",
+            "core"
+          ],
+          "values": {
+            "mobile": "1036050",
+            "core": "457976"
+          }
+        }
+      ],
+      "transactions": {
+        "mobile": {
+          "txn_id": "e95b272a-0e9f-4f07-8e90-d12d4ca6bb05",
+          "amount": 181.45,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:13:19.436945",
+          "currency": "INR",
+          "account_id": "1036050",
+          "source": "mobile"
+        },
+        "gateway": {
+          "txn_id": "e95b272a-0e9f-4f07-8e90-d12d4ca6bb05",
+          "amount": 181.45,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:13:19.436945",
+          "currency": "INR",
+          "account_id": "457976",
+          "source": "gateway"
+        },
+        "core": {
+          "txn_id": "e95b272a-0e9f-4f07-8e90-d12d4ca6bb05",
+          "amount": 181.45,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:13:19.436945",
+          "currency": "INR",
+          "account_id": "457976",
+          "source": "core"
+        }
+      }
+    },
+    {
+      "txn_id": "2261c40c-e7a9-4c51-b2c6-8d9458c381d8",
+      "sources": [
+        "gateway",
+        "mobile"
+      ],
+      "timestamp": "2025-12-14T23:43:27.631052",
+      "status": "MATCHED",
+      "mismatches": [],
+      "transactions": {
+        "gateway": {
+          "txn_id": "2261c40c-e7a9-4c51-b2c6-8d9458c381d8",
+          "amount": 1420.69,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:13:25.067466",
+          "currency": "INR",
+          "account_id": "517148",
+          "source": "gateway"
+        },
+        "mobile": {
+          "txn_id": "2261c40c-e7a9-4c51-b2c6-8d9458c381d8",
+          "amount": 1420.69,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:13:45.499265",
+          "currency": "INR",
+          "account_id": "517148",
+          "source": "mobile"
+        }
+      }
+    },
+    {
+      "txn_id": "63eff2f0-d448-4005-95fc-cb5e50238c31",
+      "sources": [
+        "core",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:43:34.697379",
+      "status": "MATCHED",
+      "mismatches": [],
+      "transactions": {
+        "core": {
+          "txn_id": "63eff2f0-d448-4005-95fc-cb5e50238c31",
+          "amount": 984.8,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:13:31.568723",
+          "account_id": "386495",
+          "source": "core",
+          "invalid_field": "malformed_data",
+          "extra_field": 6489
+        },
+        "gateway": {
+          "txn_id": "63eff2f0-d448-4005-95fc-cb5e50238c31",
+          "amount": 984.8,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:13:49.430128",
+          "currency": "INR",
+          "account_id": "386495",
+          "source": "gateway"
+        }
+      }
+    },
+    {
+      "txn_id": "29644bbc-5816-474f-b932-3589614bd1c0",
+      "sources": [
+        "core",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:43:34.742312",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "STATUS_MISMATCH",
+          "severity": "MEDIUM",
+          "details": "Status differs: core=PENDING, gateway=SUCCESS",
+          "sources": [
+            "core",
+            "gateway"
+          ],
+          "values": {
+            "core": "PENDING",
+            "gateway": "SUCCESS"
+          }
+        }
+      ],
+      "transactions": {
+        "core": {
+          "txn_id": "29644bbc-5816-474f-b932-3589614bd1c0",
+          "amount": 876.5,
+          "status": "PENDING",
+          "timestamp": "2025-12-14T18:13:31.729926",
+          "currency": "INR",
+          "account_id": "130677",
+          "source": "core"
+        },
+        "gateway": {
+          "txn_id": "29644bbc-5816-474f-b932-3589614bd1c0",
+          "amount": 876.5,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:13:31.729926",
+          "currency": "INR",
+          "account_id": "130677",
+          "source": "gateway"
+        }
+      }
+    },
+    {
+      "txn_id": "0efe7ee4-3d01-4302-a2b0-f59653b5a4c9",
+      "sources": [
+        "core",
+        "mobile"
+      ],
+      "timestamp": "2025-12-14T23:43:43.258335",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "CURRENCY_MISMATCH",
+          "severity": "HIGH",
+          "details": "Currency differs: core=EUR, mobile=INR",
+          "sources": [
+            "core",
+            "mobile"
+          ],
+          "values": {
+            "core": "EUR",
+            "mobile": "INR"
+          }
+        }
+      ],
+      "transactions": {
+        "core": {
+          "txn_id": "0efe7ee4-3d01-4302-a2b0-f59653b5a4c9",
+          "amount": 865.54,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:13:40.673081",
+          "currency": "EUR",
+          "account_id": "467255",
+          "source": "core"
+        },
+        "mobile": {
+          "txn_id": "0efe7ee4-3d01-4302-a2b0-f59653b5a4c9",
+          "amount": 865.54,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:13:40.673081",
+          "currency": "INR",
+          "account_id": "467255",
+          "source": "mobile"
+        }
+      }
+    },
+    {
+      "txn_id": "527d0a3b-28c9-4e9b-8ae9-a5dafe2c282d",
+      "sources": [
+        "mobile",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:43:43.470285",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "AMOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Amount differs: mobile=\u20b9108.6, gateway=\u20b9224.6",
+          "sources": [
+            "mobile",
+            "gateway"
+          ],
+          "values": {
+            "mobile": 108.6,
+            "gateway": 224.6
+          }
+        }
+      ],
+      "transactions": {
+        "mobile": {
+          "txn_id": "527d0a3b-28c9-4e9b-8ae9-a5dafe2c282d",
+          "amount": 108.6,
+          "status": "PENDING",
+          "timestamp": "2025-12-14T18:13:41.147804",
+          "currency": "INR",
+          "account_id": "591499",
+          "source": "mobile"
+        },
+        "gateway": {
+          "txn_id": "527d0a3b-28c9-4e9b-8ae9-a5dafe2c282d",
+          "amount": 224.6,
+          "status": "PENDING",
+          "timestamp": "2025-12-14T18:13:41.147804",
+          "currency": "INR",
+          "account_id": "591499",
+          "source": "gateway"
+        }
+      }
+    },
+    {
+      "txn_id": "527d0a3b-28c9-4e9b-8ae9-a5dafe2c282d",
+      "sources": [
+        "mobile",
+        "gateway",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:43:45.094632",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "AMOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Amount differs: mobile=\u20b9108.6, gateway=\u20b9224.6",
+          "sources": [
+            "mobile",
+            "gateway"
+          ],
+          "values": {
+            "mobile": 108.6,
+            "gateway": 224.6
+          }
+        },
+        {
+          "type": "AMOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Amount differs: gateway=\u20b9224.6, core=\u20b9108.6",
+          "sources": [
+            "gateway",
+            "core"
+          ],
+          "values": {
+            "gateway": 224.6,
+            "core": 108.6
+          }
+        }
+      ],
+      "transactions": {
+        "mobile": {
+          "txn_id": "527d0a3b-28c9-4e9b-8ae9-a5dafe2c282d",
+          "amount": 108.6,
+          "status": "PENDING",
+          "timestamp": "2025-12-14T18:13:41.147804",
+          "currency": "INR",
+          "account_id": "591499",
+          "source": "mobile"
+        },
+        "gateway": {
+          "txn_id": "527d0a3b-28c9-4e9b-8ae9-a5dafe2c282d",
+          "amount": 224.6,
+          "status": "PENDING",
+          "timestamp": "2025-12-14T18:13:41.147804",
+          "currency": "INR",
+          "account_id": "591499",
+          "source": "gateway"
+        },
+        "core": {
+          "txn_id": "527d0a3b-28c9-4e9b-8ae9-a5dafe2c282d",
+          "amount": 108.6,
+          "status": "PENDING",
+          "timestamp": "2025-12-14T18:13:41.147804",
+          "currency": "INR",
+          "account_id": "591499",
+          "source": "core"
+        }
+      }
+    },
+    {
+      "txn_id": "60ff896d-a353-4de1-80b4-f8e0c0a4539a",
+      "sources": [
+        "mobile",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:43:53.007030",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "STATUS_MISMATCH",
+          "severity": "MEDIUM",
+          "details": "Status differs: mobile=SUCCESS, core=FAILED",
+          "sources": [
+            "mobile",
+            "core"
+          ],
+          "values": {
+            "mobile": "SUCCESS",
+            "core": "FAILED"
+          }
+        }
+      ],
+      "transactions": {
+        "mobile": {
+          "txn_id": "60ff896d-a353-4de1-80b4-f8e0c0a4539a",
+          "amount": 954.12,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:13:50.726691",
+          "currency": "INR",
+          "account_id": "602351",
+          "source": "mobile"
+        },
+        "core": {
+          "txn_id": "60ff896d-a353-4de1-80b4-f8e0c0a4539a",
+          "amount": 954.12,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:13:50.726691",
+          "currency": "INR",
+          "account_id": "602351",
+          "source": "core"
+        }
+      }
+    },
+    {
+      "txn_id": "71105f86-d078-4676-99f3-7a8f48c84e6a",
+      "sources": [
+        "mobile",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:43:54.980123",
+      "status": "MATCHED",
+      "mismatches": [],
+      "transactions": {
+        "mobile": {
+          "txn_id": "71105f86-d078-4676-99f3-7a8f48c84e6a",
+          "amount": 1722.01,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:13:52.759516",
+          "currency": "INR",
+          "account_id": "460632",
+          "source": "mobile"
+        },
+        "core": {
+          "txn_id": "71105f86-d078-4676-99f3-7a8f48c84e6a",
+          "amount": 1722.01,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:13:52.759516",
+          "currency": "INR",
+          "account_id": "460632",
+          "source": "core"
+        }
+      }
+    },
+    {
+      "txn_id": "84067774-da3c-4ba9-86c1-a606cc5f6ae7",
+      "sources": [
+        "gateway",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:44:00.290615",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "AMOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Amount differs: gateway=\u20b91562.34, core=\u20b91720.34",
+          "sources": [
+            "gateway",
+            "core"
+          ],
+          "values": {
+            "gateway": 1562.34,
+            "core": 1720.34
+          }
+        }
+      ],
+      "transactions": {
+        "gateway": {
+          "txn_id": "84067774-da3c-4ba9-86c1-a606cc5f6ae7",
+          "amount": 1562.34,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:13:57.885870",
+          "currency": "INR",
+          "account_id": "870067",
+          "source": "gateway"
+        },
+        "core": {
+          "txn_id": "84067774-da3c-4ba9-86c1-a606cc5f6ae7",
+          "amount": 1720.34,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:13:57.885870",
+          "currency": "INR",
+          "account_id": "870067",
+          "source": "core"
+        }
+      }
+    },
+    {
+      "txn_id": "5345472c-e9b9-4609-9865-d24cbee20137",
+      "sources": [
+        "core",
+        "mobile"
+      ],
+      "timestamp": "2025-12-14T23:44:05.610456",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "STATUS_MISMATCH",
+          "severity": "MEDIUM",
+          "details": "Status differs: core=SUCCESS, mobile=FAILED",
+          "sources": [
+            "core",
+            "mobile"
+          ],
+          "values": {
+            "core": "SUCCESS",
+            "mobile": "FAILED"
+          }
+        }
+      ],
+      "transactions": {
+        "core": {
+          "txn_id": "5345472c-e9b9-4609-9865-d24cbee20137",
+          "amount": 1630.54,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:14:03.274725",
+          "currency": "INR",
+          "account_id": "364660",
+          "source": "core"
+        },
+        "mobile": {
+          "txn_id": "5345472c-e9b9-4609-9865-d24cbee20137",
+          "amount": 1630.54,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:14:03.274725",
+          "currency": "INR",
+          "account_id": "364660",
+          "source": "mobile"
+        }
+      }
+    },
+    {
+      "txn_id": "fb6a01e3-0d2e-49c6-9880-d89f913cc587",
+      "sources": [
+        "mobile",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:44:07.791856",
+      "status": "MATCHED",
+      "mismatches": [],
+      "transactions": {
+        "mobile": {
+          "txn_id": "fb6a01e3-0d2e-49c6-9880-d89f913cc587",
+          "amount": 1354.1,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:14:05.158538",
+          "currency": "INR",
+          "account_id": "528487",
+          "source": "mobile"
+        },
+        "core": {
+          "txn_id": "fb6a01e3-0d2e-49c6-9880-d89f913cc587",
+          "amount": 1354.1,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:14:05.158538",
+          "currency": "INR",
+          "account_id": "528487",
+          "source": "core"
+        }
+      }
+    },
+    {
+      "txn_id": "fb6a01e3-0d2e-49c6-9880-d89f913cc587",
+      "sources": [
+        "mobile",
+        "core",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:44:09.602596",
+      "status": "MATCHED",
+      "mismatches": [],
+      "transactions": {
+        "mobile": {
+          "txn_id": "fb6a01e3-0d2e-49c6-9880-d89f913cc587",
+          "amount": 1354.1,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:14:05.158538",
+          "currency": "INR",
+          "account_id": "528487",
+          "source": "mobile"
+        },
+        "core": {
+          "txn_id": "fb6a01e3-0d2e-49c6-9880-d89f913cc587",
+          "amount": 1354.1,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:14:05.158538",
+          "currency": "INR",
+          "account_id": "528487",
+          "source": "core"
+        },
+        "gateway": {
+          "txn_id": "fb6a01e3-0d2e-49c6-9880-d89f913cc587",
+          "amount": 1354.1,
+          "status": "SUCCESS",
+          "timestamp": "2025-12-14T18:14:05.158538",
+          "currency": "INR",
+          "account_id": "528487",
+          "source": "gateway"
+        }
+      }
+    },
+    {
+      "txn_id": "af8b80ab-f390-494b-b6af-3cb9b89b47ac",
+      "sources": [
+        "gateway",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:44:13.495123",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "AMOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Amount differs: gateway=\u20b9869.47, core=\u20b9945.47",
+          "sources": [
+            "gateway",
+            "core"
+          ],
+          "values": {
+            "gateway": 869.47,
+            "core": 945.47
+          }
+        }
+      ],
+      "transactions": {
+        "gateway": {
+          "txn_id": "af8b80ab-f390-494b-b6af-3cb9b89b47ac",
+          "amount": 869.47,
+          "status": "PENDING",
+          "timestamp": "2025-12-14T18:14:10.901005",
+          "currency": "INR",
+          "account_id": "408430",
+          "source": "gateway"
+        },
+        "core": {
+          "txn_id": "af8b80ab-f390-494b-b6af-3cb9b89b47ac",
+          "amount": 945.47,
+          "status": "PENDING",
+          "timestamp": "2025-12-14T18:14:10.901005",
+          "currency": "INR",
+          "account_id": "408430",
+          "source": "core"
+        }
+      }
+    },
+    {
+      "txn_id": "af8b80ab-f390-494b-b6af-3cb9b89b47ac",
+      "sources": [
+        "gateway",
+        "core",
+        "mobile"
+      ],
+      "timestamp": "2025-12-14T23:44:15.070745",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "AMOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Amount differs: gateway=\u20b9869.47, core=\u20b9945.47",
+          "sources": [
+            "gateway",
+            "core"
+          ],
+          "values": {
+            "gateway": 869.47,
+            "core": 945.47
+          }
+        },
+        {
+          "type": "AMOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Amount differs: core=\u20b9945.47, mobile=\u20b9869.47",
+          "sources": [
+            "core",
+            "mobile"
+          ],
+          "values": {
+            "core": 945.47,
+            "mobile": 869.47
+          }
+        }
+      ],
+      "transactions": {
+        "gateway": {
+          "txn_id": "af8b80ab-f390-494b-b6af-3cb9b89b47ac",
+          "amount": 869.47,
+          "status": "PENDING",
+          "timestamp": "2025-12-14T18:14:10.901005",
+          "currency": "INR",
+          "account_id": "408430",
+          "source": "gateway"
+        },
+        "core": {
+          "txn_id": "af8b80ab-f390-494b-b6af-3cb9b89b47ac",
+          "amount": 945.47,
+          "status": "PENDING",
+          "timestamp": "2025-12-14T18:14:10.901005",
+          "currency": "INR",
+          "account_id": "408430",
+          "source": "core"
+        },
+        "mobile": {
+          "txn_id": "af8b80ab-f390-494b-b6af-3cb9b89b47ac",
+          "amount": 869.47,
+          "status": "PENDING",
+          "timestamp": "2025-12-14T18:14:10.901005",
+          "currency": "INR",
+          "account_id": "408430",
+          "source": "mobile"
+        }
+      }
+    },
+    {
+      "txn_id": "771f0aa5-abae-44d2-99af-78f88a6dff48",
+      "sources": [
+        "mobile",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:44:17.539247",
+      "status": "MATCHED",
+      "mismatches": [],
+      "transactions": {
+        "mobile": {
+          "txn_id": "771f0aa5-abae-44d2-99af-78f88a6dff48",
+          "amount": 1783.59,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:14:14.823580",
+          "currency": "INR",
+          "account_id": "359754",
+          "source": "mobile"
+        },
+        "gateway": {
+          "txn_id": "771f0aa5-abae-44d2-99af-78f88a6dff48",
+          "amount": 1783.59,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:14:14.823580",
+          "currency": "INR",
+          "account_id": "359754",
+          "source": "gateway"
+        }
+      }
+    },
+    {
+      "txn_id": "771f0aa5-abae-44d2-99af-78f88a6dff48",
+      "sources": [
+        "mobile",
+        "gateway",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:44:19.242867",
+      "status": "MATCHED",
+      "mismatches": [],
+      "transactions": {
+        "mobile": {
+          "txn_id": "771f0aa5-abae-44d2-99af-78f88a6dff48",
+          "amount": 1783.59,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:14:14.823580",
+          "currency": "INR",
+          "account_id": "359754",
+          "source": "mobile"
+        },
+        "gateway": {
+          "txn_id": "771f0aa5-abae-44d2-99af-78f88a6dff48",
+          "amount": 1783.59,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:14:14.823580",
+          "currency": "INR",
+          "account_id": "359754",
+          "source": "gateway"
+        },
+        "core": {
+          "txn_id": "771f0aa5-abae-44d2-99af-78f88a6dff48",
+          "amount": 1783.59,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:14:14.823580",
+          "currency": "INR",
+          "account_id": "359754",
+          "source": "core"
+        }
+      }
+    },
+    {
+      "txn_id": "9044456c-ee10-4c15-9002-cad0be3acac1",
+      "sources": [
+        "gateway",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:44:23.145731",
+      "status": "MATCHED",
+      "mismatches": [],
+      "transactions": {
+        "gateway": {
+          "txn_id": "9044456c-ee10-4c15-9002-cad0be3acac1",
+          "amount": 1833.34,
+          "status": "PENDING",
+          "timestamp": "2025-12-14T18:14:20.657793",
+          "currency": "INR",
+          "account_id": "934607",
+          "source": "gateway"
+        },
+        "core": {
+          "txn_id": "9044456c-ee10-4c15-9002-cad0be3acac1",
+          "amount": 1833.34,
+          "status": "PENDING",
+          "timestamp": "2025-12-14T18:14:20.657793",
+          "currency": "INR",
+          "account_id": "934607",
+          "source": "core"
+        }
+      }
+    },
+    {
+      "txn_id": "c309cc04-8a35-4f22-bf68-bd66c6758337",
+      "sources": [
+        "core",
+        "mobile"
+      ],
+      "timestamp": "2025-12-14T23:44:26.377988",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "AMOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Amount differs: core=\u20b91967.15, mobile=\u20b92100.15",
+          "sources": [
+            "core",
+            "mobile"
+          ],
+          "values": {
+            "core": 1967.15,
+            "mobile": 2100.15
+          }
+        }
+      ],
+      "transactions": {
+        "core": {
+          "txn_id": "c309cc04-8a35-4f22-bf68-bd66c6758337",
+          "amount": 1967.15,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:14:23.736750",
+          "currency": "INR",
+          "account_id": "748516",
+          "source": "core"
+        },
+        "mobile": {
+          "txn_id": "c309cc04-8a35-4f22-bf68-bd66c6758337",
+          "amount": 2100.15,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:14:23.736750",
+          "currency": "INR",
+          "account_id": "748516",
+          "source": "mobile"
+        }
+      }
+    },
+    {
+      "txn_id": "5930b93e-9a81-4252-ac13-36ac2288da94",
+      "sources": [
+        "core",
+        "mobile"
+      ],
+      "timestamp": "2025-12-14T23:44:32.471881",
+      "status": "MATCHED",
+      "mismatches": [],
+      "transactions": {
+        "core": {
+          "txn_id": "5930b93e-9a81-4252-ac13-36ac2288da94",
+          "amount": 1321.46,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:14:29.625442",
+          "currency": "INR",
+          "account_id": "377616",
+          "source": "core"
+        },
+        "mobile": {
+          "txn_id": "5930b93e-9a81-4252-ac13-36ac2288da94",
+          "amount": 1321.46,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:14:29.625442",
+          "currency": "INR",
+          "account_id": "377616",
+          "source": "mobile"
+        }
+      }
+    },
+    {
+      "txn_id": "5930b93e-9a81-4252-ac13-36ac2288da94",
+      "sources": [
+        "core",
+        "mobile",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:44:34.387387",
+      "status": "MATCHED",
+      "mismatches": [],
+      "transactions": {
+        "core": {
+          "txn_id": "5930b93e-9a81-4252-ac13-36ac2288da94",
+          "amount": 1321.46,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:14:29.625442",
+          "currency": "INR",
+          "account_id": "377616",
+          "source": "core"
+        },
+        "mobile": {
+          "txn_id": "5930b93e-9a81-4252-ac13-36ac2288da94",
+          "amount": 1321.46,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:14:29.625442",
+          "currency": "INR",
+          "account_id": "377616",
+          "source": "mobile"
+        },
+        "gateway": {
+          "txn_id": "5930b93e-9a81-4252-ac13-36ac2288da94",
+          "amount": 1321.46,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:14:29.625442",
+          "currency": "INR",
+          "account_id": "377616",
+          "source": "gateway"
+        }
+      }
+    },
+    {
+      "txn_id": "4457c754-1501-46cd-8ff9-ddced91779b3",
+      "sources": [
+        "mobile",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:44:37.487984",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "AMOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Amount differs: mobile=\u20b91446.09, gateway=\u20b91280.09",
+          "sources": [
+            "mobile",
+            "gateway"
+          ],
+          "values": {
+            "mobile": 1446.09,
+            "gateway": 1280.09
+          }
+        }
+      ],
+      "transactions": {
+        "mobile": {
+          "txn_id": "4457c754-1501-46cd-8ff9-ddced91779b3",
+          "amount": 1446.09,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:14:34.217146",
+          "currency": "INR",
+          "account_id": "254592",
+          "source": "mobile"
+        },
+        "gateway": {
+          "txn_id": "4457c754-1501-46cd-8ff9-ddced91779b3",
+          "amount": 1280.09,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:14:34.217146",
+          "currency": "INR",
+          "account_id": "254592",
+          "source": "gateway"
+        }
+      }
+    },
+    {
+      "txn_id": "88fd5a0d-6953-4c9a-9509-2875686b76ea",
+      "sources": [
+        "gateway",
+        "mobile"
+      ],
+      "timestamp": "2025-12-14T23:44:44.463829",
+      "status": "MATCHED",
+      "mismatches": [],
+      "transactions": {
+        "gateway": {
+          "txn_id": "88fd5a0d-6953-4c9a-9509-2875686b76ea",
+          "amount": 1710.53,
+          "status": "PENDING",
+          "timestamp": "2025-12-14T18:14:41.512399",
+          "currency": "INR",
+          "account_id": "460585",
+          "source": "gateway"
+        },
+        "mobile": {
+          "txn_id": "88fd5a0d-6953-4c9a-9509-2875686b76ea",
+          "amount": 1710.53,
+          "status": "PENDING",
+          "timestamp": "2025-12-14T18:14:50.311861",
+          "currency": "INR",
+          "account_id": "460585",
+          "source": "mobile"
+        }
+      }
+    },
+    {
+      "txn_id": "23a9b42d-1152-45f1-8055-57ab191e80ae",
+      "sources": [
+        "core",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:44:47.662801",
+      "status": "MATCHED",
+      "mismatches": [],
+      "transactions": {
+        "core": {
+          "txn_id": "23a9b42d-1152-45f1-8055-57ab191e80ae",
+          "amount": 1414.1,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:14:44.768491",
+          "currency": "INR",
+          "account_id": "850773",
+          "source": "core"
+        },
+        "gateway": {
+          "txn_id": "23a9b42d-1152-45f1-8055-57ab191e80ae",
+          "amount": 1414.1,
+          "status": "FAILED",
+          "timestamp": "2025-12-14T18:14:44.768491",
+          "currency": "INR",
+          "account_id": "850773",
+          "source": "gateway"
+        }
+      }
+    },
+    {
+      "txn_id": "5abb9a84-d057-4d38-a385-94c285c0096a",
+      "sources": [
+        "mobile",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:44:53.223223",
+      "status": "MISMATCH",
+      "mismatches": [
+        {
+          "type": "AMOUNT_MISMATCH",
+          "severity": "HIGH",
+          "details": "Amount differs: mobile=\u20b91355.12, core=\u20b91279.12",
+          "sources": [
+            "mobile",
+            "core"
+          ],
+          "values": {
+            "mobile": 1355.12,
+            "core": 1279.12
+          }
+        },
+        {
+          "type": "CURRENCY_MISMATCH",
+          "severity": "HIGH",
+          "details": "Currency differs: mobile=INR, core=EUR",
+          "sources": [
+            "mobile",
+            "core"
+          ],
+          "values": {
+            "mobile": "INR",
+            "core": "EUR"
+          }
+        }
+      ],
+      "transactions": {
+        "mobile": {
+          "txn_id": "5abb9a84-d057-4d38-a385-94c285c0096a",
+          "amount": 1355.12,
+          "status": "PENDING",
+          "timestamp": "2025-12-14T18:14:50.739834",
+          "currency": "INR",
+          "account_id": "696789",
+          "source": "mobile"
+        },
+        "core": {
+          "txn_id": "5abb9a84-d057-4d38-a385-94c285c0096a",
+          "amount": 1279.12,
+          "status": "PENDING",
+          "timestamp": "2025-12-14T18:14:50.739834",
+          "currency": "EUR",
+          "account_id": "696789",
+          "source": "core"
+        }
+      }
+    }
+  ],
+  "detected_mismatches": [
+    {
+      "id": "f2fa823e-8cc0-45eb-9897-a4e3e48a00fe_AMOUNT_MISMATCH_1765735883",
+      "txn_id": "f2fa823e-8cc0-45eb-9897-a4e3e48a00fe",
+      "type": "AMOUNT_MISMATCH",
+      "severity": "HIGH",
+      "details": "Amount differs: mobile=\u20b92006.0, gateway=\u20b91935.0",
+      "sources_involved": [
+        "mobile",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:41:23.130780"
+    },
+    {
+      "id": "f2fa823e-8cc0-45eb-9897-a4e3e48a00fe_AMOUNT_MISMATCH_1765735883",
+      "txn_id": "f2fa823e-8cc0-45eb-9897-a4e3e48a00fe",
+      "type": "AMOUNT_MISMATCH",
+      "severity": "HIGH",
+      "details": "Amount differs: core=\u20b91960.0, gateway=\u20b91935.0",
+      "sources_involved": [
+        "core",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:41:23.184282"
+    },
+    {
+      "id": "e2fec156-6010-4172-9f53-5eda010408a4_AMOUNT_MISMATCH_1765735888",
+      "txn_id": "e2fec156-6010-4172-9f53-5eda010408a4",
+      "type": "AMOUNT_MISMATCH",
+      "severity": "HIGH",
+      "details": "Amount differs: gateway=\u20b91438.04, mobile=\u20b91518.04",
+      "sources_involved": [
+        "gateway",
+        "mobile"
+      ],
+      "timestamp": "2025-12-14T23:41:28.844520"
+    },
+    {
+      "id": "e2fec156-6010-4172-9f53-5eda010408a4_AMOUNT_MISMATCH_1765735890",
+      "txn_id": "e2fec156-6010-4172-9f53-5eda010408a4",
+      "type": "AMOUNT_MISMATCH",
+      "severity": "HIGH",
+      "details": "Amount differs: gateway=\u20b91438.04, mobile=\u20b91518.04",
+      "sources_involved": [
+        "gateway",
+        "mobile"
+      ],
+      "timestamp": "2025-12-14T23:41:30.456050"
+    },
+    {
+      "id": "e2fec156-6010-4172-9f53-5eda010408a4_AMOUNT_MISMATCH_1765735890",
+      "txn_id": "e2fec156-6010-4172-9f53-5eda010408a4",
+      "type": "AMOUNT_MISMATCH",
+      "severity": "HIGH",
+      "details": "Amount differs: gateway=\u20b91438.04, core=\u20b91526.04",
+      "sources_involved": [
+        "gateway",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:41:30.478130"
+    },
+    {
+      "id": "e2fec156-6010-4172-9f53-5eda010408a4_AMOUNT_MISMATCH_1765735890",
+      "txn_id": "e2fec156-6010-4172-9f53-5eda010408a4",
+      "type": "AMOUNT_MISMATCH",
+      "severity": "HIGH",
+      "details": "Amount differs: mobile=\u20b91518.04, core=\u20b91526.04",
+      "sources_involved": [
+        "mobile",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:41:30.499251"
+    },
+    {
+      "id": "62ce50ff-025f-4178-a648-97c4f05bcc0c_STATUS_MISMATCH_1765735907",
+      "txn_id": "62ce50ff-025f-4178-a648-97c4f05bcc0c",
+      "type": "STATUS_MISMATCH",
+      "severity": "MEDIUM",
+      "details": "Status differs: gateway=PENDING, mobile=SUCCESS",
+      "sources_involved": [
+        "gateway",
+        "mobile"
+      ],
+      "timestamp": "2025-12-14T23:41:47.777503"
+    },
+    {
+      "id": "62ce50ff-025f-4178-a648-97c4f05bcc0c_STATUS_MISMATCH_1765735907",
+      "txn_id": "62ce50ff-025f-4178-a648-97c4f05bcc0c",
+      "type": "STATUS_MISMATCH",
+      "severity": "MEDIUM",
+      "details": "Status differs: core=PENDING, mobile=SUCCESS",
+      "sources_involved": [
+        "core",
+        "mobile"
+      ],
+      "timestamp": "2025-12-14T23:41:47.818403"
+    },
+    {
+      "id": "fb53f2e9-a3e5-42a1-9c01-91a30e72921e_AMOUNT_MISMATCH_1765735914",
+      "txn_id": "fb53f2e9-a3e5-42a1-9c01-91a30e72921e",
+      "type": "AMOUNT_MISMATCH",
+      "severity": "HIGH",
+      "details": "Amount differs: mobile=\u20b91081.14, gateway=\u20b91137.14",
+      "sources_involved": [
+        "mobile",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:41:54.220735"
+    },
+    {
+      "id": "fb53f2e9-a3e5-42a1-9c01-91a30e72921e_AMOUNT_MISMATCH_1765735914",
+      "txn_id": "fb53f2e9-a3e5-42a1-9c01-91a30e72921e",
+      "type": "AMOUNT_MISMATCH",
+      "severity": "HIGH",
+      "details": "Amount differs: core=\u20b91081.14, gateway=\u20b91137.14",
+      "sources_involved": [
+        "core",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:41:54.255783"
+    },
+    {
+      "id": "2c47414e-1af9-4ec9-a284-68beb781ab0f_AMOUNT_MISMATCH_1765735924",
+      "txn_id": "2c47414e-1af9-4ec9-a284-68beb781ab0f",
+      "type": "AMOUNT_MISMATCH",
+      "severity": "HIGH",
+      "details": "Amount differs: core=\u20b91169.65, mobile=\u20b91060.65",
+      "sources_involved": [
+        "core",
+        "mobile"
+      ],
+      "timestamp": "2025-12-14T23:42:04.837874"
+    },
+    {
+      "id": "a1aa0d84-c626-4e68-b5b8-3c0517a9f907_CURRENCY_MISMATCH_1765735926",
+      "txn_id": "a1aa0d84-c626-4e68-b5b8-3c0517a9f907",
+      "type": "CURRENCY_MISMATCH",
+      "severity": "HIGH",
+      "details": "Currency differs: mobile=INR, core=EUR",
+      "sources_involved": [
+        "mobile",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:42:06.303790"
+    },
+    {
+      "id": "2c47414e-1af9-4ec9-a284-68beb781ab0f_AMOUNT_MISMATCH_1765735926",
+      "txn_id": "2c47414e-1af9-4ec9-a284-68beb781ab0f",
+      "type": "AMOUNT_MISMATCH",
+      "severity": "HIGH",
+      "details": "Amount differs: core=\u20b91169.65, mobile=\u20b91060.65",
+      "sources_involved": [
+        "core",
+        "mobile"
+      ],
+      "timestamp": "2025-12-14T23:42:06.732232"
+    },
+    {
+      "id": "2c47414e-1af9-4ec9-a284-68beb781ab0f_AMOUNT_MISMATCH_1765735926",
+      "txn_id": "2c47414e-1af9-4ec9-a284-68beb781ab0f",
+      "type": "AMOUNT_MISMATCH",
+      "severity": "HIGH",
+      "details": "Amount differs: core=\u20b91169.65, gateway=\u20b91212.65",
+      "sources_involved": [
+        "core",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:42:06.768050"
+    },
+    {
+      "id": "2c47414e-1af9-4ec9-a284-68beb781ab0f_AMOUNT_MISMATCH_1765735926",
+      "txn_id": "2c47414e-1af9-4ec9-a284-68beb781ab0f",
+      "type": "AMOUNT_MISMATCH",
+      "severity": "HIGH",
+      "details": "Amount differs: mobile=\u20b91060.65, gateway=\u20b91212.65",
+      "sources_involved": [
+        "mobile",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:42:06.800083"
+    },
+    {
+      "id": "a1aa0d84-c626-4e68-b5b8-3c0517a9f907_CURRENCY_MISMATCH_1765735927",
+      "txn_id": "a1aa0d84-c626-4e68-b5b8-3c0517a9f907",
+      "type": "CURRENCY_MISMATCH",
+      "severity": "HIGH",
+      "details": "Currency differs: mobile=INR, core=EUR",
+      "sources_involved": [
+        "mobile",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:42:07.665167"
+    },
+    {
+      "id": "a1aa0d84-c626-4e68-b5b8-3c0517a9f907_CURRENCY_MISMATCH_1765735927",
+      "txn_id": "a1aa0d84-c626-4e68-b5b8-3c0517a9f907",
+      "type": "CURRENCY_MISMATCH",
+      "severity": "HIGH",
+      "details": "Currency differs: core=EUR, gateway=INR",
+      "sources_involved": [
+        "core",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:42:07.696184"
+    },
+    {
+      "id": "20550685-9713-4d24-a8a2-35bff8902bbf_AMOUNT_MISMATCH_1765735936",
+      "txn_id": "20550685-9713-4d24-a8a2-35bff8902bbf",
+      "type": "AMOUNT_MISMATCH",
+      "severity": "HIGH",
+      "details": "Amount differs: mobile=\u20b9128.69, core=\u20b9209.69",
+      "sources_involved": [
+        "mobile",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:42:16.628424"
+    },
+    {
+      "id": "20550685-9713-4d24-a8a2-35bff8902bbf_AMOUNT_MISMATCH_1765735938",
+      "txn_id": "20550685-9713-4d24-a8a2-35bff8902bbf",
+      "type": "AMOUNT_MISMATCH",
+      "severity": "HIGH",
+      "details": "Amount differs: mobile=\u20b9128.69, core=\u20b9209.69",
+      "sources_involved": [
+        "mobile",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:42:18.264679"
+    },
+    {
+      "id": "20550685-9713-4d24-a8a2-35bff8902bbf_AMOUNT_MISMATCH_1765735938",
+      "txn_id": "20550685-9713-4d24-a8a2-35bff8902bbf",
+      "type": "AMOUNT_MISMATCH",
+      "severity": "HIGH",
+      "details": "Amount differs: mobile=\u20b9128.69, gateway=\u20b9226.69",
+      "sources_involved": [
+        "mobile",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:42:18.288484"
+    },
+    {
+      "id": "20550685-9713-4d24-a8a2-35bff8902bbf_AMOUNT_MISMATCH_1765735938",
+      "txn_id": "20550685-9713-4d24-a8a2-35bff8902bbf",
+      "type": "AMOUNT_MISMATCH",
+      "severity": "HIGH",
+      "details": "Amount differs: core=\u20b9209.69, gateway=\u20b9226.69",
+      "sources_involved": [
+        "core",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:42:18.309032"
+    },
+    {
+      "id": "08b03e51-f59a-447b-8ed2-7ce7dc45e511_AMOUNT_MISMATCH_1765735953",
+      "txn_id": "08b03e51-f59a-447b-8ed2-7ce7dc45e511",
+      "type": "AMOUNT_MISMATCH",
+      "severity": "HIGH",
+      "details": "Amount differs: core=\u20b9215.16, gateway=\u20b9357.15999999999997",
+      "sources_involved": [
+        "core",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:42:33.059129"
+    },
+    {
+      "id": "b37652e2-3283-4d13-b3a3-3c004a122b07_AMOUNT_MISMATCH_1765735965",
+      "txn_id": "b37652e2-3283-4d13-b3a3-3c004a122b07",
+      "type": "AMOUNT_MISMATCH",
+      "severity": "HIGH",
+      "details": "Amount differs: mobile=\u20b91055.75, gateway=\u20b9867.75",
+      "sources_involved": [
+        "mobile",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:42:45.701339"
+    },
+    {
+      "id": "b9a17073-d03a-4451-9b72-67fb76e144b0_AMOUNT_MISMATCH_1765735974",
+      "txn_id": "b9a17073-d03a-4451-9b72-67fb76e144b0",
+      "type": "AMOUNT_MISMATCH",
+      "severity": "HIGH",
+      "details": "Amount differs: core=\u20b91988.62, mobile=\u20b92039.62",
+      "sources_involved": [
+        "core",
+        "mobile"
+      ],
+      "timestamp": "2025-12-14T23:42:54.167516"
+    },
+    {
+      "id": "761f6e76-dbd7-450d-99a1-7965b465ea45_STATUS_MISMATCH_1765735992",
+      "txn_id": "761f6e76-dbd7-450d-99a1-7965b465ea45",
+      "type": "STATUS_MISMATCH",
+      "severity": "MEDIUM",
+      "details": "Status differs: mobile=SUCCESS, gateway=FAILED",
+      "sources_involved": [
+        "mobile",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:43:12.126100"
+    },
+    {
+      "id": "761f6e76-dbd7-450d-99a1-7965b465ea45_STATUS_MISMATCH_1765735993",
+      "txn_id": "761f6e76-dbd7-450d-99a1-7965b465ea45",
+      "type": "STATUS_MISMATCH",
+      "severity": "MEDIUM",
+      "details": "Status differs: mobile=SUCCESS, gateway=FAILED",
+      "sources_involved": [
+        "mobile",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:43:13.817452"
+    },
+    {
+      "id": "761f6e76-dbd7-450d-99a1-7965b465ea45_AMOUNT_MISMATCH_1765735993",
+      "txn_id": "761f6e76-dbd7-450d-99a1-7965b465ea45",
+      "type": "AMOUNT_MISMATCH",
+      "severity": "HIGH",
+      "details": "Amount differs: mobile=\u20b91351.89, core=\u20b91366.89",
+      "sources_involved": [
+        "mobile",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:43:13.836359"
+    },
+    {
+      "id": "761f6e76-dbd7-450d-99a1-7965b465ea45_STATUS_MISMATCH_1765735993",
+      "txn_id": "761f6e76-dbd7-450d-99a1-7965b465ea45",
+      "type": "STATUS_MISMATCH",
+      "severity": "MEDIUM",
+      "details": "Status differs: mobile=SUCCESS, core=FAILED",
+      "sources_involved": [
+        "mobile",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:43:13.854610"
+    },
+    {
+      "id": "761f6e76-dbd7-450d-99a1-7965b465ea45_AMOUNT_MISMATCH_1765735993",
+      "txn_id": "761f6e76-dbd7-450d-99a1-7965b465ea45",
+      "type": "AMOUNT_MISMATCH",
+      "severity": "HIGH",
+      "details": "Amount differs: gateway=\u20b91351.89, core=\u20b91366.89",
+      "sources_involved": [
+        "gateway",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:43:13.872566"
+    },
+    {
+      "id": "28ca9234-8d9f-4bde-81a3-19b43a087415_CURRENCY_MISMATCH_1765735996",
+      "txn_id": "28ca9234-8d9f-4bde-81a3-19b43a087415",
+      "type": "CURRENCY_MISMATCH",
+      "severity": "HIGH",
+      "details": "Currency differs: mobile=INR, core=USD",
+      "sources_involved": [
+        "mobile",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:43:16.670362"
+    },
+    {
+      "id": "28ca9234-8d9f-4bde-81a3-19b43a087415_CURRENCY_MISMATCH_1765735998",
+      "txn_id": "28ca9234-8d9f-4bde-81a3-19b43a087415",
+      "type": "CURRENCY_MISMATCH",
+      "severity": "HIGH",
+      "details": "Currency differs: mobile=INR, core=USD",
+      "sources_involved": [
+        "mobile",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:43:18.296504"
+    },
+    {
+      "id": "28ca9234-8d9f-4bde-81a3-19b43a087415_CURRENCY_MISMATCH_1765735998",
+      "txn_id": "28ca9234-8d9f-4bde-81a3-19b43a087415",
+      "type": "CURRENCY_MISMATCH",
+      "severity": "HIGH",
+      "details": "Currency differs: core=USD, gateway=INR",
+      "sources_involved": [
+        "core",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:43:18.315475"
+    },
+    {
+      "id": "e95b272a-0e9f-4f07-8e90-d12d4ca6bb05_ACCOUNT_MISMATCH_1765736002",
+      "txn_id": "e95b272a-0e9f-4f07-8e90-d12d4ca6bb05",
+      "type": "ACCOUNT_MISMATCH",
+      "severity": "HIGH",
+      "details": "Account ID differs: mobile=1036050, gateway=457976",
+      "sources_involved": [
+        "mobile",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:43:22.011017"
+    },
+    {
+      "id": "e95b272a-0e9f-4f07-8e90-d12d4ca6bb05_ACCOUNT_MISMATCH_1765736003",
+      "txn_id": "e95b272a-0e9f-4f07-8e90-d12d4ca6bb05",
+      "type": "ACCOUNT_MISMATCH",
+      "severity": "HIGH",
+      "details": "Account ID differs: mobile=1036050, gateway=457976",
+      "sources_involved": [
+        "mobile",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:43:23.762350"
+    },
+    {
+      "id": "e95b272a-0e9f-4f07-8e90-d12d4ca6bb05_ACCOUNT_MISMATCH_1765736003",
+      "txn_id": "e95b272a-0e9f-4f07-8e90-d12d4ca6bb05",
+      "type": "ACCOUNT_MISMATCH",
+      "severity": "HIGH",
+      "details": "Account ID differs: mobile=1036050, core=457976",
+      "sources_involved": [
+        "mobile",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:43:23.783401"
+    },
+    {
+      "id": "29644bbc-5816-474f-b932-3589614bd1c0_STATUS_MISMATCH_1765736014",
+      "txn_id": "29644bbc-5816-474f-b932-3589614bd1c0",
+      "type": "STATUS_MISMATCH",
+      "severity": "MEDIUM",
+      "details": "Status differs: core=PENDING, gateway=SUCCESS",
+      "sources_involved": [
+        "core",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:43:34.780962"
+    },
+    {
+      "id": "0efe7ee4-3d01-4302-a2b0-f59653b5a4c9_CURRENCY_MISMATCH_1765736023",
+      "txn_id": "0efe7ee4-3d01-4302-a2b0-f59653b5a4c9",
+      "type": "CURRENCY_MISMATCH",
+      "severity": "HIGH",
+      "details": "Currency differs: core=EUR, mobile=INR",
+      "sources_involved": [
+        "core",
+        "mobile"
+      ],
+      "timestamp": "2025-12-14T23:43:43.284669"
+    },
+    {
+      "id": "527d0a3b-28c9-4e9b-8ae9-a5dafe2c282d_AMOUNT_MISMATCH_1765736023",
+      "txn_id": "527d0a3b-28c9-4e9b-8ae9-a5dafe2c282d",
+      "type": "AMOUNT_MISMATCH",
+      "severity": "HIGH",
+      "details": "Amount differs: mobile=\u20b9108.6, gateway=\u20b9224.6",
+      "sources_involved": [
+        "mobile",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:43:43.494532"
+    },
+    {
+      "id": "527d0a3b-28c9-4e9b-8ae9-a5dafe2c282d_AMOUNT_MISMATCH_1765736025",
+      "txn_id": "527d0a3b-28c9-4e9b-8ae9-a5dafe2c282d",
+      "type": "AMOUNT_MISMATCH",
+      "severity": "HIGH",
+      "details": "Amount differs: mobile=\u20b9108.6, gateway=\u20b9224.6",
+      "sources_involved": [
+        "mobile",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:43:45.118893"
+    },
+    {
+      "id": "527d0a3b-28c9-4e9b-8ae9-a5dafe2c282d_AMOUNT_MISMATCH_1765736025",
+      "txn_id": "527d0a3b-28c9-4e9b-8ae9-a5dafe2c282d",
+      "type": "AMOUNT_MISMATCH",
+      "severity": "HIGH",
+      "details": "Amount differs: gateway=\u20b9224.6, core=\u20b9108.6",
+      "sources_involved": [
+        "gateway",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:43:45.141452"
+    },
+    {
+      "id": "60ff896d-a353-4de1-80b4-f8e0c0a4539a_STATUS_MISMATCH_1765736033",
+      "txn_id": "60ff896d-a353-4de1-80b4-f8e0c0a4539a",
+      "type": "STATUS_MISMATCH",
+      "severity": "MEDIUM",
+      "details": "Status differs: mobile=SUCCESS, core=FAILED",
+      "sources_involved": [
+        "mobile",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:43:53.031089"
+    },
+    {
+      "id": "84067774-da3c-4ba9-86c1-a606cc5f6ae7_AMOUNT_MISMATCH_1765736040",
+      "txn_id": "84067774-da3c-4ba9-86c1-a606cc5f6ae7",
+      "type": "AMOUNT_MISMATCH",
+      "severity": "HIGH",
+      "details": "Amount differs: gateway=\u20b91562.34, core=\u20b91720.34",
+      "sources_involved": [
+        "gateway",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:44:00.313276"
+    },
+    {
+      "id": "5345472c-e9b9-4609-9865-d24cbee20137_STATUS_MISMATCH_1765736045",
+      "txn_id": "5345472c-e9b9-4609-9865-d24cbee20137",
+      "type": "STATUS_MISMATCH",
+      "severity": "MEDIUM",
+      "details": "Status differs: core=SUCCESS, mobile=FAILED",
+      "sources_involved": [
+        "core",
+        "mobile"
+      ],
+      "timestamp": "2025-12-14T23:44:05.635515"
+    },
+    {
+      "id": "af8b80ab-f390-494b-b6af-3cb9b89b47ac_AMOUNT_MISMATCH_1765736053",
+      "txn_id": "af8b80ab-f390-494b-b6af-3cb9b89b47ac",
+      "type": "AMOUNT_MISMATCH",
+      "severity": "HIGH",
+      "details": "Amount differs: gateway=\u20b9869.47, core=\u20b9945.47",
+      "sources_involved": [
+        "gateway",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:44:13.529688"
+    },
+    {
+      "id": "af8b80ab-f390-494b-b6af-3cb9b89b47ac_AMOUNT_MISMATCH_1765736055",
+      "txn_id": "af8b80ab-f390-494b-b6af-3cb9b89b47ac",
+      "type": "AMOUNT_MISMATCH",
+      "severity": "HIGH",
+      "details": "Amount differs: gateway=\u20b9869.47, core=\u20b9945.47",
+      "sources_involved": [
+        "gateway",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:44:15.104904"
+    },
+    {
+      "id": "af8b80ab-f390-494b-b6af-3cb9b89b47ac_AMOUNT_MISMATCH_1765736055",
+      "txn_id": "af8b80ab-f390-494b-b6af-3cb9b89b47ac",
+      "type": "AMOUNT_MISMATCH",
+      "severity": "HIGH",
+      "details": "Amount differs: core=\u20b9945.47, mobile=\u20b9869.47",
+      "sources_involved": [
+        "core",
+        "mobile"
+      ],
+      "timestamp": "2025-12-14T23:44:15.142045"
+    },
+    {
+      "id": "c309cc04-8a35-4f22-bf68-bd66c6758337_AMOUNT_MISMATCH_1765736066",
+      "txn_id": "c309cc04-8a35-4f22-bf68-bd66c6758337",
+      "type": "AMOUNT_MISMATCH",
+      "severity": "HIGH",
+      "details": "Amount differs: core=\u20b91967.15, mobile=\u20b92100.15",
+      "sources_involved": [
+        "core",
+        "mobile"
+      ],
+      "timestamp": "2025-12-14T23:44:26.403021"
+    },
+    {
+      "id": "4457c754-1501-46cd-8ff9-ddced91779b3_AMOUNT_MISMATCH_1765736077",
+      "txn_id": "4457c754-1501-46cd-8ff9-ddced91779b3",
+      "type": "AMOUNT_MISMATCH",
+      "severity": "HIGH",
+      "details": "Amount differs: mobile=\u20b91446.09, gateway=\u20b91280.09",
+      "sources_involved": [
+        "mobile",
+        "gateway"
+      ],
+      "timestamp": "2025-12-14T23:44:37.513239"
+    },
+    {
+      "id": "5abb9a84-d057-4d38-a385-94c285c0096a_AMOUNT_MISMATCH_1765736093",
+      "txn_id": "5abb9a84-d057-4d38-a385-94c285c0096a",
+      "type": "AMOUNT_MISMATCH",
+      "severity": "HIGH",
+      "details": "Amount differs: mobile=\u20b91355.12, core=\u20b91279.12",
+      "sources_involved": [
+        "mobile",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:44:53.251566"
+    },
+    {
+      "id": "5abb9a84-d057-4d38-a385-94c285c0096a_CURRENCY_MISMATCH_1765736093",
+      "txn_id": "5abb9a84-d057-4d38-a385-94c285c0096a",
+      "type": "CURRENCY_MISMATCH",
+      "severity": "HIGH",
+      "details": "Currency differs: mobile=INR, core=EUR",
+      "sources_involved": [
+        "mobile",
+        "core"
+      ],
+      "timestamp": "2025-12-14T23:44:53.283222"
+    }
+  ],
+  "statistics": {
+    "total_reconciled": 100,
+    "total_mismatches": 57,
+    "success_rate": 43.0,
+    "pending_reconciliation": 0,
+    "mismatch_types": {
+      "AMOUNT_MISMATCH": 31,
+      "STATUS_MISMATCH": 8,
+      "CURRENCY_MISMATCH": 8,
+      "ACCOUNT_MISMATCH": 3
+    },
+    "source_counts": {
+      "mobile": 16,
+      "gateway": 13,
+      "core": 16
+    }
+  },
+  "last_updated": 1765736093.3041418
+}

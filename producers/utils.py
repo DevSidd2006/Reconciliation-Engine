@@ -57,8 +57,12 @@ def apply_mismatch(txn, mismatch_type):
         txn["account_id"] = str(random.randint(1000000, 9999999))
     
     elif mismatch_type == "WRONG_SCHEMA":
-        # Send completely invalid structure - Schema Registry will reject this
-        return {"invalid": "schema", "malformed": True}
+        # Send invalid structure but keep required fields for display
+        txn["invalid_field"] = "malformed_data"
+        txn["extra_field"] = random.randint(1000, 9999)
+        # Remove a required field to make it invalid
+        if "currency" in txn:
+            del txn["currency"]
     
     elif mismatch_type == "DUPLICATE":
         # Keep same txn_id but change source to create duplicate scenario
