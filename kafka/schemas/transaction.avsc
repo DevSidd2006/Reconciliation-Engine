@@ -1,0 +1,15 @@
+{
+  "type": "record",
+  "name": "Transaction",
+  "namespace": "bank.reconciliation",
+  "fields": [
+    { "name": "txn_id", "type": "string" },
+    { "name": "amount", "type": "double" },
+    { "name": "status", "type": "string" },
+    { "name": "timestamp", "type": "string" },
+    { "name": "source", "type": "string" },
+
+    { "name": "account_id", "type": "string" },
+    { "name": "currency", "type": "string", "default": "INR" }
+  ]
+}
