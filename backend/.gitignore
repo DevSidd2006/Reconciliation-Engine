@@ -1,12 +1,16 @@
-# Environment variables
-.env
+# Virtual environment
+venv/
+env/
+ENV/
+.venv/
 
-# Python
+# Python cache
 __pycache__/
-*.pyc
 *.py[cod]
 *$py.class
 *.so
+
+# Distribution / packaging
 .Python
 build/
 develop-eggs/
@@ -24,16 +28,23 @@ wheels/
 .installed.cfg
 *.egg
 
-# Virtual environments
-venv/
-env/
-ENV/
-
-# IDE
-.vscode/
+# PyCharm
 .idea/
-*.swp
-*.swo
+
+# VS Code
+.vscode/
+
+# Environment variables
+.env
+.env.local
+
+# Database
+*.db
+*.sqlite3
+
+# Logs
+*.log
+logs/
 
 # OS
 .DS_Store

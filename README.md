@@ -25,6 +25,36 @@ Banks face reconciliation issues when transactions flowing through multiple syst
 
 ---
 
+## ⚡ Quick Start
+
+### Prerequisites
+- Node.js 18+
+- Python 3.9+
+- Redis (optional, for persistent state)
+- PostgreSQL (optional, for DB storage)
+- Kafka (optional, for streaming)
+
+### 1. Backend Setup
+```bash
+cd backend
+python -m venv venv
+.\venv\Scripts\activate   # Windows
+# source venv/bin/activate  # Mac/Linux
+pip install -r requirements.txt
+uvicorn app.main:app --reload --port 8000
+```
+
+### 2. Frontend Setup
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Access the dashboard at **http://localhost:5173**
+
+---
+
 ## 🏗 System Architecture
 
 The system uses an Event-Driven Architecture (EDA) to ingest and process transactions securely.
