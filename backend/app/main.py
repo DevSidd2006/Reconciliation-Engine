@@ -2,8 +2,19 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routers.transactions_router import router as txn_router
 from routers.mismatches_router import router as mismatch_router
+from utils.redis import banking_rate_limit_middleware
+import logging
 
-app = FastAPI(title="Reconciliation Backend")
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+
+app = FastAPI(title="Reconciliation Backend - Banking Grade")
+
+# Add banking-grade rate limiting middleware
+app.middleware("http")(banking_rate_limit_middleware)
 
 # Configure CORS
 app.add_middleware(
