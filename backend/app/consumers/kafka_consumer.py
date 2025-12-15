@@ -35,8 +35,12 @@ def save_transaction_to_db(txn_data):
             account_id=None    # Will be null for now
         )
         
+        from utils.db_retry import retry_db_operation
+        
         db.add(transaction)
-        db.commit()
+        
+        # Use retry logic for database operations
+        retry_db_operation(lambda: db.commit())
         print(f"💾 Saved transaction {txn_data['txn_id']} to database")
         
         # Run reconciliation engine to detect mismatches
