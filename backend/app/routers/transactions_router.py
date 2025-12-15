@@ -1,53 +1,106 @@
-from fastapi import APIRouter
-from datetime import datetime
-import random
+from fastapi import APIRouter, Depends, Query, HTTPException
+from sqlalchemy.orm import Session
+from typing import Optional
+from db.database import get_db
+from models.transaction import Transaction
+from schemas.transaction_schema import TransactionSchema
+from utils.response import success, error
 
 router = APIRouter()
 
-# Mock data for development
-def generate_mock_transactions(count=20):
-    sources = ["core", "gateway", "mobile"]
-    statuses = ["success", "pending", "failed"]
-    transactions = []
-    
-    for i in range(count):
-        transactions.append({
-            "txn_id": f"TXN{str(i+1).zfill(6)}",
-            "amount": round(random.uniform(100, 10000), 2),
-            "status": random.choice(statuses),
-            "timestamp": datetime.now().isoformat(),
-            "currency": "USD",
-            "account_id": f"ACC{random.randint(100, 999)}",
-            "source": random.choice(sources)
-        })
-    
-    return transactions
-
 @router.get("/")
-async def get_all_transactions():
-    """Get all transactions with mock data"""
-    # Socket.IO integration will be added later
-    return generate_mock_transactions()
+def get_all_transactions(
+    limit: int = Query(50, ge=1, le=1000, description="Number of transactions to return"),
+    offset: int = Query(0, ge=0, description="Number of transactions to skip"),
+    source: Optional[str] = Query(None, description="Filter by source (core, gateway, mobile)"),
+    status: Optional[str] = Query(None, description="Filter by status"),
+    db: Session = Depends(get_db)
+):
+    """Get transactions from database with pagination and filtering"""
+    try:
+        query = db.query(Transaction)
+        
+        # Apply filters
+        if source:
+            query = query.filter(Transaction.source == source)
+        if status:
+            query = query.filter(Transaction.status == status)
+        
+        # Get total count for pagination
+        total = query.count()
+        
+        # Apply pagination and ordering
+        transactions = query.order_by(Transaction.timestamp.desc()).offset(offset).limit(limit).all()
+        
+        return success(
+            data=transactions,
+            meta={
+                "total": total,
+                "limit": limit,
+                "offset": offset,
+                "has_more": offset + limit < total
+            }
+        )
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=error("Failed to retrieve transactions", "TXN_QUERY_ERROR")
+        )
 
 @router.get("/stats")
-def get_transaction_stats():
-    """Get transaction statistics"""
-    return {
-        "total": random.randint(5000, 10000),
-        "successful": random.randint(4500, 9000),
-        "pending": random.randint(100, 500),
-        "failed": random.randint(50, 200)
-    }
+def get_transaction_stats(db: Session = Depends(get_db)):
+    """Get real transaction statistics from database"""
+    try:
+        total = db.query(Transaction).count()
+        
+        # Count by status
+        success_count = db.query(Transaction).filter(Transaction.status == "SUCCESS").count()
+        pending_count = db.query(Transaction).filter(Transaction.status == "PENDING").count()
+        failed_count = db.query(Transaction).filter(Transaction.status == "FAILED").count()
+        
+        # Count by source
+        core_count = db.query(Transaction).filter(Transaction.source == "core").count()
+        gateway_count = db.query(Transaction).filter(Transaction.source == "gateway").count()
+        mobile_count = db.query(Transaction).filter(Transaction.source == "mobile").count()
+        
+        return success(
+            data={
+                "total": total,
+                "by_status": {
+                    "success": success_count,
+                    "pending": pending_count,
+                    "failed": failed_count
+                },
+                "by_source": {
+                    "core": core_count,
+                    "gateway": gateway_count,
+                    "mobile": mobile_count
+                }
+            }
+        )
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=error("Failed to retrieve transaction statistics", "TXN_STATS_ERROR")
+        )
 
 @router.get("/{txn_id}")
-def get_transaction_by_id(txn_id: str):
-    """Get a specific transaction by ID"""
-    return {
-        "txn_id": txn_id,
-        "amount": round(random.uniform(100, 10000), 2),
-        "status": random.choice(["success", "pending", "failed"]),
-        "timestamp": datetime.now().isoformat(),
-        "currency": "USD",
-        "account_id": f"ACC{random.randint(100, 999)}",
-        "source": random.choice(["core", "gateway", "mobile"])
-    }
+def get_transaction_by_id(txn_id: str, db: Session = Depends(get_db)):
+    """Get a specific transaction by ID from database"""
+    try:
+        transaction = db.query(Transaction).filter(Transaction.txn_id == txn_id).first()
+        
+        if not transaction:
+            raise HTTPException(
+                status_code=404,
+                detail=error("Transaction not found", "TXN_NOT_FOUND")
+            )
+        
+        return success(data=transaction)
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=error("Failed to retrieve transaction", "TXN_RETRIEVE_ERROR")
+        )
