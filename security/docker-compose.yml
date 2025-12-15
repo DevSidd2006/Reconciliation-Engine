@@ -60,7 +60,6 @@ services:
       - keycloak
     networks:
       - banking-security
-      - default
 
   # Certificate Authority (for development)
   ca-generator:
@@ -93,6 +92,3 @@ volumes:
 networks:
   banking-security:
     driver: bridge
-  default:
-    external: true
-    name: reconciliation-engine_default

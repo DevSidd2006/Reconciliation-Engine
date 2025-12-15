@@ -1,6 +1,6 @@
 from sqlalchemy import Column, String, Float, DateTime, Integer, Text, Boolean
 from sqlalchemy.sql import func
-from db.database import Base
+from ..db.database import Base
 
 class Transaction(Base):
     __tablename__ = "transactions"
@@ -19,6 +19,6 @@ class Transaction(Base):
     reconciled_at = Column(DateTime, nullable=True)
     reconciled_with_sources = Column(Text, nullable=True)  # JSON array of sources
     
-    # Audit fields
-    created_at = Column(DateTime, server_default=func.now())
-    updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now())
+    # Audit fields - use application time instead of server time
+    created_at = Column(DateTime, nullable=True)
+    updated_at = Column(DateTime, nullable=True)

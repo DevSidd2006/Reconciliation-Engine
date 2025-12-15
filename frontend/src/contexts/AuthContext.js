@@ -1,6 +1,9 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
+// Configure axios base URL for all requests
+axios.defaults.baseURL = 'http://localhost:8002';
+
 const AuthContext = createContext();
 
 export const useAuth = () => {
@@ -28,15 +31,21 @@ export const AuthProvider = ({ children }) => {
   // Check if user is authenticated on app load
   useEffect(() => {
     const checkAuth = async () => {
+      console.log('🔍 Checking auth, token:', token ? 'exists' : 'none');
+      
       if (token) {
         try {
-          const response = await axios.get('http://localhost:8000/auth/me');
+          console.log('🔍 Validating existing token...');
+          const response = await axios.get('/auth/me');
+          console.log('✅ Token valid, user:', response.data);
           setUser(response.data);
         } catch (error) {
-          console.error('Auth check failed:', error);
+          console.error('❌ Auth check failed:', error);
           logout();
         }
       }
+      
+      console.log('✅ Auth check complete, loading set to false');
       setLoading(false);
     };
 
@@ -45,10 +54,14 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (username, password) => {
     try {
-      const response = await axios.post('http://localhost:8000/auth/login', {
+      console.log('🔐 Attempting login for:', username);
+      
+      const response = await axios.post('/auth/login', {
         username,
         password
       });
+
+      console.log('✅ Login response:', response.data);
 
       const { access_token, user_info } = response.data;
       
@@ -56,12 +69,15 @@ export const AuthProvider = ({ children }) => {
       setUser(user_info);
       localStorage.setItem('auth_token', access_token);
       
+      console.log('✅ Login successful, user set:', user_info);
+      
       return { success: true };
     } catch (error) {
-      console.error('Login failed:', error);
+      console.error('❌ Login failed:', error);
+      console.error('❌ Error response:', error.response?.data);
       return { 
         success: false, 
-        error: error.response?.data?.detail || 'Login failed' 
+        error: error.response?.data?.detail || error.message || 'Login failed' 
       };
     }
   };

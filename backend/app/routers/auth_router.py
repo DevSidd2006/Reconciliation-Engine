@@ -37,54 +37,83 @@ def login(login_request: LoginRequest):
     """
     🔐 Banking User Authentication
     
-    Authenticates user against Keycloak and returns JWT tokens
+    Development mode: Simple authentication bypass
     """
     try:
-        # Keycloak token endpoint
-        token_url = f"{auth_service.keycloak_url}/auth/realms/{auth_service.realm}/protocol/openid_connect/token"
-        
-        # Prepare token request
-        token_data = {
-            'grant_type': 'password',
-            'client_id': 'reconciliation-frontend',
-            'username': login_request.username,
-            'password': login_request.password,
-            'scope': 'openid profile email banking'
+        # Development mode: Simple user validation
+        demo_users = {
+            'admin': {
+                'password': 'admin123',
+                'user_id': 'admin-user',
+                'username': 'admin',
+                'email': 'admin@banking.local',
+                'roles': ['admin'],
+                'groups': ['Banking Administrators'],
+                'permissions': ['read:transactions', 'write:transactions', 'read:mismatches', 'write:mismatches', 'read:stats', 'write:system']
+            },
+            'auditor': {
+                'password': 'auditor123',
+                'user_id': 'auditor-user',
+                'username': 'auditor',
+                'email': 'auditor@banking.local',
+                'roles': ['auditor'],
+                'groups': ['Banking Auditors'],
+                'permissions': ['read:transactions', 'read:mismatches', 'read:stats']
+            },
+            'operator': {
+                'password': 'operator123',
+                'user_id': 'operator-user',
+                'username': 'operator',
+                'email': 'operator@banking.local',
+                'roles': ['operator'],
+                'groups': ['Banking Operators'],
+                'permissions': ['read:transactions', 'read:mismatches']
+            }
         }
         
-        # Request tokens from Keycloak
-        response = requests.post(
-            token_url,
-            data=token_data,
-            headers={'Content-Type': 'application/x-www-form-urlencoded'},
-            timeout=10
+        # Validate user credentials
+        if login_request.username not in demo_users:
+            raise HTTPException(status_code=401, detail="Invalid username")
+        
+        user_data = demo_users[login_request.username]
+        if login_request.password != user_data['password']:
+            raise HTTPException(status_code=401, detail="Invalid password")
+        
+        # Create simple JWT token (development only)
+        import jwt
+        from datetime import datetime, timedelta
+        
+        payload = {
+            'user_id': user_data['user_id'],
+            'username': user_data['username'],
+            'roles': user_data['roles'],
+            'permissions': user_data['permissions'],
+            'exp': datetime.utcnow() + timedelta(hours=8),
+            'iat': datetime.utcnow()
+        }
+        
+        # Simple secret for development (use proper key in production)
+        token = jwt.encode(payload, 'dev-secret-key', algorithm='HS256')
+        
+        return TokenResponse(
+            access_token=token,
+            refresh_token=token,  # Same token for simplicity in dev
+            expires_in=28800,  # 8 hours
+            user_info={
+                'user_id': user_data['user_id'],
+                'username': user_data['username'],
+                'email': user_data['email'],
+                'roles': user_data['roles'],
+                'groups': user_data['groups'],
+                'permissions': user_data['permissions']
+            }
         )
         
-        if response.status_code != 200:
-            error_detail = "Invalid credentials"
-            try:
-                error_info = response.json()
-                if 'error_description' in error_info:
-                    error_detail = error_info['error_description']
-            except:
-                pass
-            
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail=error_detail
-            )
-        
-        token_response = response.json()
-        
-        # Validate and extract user info from access token
-        user_info = auth_service.validate_token(token_response['access_token'])
-        
-        # Get user permissions
-        permissions = auth_service.get_user_permissions(user_info.get('roles', []))
-        
-        # Create audit log
-        auth_service.create_audit_log(
-            user_id=user_info['user_id'],
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Login error: {e}")
+        raise HTTPException(status_code=500, detail="Authentication service error")
             action='LOGIN',
             resource='authentication',
             details={'username': login_request.username}
@@ -194,22 +223,36 @@ def logout(current_user: Dict[str, Any] = Depends(get_current_user)):
         )
 
 @router.get("/me", response_model=UserInfo)
-def get_current_user_info(current_user: Dict[str, Any] = Depends(get_current_user)):
+def get_current_user_info(authorization: str = Depends(HTTPBearer())):
     """
     👤 Get Current User Information
     
-    Returns current user's profile and permissions
+    Development mode: Simple JWT validation
     """
-    permissions = auth_service.get_user_permissions(current_user.get('roles', []))
-    
-    return UserInfo(
-        user_id=current_user['user_id'],
-        username=current_user['username'],
-        email=current_user['email'],
-        roles=current_user['roles'],
-        groups=current_user['groups'],
-        permissions=permissions
-    )
+    try:
+        import jwt
+        
+        # Extract token from authorization header
+        token = authorization.credentials
+        
+        # Decode JWT token (development mode)
+        payload = jwt.decode(token, 'dev-secret-key', algorithms=['HS256'])
+        
+        return UserInfo(
+            user_id=payload['user_id'],
+            username=payload['username'],
+            email=f"{payload['username']}@banking.local",
+            roles=payload['roles'],
+            groups=[f"Banking {payload['roles'][0].title()}s"],
+            permissions=payload['permissions']
+        )
+        
+    except jwt.ExpiredSignatureError:
+        raise HTTPException(status_code=401, detail="Token expired")
+    except jwt.InvalidTokenError:
+        raise HTTPException(status_code=401, detail="Invalid token")
+    except Exception as e:
+        raise HTTPException(status_code=401, detail="Authentication failed")
 
 @router.get("/permissions")
 def get_user_permissions(current_user: Dict[str, Any] = Depends(get_current_user)):

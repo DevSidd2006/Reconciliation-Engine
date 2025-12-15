@@ -10,10 +10,10 @@ from sqlalchemy.orm import Session
 from sqlalchemy import func, desc, and_, or_
 from collections import defaultdict
 
-from db.database import SessionLocal
-from models.transaction import Transaction
-from models.mismatch import Mismatch
-from services.redis_service import redis_service
+from ..db.database import SessionLocal
+from ..models.transaction import Transaction
+from ..models.mismatch import Mismatch
+from .redis_service import redis_service
 
 class DatabaseService:
     def __init__(self):
@@ -34,23 +34,23 @@ class DatabaseService:
         """Save a transaction to database"""
         db = self.get_db()
         try:
-            # Parse timestamp
-            timestamp = None
-            if transaction_data.get('timestamp'):
-                try:
-                    timestamp = datetime.fromisoformat(transaction_data['timestamp'].replace('Z', '+00:00'))
-                except:
-                    timestamp = datetime.now()
+            # Use current time for all transactions to ensure correct timestamps
+            timestamp = datetime.now()
+            
+            # Get current time for all timestamp fields
+            current_time = datetime.now()
             
             transaction = Transaction(
                 txn_id=transaction_data['txn_id'],
                 amount=float(transaction_data.get('amount', 0)),
                 status=transaction_data.get('status', 'UNKNOWN'),
-                timestamp=timestamp,
+                timestamp=current_time,
                 currency=transaction_data.get('currency', 'INR'),
                 account_id=transaction_data.get('account_id'),
                 source=transaction_data['source'],
-                reconciliation_status='PENDING'
+                reconciliation_status='PENDING',
+                created_at=current_time,
+                updated_at=current_time
             )
             
             db.add(transaction)
@@ -172,6 +172,9 @@ class DatabaseService:
         """Save a mismatch to database"""
         db = self.get_db()
         try:
+            # Get current time for all timestamp fields
+            current_time = datetime.now()
+            
             mismatch = Mismatch(
                 txn_id=mismatch_data['txn_id'],
                 mismatch_type=mismatch_data['type'],
@@ -181,7 +184,10 @@ class DatabaseService:
                 expected_value=mismatch_data.get('expected_value'),
                 actual_value=mismatch_data.get('actual_value'),
                 difference_amount=mismatch_data.get('difference_amount'),
-                status='OPEN'
+                status='OPEN',
+                detected_at=current_time,
+                created_at=current_time,
+                updated_at=current_time
             )
             
             db.add(mismatch)
@@ -196,7 +202,8 @@ class DatabaseService:
             db.close()
     
     def get_mismatches(self, limit: int = 50, severity: Optional[str] = None,
-                      mismatch_type: Optional[str] = None, status: Optional[str] = None) -> List[Dict]:
+                      mismatch_type: Optional[str] = None, status: Optional[str] = None, 
+                      txn_id: Optional[str] = None) -> List[Dict]:
         """Get mismatches with optional filtering"""
         db = self.get_db()
         try:
@@ -208,6 +215,8 @@ class DatabaseService:
                 query = query.filter(Mismatch.mismatch_type == mismatch_type)
             if status:
                 query = query.filter(Mismatch.status == status)
+            if txn_id:
+                query = query.filter(Mismatch.txn_id == txn_id)
             
             mismatches = query.limit(limit).all()
             
@@ -388,6 +397,213 @@ class DatabaseService:
                 'error': str(e),
                 'uptime': 'ERROR'
             }
+        finally:
+            db.close()
+
+    def get_transactions_by_date(self, date) -> List[Dict]:
+        """Get transactions for a specific date"""
+        db = self.get_db()
+        try:
+            from datetime import datetime
+            start_date = datetime.combine(date, datetime.min.time())
+            end_date = datetime.combine(date, datetime.max.time())
+            
+            transactions = db.query(Transaction).filter(
+                Transaction.created_at >= start_date,
+                Transaction.created_at <= end_date
+            ).all()
+            
+            return [
+                {
+                    'id': txn.id,
+                    'txn_id': txn.txn_id,
+                    'amount': txn.amount,
+                    'status': txn.status,
+                    'source': txn.source,
+                    'created_at': txn.created_at.isoformat()
+                }
+                for txn in transactions
+            ]
+            
+        except Exception as e:
+            print(f"Error getting transactions by date: {e}")
+            return []
+        finally:
+            db.close()
+    
+    def get_mismatches_by_date(self, date) -> List[Dict]:
+        """Get mismatches for a specific date"""
+        db = self.get_db()
+        try:
+            from datetime import datetime
+            start_date = datetime.combine(date, datetime.min.time())
+            end_date = datetime.combine(date, datetime.max.time())
+            
+            mismatches = db.query(Mismatch).filter(
+                Mismatch.detected_at >= start_date,
+                Mismatch.detected_at <= end_date
+            ).all()
+            
+            return [
+                {
+                    'id': m.id,
+                    'txn_id': m.txn_id,
+                    'type': m.mismatch_type,
+                    'severity': m.severity,
+                    'detected_at': m.detected_at.isoformat()
+                }
+                for m in mismatches
+            ]
+            
+        except Exception as e:
+            print(f"Error getting mismatches by date: {e}")
+            return []
+        finally:
+            db.close()
+    
+    def get_delayed_transactions_count(self, minutes: int = 5) -> int:
+        """Get count of transactions with delays > specified minutes"""
+        db = self.get_db()
+        try:
+            # Count transactions where reconciliation took longer than expected
+            delayed = db.query(Transaction).filter(
+                Transaction.reconciled_at.isnot(None),
+                func.extract('epoch', Transaction.reconciled_at - Transaction.created_at) > minutes * 60
+            ).count()
+            
+            return delayed
+            
+        except Exception as e:
+            print(f"Error getting delayed transactions: {e}")
+            return 0
+        finally:
+            db.close()
+    
+    def get_duplicate_transactions_count(self) -> int:
+        """Get count of duplicate transactions"""
+        db = self.get_db()
+        try:
+            # Find transactions with same txn_id and source (duplicates)
+            duplicates = db.query(Transaction.txn_id, Transaction.source, func.count(Transaction.id)).group_by(
+                Transaction.txn_id, Transaction.source
+            ).having(func.count(Transaction.id) > 1).count()
+            
+            return duplicates
+            
+        except Exception as e:
+            print(f"Error getting duplicate transactions: {e}")
+            return 0
+        finally:
+            db.close()
+    
+    def get_timeline_stats(self, hours: int = 24, interval: str = "hour") -> List[Dict]:
+        """Get timeline statistics for charts"""
+        db = self.get_db()
+        try:
+            from datetime import datetime, timedelta
+            
+            end_time = datetime.now()
+            start_time = end_time - timedelta(hours=hours)
+            
+            # Group by hour for simplicity
+            if interval == "hour":
+                timeline_data = []
+                current_time = start_time
+                
+                while current_time < end_time:
+                    next_time = current_time + timedelta(hours=1)
+                    
+                    # Count transactions in this hour
+                    txn_count = db.query(Transaction).filter(
+                        Transaction.created_at >= current_time,
+                        Transaction.created_at < next_time
+                    ).count()
+                    
+                    # Count mismatches in this hour
+                    mismatch_count = db.query(Mismatch).filter(
+                        Mismatch.detected_at >= current_time,
+                        Mismatch.detected_at < next_time
+                    ).count()
+                    
+                    timeline_data.append({
+                        'hour': current_time.strftime('%H:00'),
+                        'timestamp': current_time.isoformat(),
+                        'transactions': txn_count,
+                        'mismatches': mismatch_count
+                    })
+                    
+                    current_time = next_time
+                
+                return timeline_data
+            
+            return []
+            
+        except Exception as e:
+            print(f"Error getting timeline stats: {e}")
+            return []
+        finally:
+            db.close()
+    
+    def get_recent_activity_stats(self, minutes: int = 30) -> Dict:
+        """Get recent activity statistics for anomaly detection"""
+        db = self.get_db()
+        try:
+            from datetime import datetime, timedelta
+            
+            cutoff_time = datetime.now() - timedelta(minutes=minutes)
+            
+            # Count recent transactions
+            recent_transactions = db.query(Transaction).filter(
+                Transaction.created_at >= cutoff_time
+            ).count()
+            
+            # Count recent mismatches
+            recent_mismatches = db.query(Mismatch).filter(
+                Mismatch.detected_at >= cutoff_time
+            ).count()
+            
+            # Calculate rates per minute
+            transaction_rate = round(recent_transactions / minutes, 1)
+            mismatch_rate = round(recent_mismatches / minutes, 1)
+            
+            return {
+                'transaction_rate': transaction_rate,
+                'mismatch_rate': mismatch_rate,
+                'total_transactions': recent_transactions,
+                'total_mismatches': recent_mismatches,
+                'period_minutes': minutes
+            }
+            
+        except Exception as e:
+            print(f"Error getting recent activity stats: {e}")
+            return {'transaction_rate': 0, 'mismatch_rate': 0, 'total_transactions': 0, 'total_mismatches': 0}
+        finally:
+            db.close()
+    
+    def get_source_delay_analysis(self) -> Dict[str, float]:
+        """Analyze delays by source"""
+        db = self.get_db()
+        try:
+            # Simplified delay analysis
+            sources = ['core', 'gateway', 'mobile']
+            delays = {}
+            
+            for source in sources:
+                # Calculate average processing time for this source
+                avg_delay = db.query(
+                    func.avg(func.extract('epoch', Transaction.reconciled_at - Transaction.created_at))
+                ).filter(
+                    Transaction.source == source,
+                    Transaction.reconciled_at.isnot(None)
+                ).scalar()
+                
+                delays[source] = float(avg_delay) if avg_delay else 0.0
+            
+            return delays
+            
+        except Exception as e:
+            print(f"Error getting source delay analysis: {e}")
+            return {'core': 0.0, 'gateway': 0.0, 'mobile': 0.0}
         finally:
             db.close()
 

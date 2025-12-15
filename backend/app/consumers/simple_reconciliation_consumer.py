@@ -10,7 +10,10 @@ import os
 # Add parent directory to path for imports
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from services.real_reconciliation_service import reconciliation_engine
+try:
+    from services.real_reconciliation_service import reconciliation_engine
+except ImportError:
+    from app.services.real_reconciliation_service import reconciliation_engine
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -49,7 +52,10 @@ def consume_topic(topic_name):
                         
                         # Save to database
                         try:
-                            from services.database_service import db_service
+                            try:
+                                from services.database_service import db_service
+                            except ImportError:
+                                from app.services.database_service import db_service
                             db_service.save_transaction(transaction)
                         except Exception as e:
                             logger.warning(f"Failed to save transaction to database: {e}")

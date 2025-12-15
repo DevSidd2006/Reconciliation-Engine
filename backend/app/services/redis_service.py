@@ -26,7 +26,7 @@ class RedisService:
         self.CACHE_TTL = {
             'api_response': 30,          # API responses - 30 seconds
             'transaction_temp': 300,     # In-flight transactions - 5 minutes
-            'mismatch_throttle': 60,     # Mismatch check throttling - 1 minute
+            'mismatch_throttle': 5,      # Mismatch check throttling - 5 seconds
             'stats_cache': 120,          # Statistics cache - 2 minutes
             'reconciliation_lock': 30,   # Reconciliation locks - 30 seconds
             'rate_limit': 3600          # Rate limiting - 1 hour

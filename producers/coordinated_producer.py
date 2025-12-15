@@ -3,7 +3,7 @@ import time
 import json
 import uuid
 import random
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from utils import apply_mismatch, choose_mismatch
 
 class CoordinatedProducer:
@@ -42,7 +42,7 @@ class CoordinatedProducer:
             "txn_id": str(uuid.uuid4()),
             "amount": round(random.uniform(100, 2000), 2),
             "status": random.choice(["SUCCESS", "FAILED", "PENDING"]),
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%f"),
             "currency": "INR",
             "account_id": str(random.randint(100000, 999999)),
         }
@@ -88,7 +88,7 @@ class CoordinatedProducer:
                 print(f"   ❌ [{source.upper()}] Failed to send")
             
             # Small delay between sources to simulate real-world timing
-            time.sleep(random.uniform(0.1, 0.5))
+            time.sleep(random.uniform(0.5, 2.0))
     
     def run(self):
         """Run the coordinated producer"""
@@ -100,8 +100,8 @@ class CoordinatedProducer:
             while True:
                 self.send_coordinated_transaction()
                 
-                # Wait before next transaction (3-8 seconds)
-                wait_time = random.uniform(3, 8)
+                # Wait before next transaction (30-60 seconds for very slow observation)
+                wait_time = random.uniform(30, 60)
                 print(f"   ⏳ Waiting {wait_time:.1f}s before next transaction...\n")
                 time.sleep(wait_time)
                 

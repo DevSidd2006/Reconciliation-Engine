@@ -1,6 +1,6 @@
 from sqlalchemy import Column, String, DateTime, Integer, Text, Float
 from sqlalchemy.sql import func
-from db.database import Base
+from ..db.database import Base
 
 class Mismatch(Base):
     __tablename__ = "mismatches"
@@ -23,7 +23,7 @@ class Mismatch(Base):
     resolved_by = Column(String, nullable=True)
     resolution_notes = Column(Text, nullable=True)
     
-    # Audit fields
-    detected_at = Column(DateTime, server_default=func.now())
-    created_at = Column(DateTime, server_default=func.now())
-    updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now())
+    # Audit fields - use application time instead of server time
+    detected_at = Column(DateTime, nullable=True)
+    created_at = Column(DateTime, nullable=True)
+    updated_at = Column(DateTime, nullable=True)

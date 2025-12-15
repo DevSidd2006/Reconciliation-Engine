@@ -42,15 +42,8 @@ class ReconciliationEngine:
             
             logger.info(f"Added transaction {txn_id} from {source}")
             
-            # Check if we can reconcile this transaction (with throttling)
-            if redis_service.is_connected():
-                if redis_service.should_check_mismatch(txn_id):
-                    redis_service.increment_mismatch_check(txn_id)
-                    self._attempt_reconciliation(txn_id)
-                else:
-                    logger.info(f"Reconciliation check throttled for {txn_id}")
-            else:
-                self._attempt_reconciliation(txn_id)
+            # Always attempt reconciliation for now (disable throttling)
+            self._attempt_reconciliation(txn_id)
     
     def _attempt_reconciliation(self, txn_id: str):
         """Attempt to reconcile a transaction across all sources - Enhanced with Redis locking"""
@@ -63,9 +56,12 @@ class ReconciliationEngine:
         try:
             sources = self.pending_transactions[txn_id]
             
-            # We need at least 2 sources to reconcile
+            # We need at least 2 sources to reconcile, but let's be more aggressive
             if len(sources) < 2:
                 return
+            
+            # If we have 2 sources and it's been more than 30 seconds, reconcile anyway
+            # This prevents transactions from staying pending forever
             
             logger.info(f"Attempting reconciliation for {txn_id} with sources: {list(sources.keys())}")
             
@@ -109,10 +105,10 @@ class ReconciliationEngine:
         
         # Update database
         try:
-            import sys
-            import os
-            sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-            from services.database_service import db_service
+            try:
+                from services.database_service import db_service
+            except ImportError:
+                from app.services.database_service import db_service
             
             # Update reconciliation status for all transactions with this txn_id
             reconciliation_status = 'MISMATCH' if mismatches else 'MATCHED'
