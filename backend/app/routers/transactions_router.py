@@ -26,13 +26,7 @@ def generate_mock_transactions(count=20):
 @router.get("/")
 async def get_all_transactions():
     """Get all transactions with mock data"""
-    # Emit a mock real-time event for testing
-    from app.utils.socket_manager import socket_manager
-    import asyncio
-    
-    data = generate_mock_transactions(1)[0]
-    await socket_manager.emit_transaction(data)
-    
+    # Socket.IO integration will be added later
     return generate_mock_transactions()
 
 @router.get("/stats")

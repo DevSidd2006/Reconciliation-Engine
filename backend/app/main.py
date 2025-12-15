@@ -1,9 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers.transactions_router import router as txn_router
-from app.routers.mismatches_router import router as mismatch_router
-from app.utils.socket_manager import socket_manager
-import socketio
+from routers.transactions_router import router as txn_router
+from routers.mismatches_router import router as mismatch_router
 
 app = FastAPI(title="Reconciliation Backend")
 
@@ -16,8 +14,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Mount Socket.IO app
-app.mount("/socket.io", socket_manager.app)
+# Socket.IO will be added later
 
 app.include_router(txn_router, prefix="/transactions", tags=["Transactions"])
 app.include_router(mismatch_router, prefix="/mismatches", tags=["Mismatches"])

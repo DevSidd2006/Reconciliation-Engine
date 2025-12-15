@@ -9,6 +9,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from db.database import SessionLocal
 from models.transaction import Transaction
+from services.mismatch_service import ReconciliationEngine
 
 # Kafka configuration
 KAFKA_BROKER = "localhost:9092"
@@ -37,6 +38,15 @@ def save_transaction_to_db(txn_data):
         db.add(transaction)
         db.commit()
         print(f"💾 Saved transaction {txn_data['txn_id']} to database")
+        
+        # Run reconciliation engine to detect mismatches
+        engine = ReconciliationEngine(db)
+        mismatches = engine.detect_mismatches(transaction.txn_id)
+        
+        if mismatches:
+            print(f"⚠️ MISMATCHES FOUND for {transaction.txn_id}: {mismatches}")
+        else:
+            print(f"✔ Transaction clean: {transaction.txn_id}")
         
     except Exception as e:
         print(f"❌ Error saving transaction: {e}")
