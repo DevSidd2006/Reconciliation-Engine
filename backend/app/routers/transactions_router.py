@@ -1,10 +1,15 @@
 from fastapi import APIRouter, Depends, Query, HTTPException
 from sqlalchemy.orm import Session
 from typing import Optional
+import logging
 from db.database import get_db
 from models.transaction import Transaction
 from schemas.transaction_schema import TransactionSchema
 from utils.response import success, error
+from utils.redis import cache_manager
+
+# Configure logging
+logger = logging.getLogger(__name__)
 
 router = APIRouter()
 
@@ -49,8 +54,17 @@ def get_all_transactions(
 
 @router.get("/stats")
 def get_transaction_stats(db: Session = Depends(get_db)):
-    """Get real transaction statistics from database"""
+    """Get real transaction statistics from database with banking-grade Redis caching"""
     try:
+        # Check Redis cache first using banking cache manager
+        cached = cache_manager.get_cached_stats("transactions")
+        if cached:
+            logger.debug("Transaction stats served from cache")
+            return success(data=cached)
+        
+        logger.debug("Computing transaction stats from database")
+        
+        # If not cached, compute from database
         total = db.query(Transaction).count()
         
         # Count by status
@@ -63,22 +77,27 @@ def get_transaction_stats(db: Session = Depends(get_db)):
         gateway_count = db.query(Transaction).filter(Transaction.source == "gateway").count()
         mobile_count = db.query(Transaction).filter(Transaction.source == "mobile").count()
         
-        return success(
-            data={
-                "total": total,
-                "by_status": {
-                    "success": success_count,
-                    "pending": pending_count,
-                    "failed": failed_count
-                },
-                "by_source": {
-                    "core": core_count,
-                    "gateway": gateway_count,
-                    "mobile": mobile_count
-                }
+        result = {
+            "total": total,
+            "by_status": {
+                "success": success_count,
+                "pending": pending_count,
+                "failed": failed_count
+            },
+            "by_source": {
+                "core": core_count,
+                "gateway": gateway_count,
+                "mobile": mobile_count
             }
-        )
+        }
+        
+        # Cache result using banking cache manager
+        cache_manager.cache_stats("transactions", result)
+        logger.info(f"Transaction stats computed and cached: {total} total transactions")
+        
+        return success(data=result)
     except Exception as e:
+        logger.error(f"Failed to retrieve transaction statistics: {e}")
         raise HTTPException(
             status_code=500,
             detail=error("Failed to retrieve transaction statistics", "TXN_STATS_ERROR")
