@@ -42,7 +42,7 @@ class BankingRedisClient:
         self.max_retries = max_retries
         self.retry_delay = retry_delay
         self._client = None
-        self._connect()
+        # Don't connect immediately - use lazy loading
     
     def _connect(self) -> None:
         """Establish Redis connection with retry logic"""
@@ -58,7 +58,7 @@ class BankingRedisClient:
                 )
                 # Test connection
                 self._client.ping()
-                logger.info("Redis connection established successfully")
+                logger.info(f"Redis connection established successfully to {redis_config.REDIS_URL}")
                 return
             except Exception as e:
                 logger.warning(f"Redis connection attempt {attempt + 1} failed: {e}")
@@ -66,10 +66,13 @@ class BankingRedisClient:
                     time.sleep(self.retry_delay)
                 else:
                     logger.error("Failed to establish Redis connection after all retries")
-                    raise
+                    # In production, we should fail gracefully instead of raising
+                    logger.warning("Redis unavailable - operating in degraded mode")
+                    self._client = None
+                    return
     
-    def get_client(self) -> redis.Redis:
-        """Get the underlying Redis client instance"""
+    def get_client(self) -> Optional[redis.Redis]:
+        """Get the underlying Redis client instance with lazy loading"""
         if self._client is None:
             self._connect()
         return self._client
@@ -85,7 +88,12 @@ class BankingRedisClient:
             Deserialized JSON data or None if key doesn't exist or error occurs
         """
         try:
-            json_str = self._client.get(key)
+            client = self.get_client()
+            if client is None:
+                logger.debug(f"Redis unavailable for GET_JSON key {key}")
+                return None
+            
+            json_str = client.get(key)
             if json_str:
                 return json.loads(json_str)
             return None
@@ -109,11 +117,16 @@ class BankingRedisClient:
             True if successful, False otherwise
         """
         try:
+            client = self.get_client()
+            if client is None:
+                logger.debug(f"Redis unavailable for SET_JSON key {key}")
+                return False
+            
             json_str = json.dumps(data, default=str, ensure_ascii=False)
             if ttl:
-                return bool(self._client.setex(key, ttl, json_str))
+                return bool(client.setex(key, ttl, json_str))
             else:
-                return bool(self._client.set(key, json_str))
+                return bool(client.set(key, json_str))
         except (TypeError, ValueError) as e:
             logger.error(f"JSON serialization error for key {key}: {e}")
             return False
@@ -132,7 +145,11 @@ class BankingRedisClient:
             True if key was deleted, False otherwise
         """
         try:
-            return bool(self._client.delete(key))
+            client = self.get_client()
+            if client is None:
+                logger.debug(f"Redis unavailable for DELETE key {key}")
+                return False
+            return bool(client.delete(key))
         except Exception as e:
             logger.error(f"Redis DELETE error for key {key}: {e}")
             return False
@@ -149,7 +166,11 @@ class BankingRedisClient:
             True if value was added, False otherwise
         """
         try:
-            return bool(self._client.sadd(key, value))
+            client = self.get_client()
+            if client is None:
+                logger.debug(f"Redis unavailable for SADD key {key}")
+                return False
+            return bool(client.sadd(key, value))
         except Exception as e:
             logger.error(f"Redis SADD error for key {key}: {e}")
             return False
@@ -166,7 +187,11 @@ class BankingRedisClient:
             True if value exists in set, False otherwise
         """
         try:
-            return bool(self._client.sismember(key, value))
+            client = self.get_client()
+            if client is None:
+                logger.debug(f"Redis unavailable for SISMEMBER key {key}")
+                return False
+            return bool(client.sismember(key, value))
         except Exception as e:
             logger.error(f"Redis SISMEMBER error for key {key}: {e}")
             return False
@@ -183,7 +208,11 @@ class BankingRedisClient:
             True if value was removed, False otherwise
         """
         try:
-            return bool(self._client.srem(key, value))
+            client = self.get_client()
+            if client is None:
+                logger.debug(f"Redis unavailable for SREM key {key}")
+                return False
+            return bool(client.srem(key, value))
         except Exception as e:
             logger.error(f"Redis SREM error for key {key}: {e}")
             return False
@@ -201,7 +230,12 @@ class BankingRedisClient:
             New counter value, or 0 if error occurred
         """
         try:
-            pipe = self._client.pipeline()
+            client = self.get_client()
+            if client is None:
+                logger.debug(f"Redis unavailable for INCR key {key}")
+                return 0
+            
+            pipe = client.pipeline()
             pipe.incrby(key, amount)
             if ttl:
                 pipe.expire(key, ttl)
@@ -222,7 +256,11 @@ class BankingRedisClient:
             True if key exists, False otherwise
         """
         try:
-            return bool(self._client.exists(key))
+            client = self.get_client()
+            if client is None:
+                logger.debug(f"Redis unavailable for EXISTS key {key}")
+                return False
+            return bool(client.exists(key))
         except Exception as e:
             logger.error(f"Redis EXISTS error for key {key}: {e}")
             return False

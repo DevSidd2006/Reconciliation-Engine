@@ -127,14 +127,141 @@ backend/
 2. Install package: `pip install package-name`
 3. Update requirements: `pip freeze > requirements.txt`
 
+## Security Stack Automation
+
+### Automated Full Stack Startup
+
+The project includes automated scripts to start the complete security stack with:
+- Keycloak (Identity Provider)
+- Traefik (HTTPS Reverse Proxy)
+- Backend API
+- Redis Cache
+- PostgreSQL Database
+- Automatic realm import
+- Dynamic token generation
+
+### Quick Start - Security Stack
+
+**Windows (Recommended):**
+```bash
+# From backend directory
+scripts\start_security_stack.bat
+```
+
+**Cross-Platform Python:**
+```bash
+# From backend directory
+python scripts/start_security_stack.py
+```
+
+**PowerShell (Windows):**
+```bash
+# From backend directory
+powershell -ExecutionPolicy Bypass -File scripts/start_security_stack.ps1
+```
+
+**Interactive Token Generation:**
+```bash
+python scripts/start_security_stack.py --interactive
+```
+
+### What the Script Does
+
+1. ✅ **Loads environment variables** from `.env`
+2. ✅ **Checks Docker availability**
+3. ✅ **Starts all services** via docker-compose
+4. ✅ **Waits for services** to be healthy
+5. ✅ **Imports Keycloak realm** automatically
+6. ✅ **Runs database migrations**
+7. ✅ **Generates test tokens** for all roles
+8. ✅ **Validates all services** are working
+
+### After Startup
+
+Once the script completes, you'll have:
+
+- **Keycloak Admin**: http://localhost:8080
+- **API Endpoint**: http://localhost:8000
+- **Traefik Dashboard**: http://localhost:8081
+- **HTTPS** (if configured): https://your-domain.com
+- **Test Tokens**: `tmp/tokens.json`
+
+### Test Users & Roles
+
+The system includes pre-configured test users:
+
+| Username | Password | Role | Description |
+|----------|----------|------|-------------|
+| admin | admin123 | admin | Full system access |
+| auditor | auditor123 | auditor | Read-only audit access |
+| operator | operator123 | operator | Transaction operations |
+| viewer | viewer123 | viewer | Basic read access |
+
+### Manual Token Generation
+
+Generate tokens separately:
+```bash
+python scripts/generate_tokens.py
+```
+
+Interactive mode:
+```bash
+python scripts/generate_tokens.py --interactive
+```
+
+### Environment Configuration
+
+Ensure your `.env` file contains all required variables:
+- `POSTGRES_PASSWORD`
+- `REDIS_PASSWORD`
+- `KEYCLOAK_ADMIN_PASSWORD`
+- `KEYCLOAK_SERVER_URL`
+- `KEYCLOAK_REALM`
+- `KEYCLOAK_CLIENT_ID`
+- `KEYCLOAK_CLIENT_SECRET`
+- `TRAEFIK_DOMAIN`
+- `TRAEFIK_EMAIL`
+
+### Troubleshooting
+
+**Docker not running:**
+```bash
+# Start Docker Desktop or Docker service
+```
+
+**Port conflicts:**
+```bash
+# Stop conflicting services
+docker-compose down
+```
+
+**Permission errors (Windows):**
+```bash
+# Run as Administrator or use:
+powershell -ExecutionPolicy Bypass -File scripts/start_security_stack.ps1
+```
+
+**Keycloak realm import fails:**
+- Check `keycloak/realm-export.json` exists
+- Verify Keycloak admin credentials in `.env`
+
 ## Current Status
 
 ✅ Virtual environment created at `backend/venv/`
-✅ Backend is currently running on http://localhost:8000
-✅ Frontend is currently running on http://localhost:5173
+✅ Security stack automation scripts ready
+✅ Cross-platform startup support (Windows/Linux/Mac)
+✅ Automated Keycloak realm import
+✅ Dynamic token generation
+✅ Health checks and validation
 
-To restart with virtual environment, stop the current backend and use:
+### Development Workflow
+
+**Start everything:**
 ```bash
-cd backend
+scripts\start_security_stack.bat
+```
+
+**Development mode (API only):**
+```bash
 .\venv\Scripts\uvicorn.exe app.main:app --reload --port 8000
 ```
