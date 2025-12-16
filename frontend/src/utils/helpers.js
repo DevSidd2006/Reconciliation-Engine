@@ -1,83 +1,153 @@
-import { format, formatDistanceToNow } from 'date-fns';
+// Format relative time (e.g., "2 minutes ago")
+export const formatRelativeTime = (dateString) => {
+  try {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffInSeconds = Math.floor((now - date) / 1000);
 
-export const formatCurrency = (amount, currency = 'USD') => {
-    return new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: currency,
-    }).format(amount);
+    if (diffInSeconds < 60) {
+      return `${diffInSeconds}s ago`;
+    } else if (diffInSeconds < 3600) {
+      const minutes = Math.floor(diffInSeconds / 60);
+      return `${minutes}m ago`;
+    } else if (diffInSeconds < 86400) {
+      const hours = Math.floor(diffInSeconds / 3600);
+      return `${hours}h ago`;
+    } else {
+      const days = Math.floor(diffInSeconds / 86400);
+      return `${days}d ago`;
+    }
+  } catch (error) {
+    return 'Unknown';
+  }
 };
 
-export const formatDate = (date) => {
-    if (!date) return 'N/A';
-    return format(new Date(date), 'MMM dd, yyyy HH:mm:ss');
-};
-
-export const formatRelativeTime = (date) => {
-    if (!date) return 'N/A';
-    return formatDistanceToNow(new Date(date), { addSuffix: true });
-};
-
-export const getStatusColor = (status) => {
-    const colors = {
-        success: 'text-success-light',
-        pending: 'text-warning-light',
-        failed: 'text-danger-light',
-    };
-    return colors[status?.toLowerCase()] || 'text-dark-400';
-};
-
-export const getStatusBadge = (status) => {
-    const badges = {
-        success: 'badge-success',
-        pending: 'badge-warning',
-        failed: 'badge-danger',
-    };
-    return badges[status?.toLowerCase()] || 'badge-info';
-};
-
-export const getMismatchColor = (type) => {
-    const colors = {
-        amount_mismatch: 'text-danger-light',
-        status_mismatch: 'text-warning-light',
-        timestamp_mismatch: 'text-primary-400',
-        missing_transaction: 'text-danger-light',
-    };
-    return colors[type] || 'text-dark-400';
-};
-
+// Get mismatch badge styling
 export const getMismatchBadge = (type) => {
-    const badges = {
-        amount_mismatch: 'badge-danger',
-        status_mismatch: 'badge-warning',
-        timestamp_mismatch: 'badge-info',
-        missing_transaction: 'badge-danger',
-    };
-    return badges[type] || 'badge-info';
+  const baseClasses = 'px-2 py-1 rounded-full text-xs font-medium';
+  
+  switch (type) {
+    case 'MISSING_IN_CORE':
+      return `${baseClasses} bg-red-100 text-red-800`;
+    case 'MISSING_IN_GATEWAY':
+      return `${baseClasses} bg-orange-100 text-orange-800`;
+    case 'MISSING_IN_MOBILE':
+      return `${baseClasses} bg-purple-100 text-purple-800`;
+    case 'MULTIPLE_MISMATCH':
+      return `${baseClasses} bg-red-100 text-red-800`;
+    default:
+      return `${baseClasses} bg-gray-100 text-gray-800`;
+  }
 };
 
+// Format currency
+export const formatCurrency = (amount, currency = 'USD') => {
+  try {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: currency,
+    }).format(amount);
+  } catch (error) {
+    return `$${amount}`;
+  }
+};
+
+// Format number with commas
+export const formatNumber = (num) => {
+  try {
+    return new Intl.NumberFormat('en-US').format(num);
+  } catch (error) {
+    return num.toString();
+  }
+};
+
+// Format percentage
+export const formatPercentage = (value, decimals = 1) => {
+  try {
+    return `${value.toFixed(decimals)}%`;
+  } catch (error) {
+    return `${value}%`;
+  }
+};
+
+// Get status badge styling
+export const getStatusBadge = (status) => {
+  const baseClasses = 'px-2 py-1 rounded-full text-xs font-medium';
+  
+  switch (status?.toLowerCase()) {
+    case 'success':
+      return `${baseClasses} bg-green-100 text-green-800`;
+    case 'pending':
+      return `${baseClasses} bg-yellow-100 text-yellow-800`;
+    case 'failed':
+      return `${baseClasses} bg-red-100 text-red-800`;
+    default:
+      return `${baseClasses} bg-gray-100 text-gray-800`;
+  }
+};
+
+// Truncate text
 export const truncateText = (text, maxLength = 50) => {
-    if (!text) return '';
-    if (text.length <= maxLength) return text;
-    return text.substring(0, maxLength) + '...';
+  if (!text) return '';
+  if (text.length <= maxLength) return text;
+  return `${text.substring(0, maxLength)}...`;
 };
 
-export const getSourceColor = (source) => {
-    const colors = {
-        core: 'text-primary-400',
-        gateway: 'text-success-light',
-        mobile: 'text-warning-light',
-    };
-    return colors[source?.toLowerCase()] || 'text-dark-400';
-};
-
+// Debounce function
 export const debounce = (func, wait) => {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
+  let timeout;
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
     };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+};
+
+// Format date
+export const formatDate = (dateString) => {
+  try {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  } catch (error) {
+    return 'Invalid Date';
+  }
+};
+
+// Get source color
+export const getSourceColor = (source) => {
+  switch (source?.toLowerCase()) {
+    case 'core':
+      return 'text-blue-400';
+    case 'gateway':
+      return 'text-green-400';
+    case 'mobile':
+      return 'text-purple-400';
+    default:
+      return 'text-gray-400';
+  }
+};
+
+// Get mismatch color
+export const getMismatchColor = (type) => {
+  switch (type) {
+    case 'amount_mismatch':
+      return 'text-red-400';
+    case 'status_mismatch':
+      return 'text-orange-400';
+    case 'timestamp_mismatch':
+      return 'text-yellow-400';
+    case 'missing_transaction':
+      return 'text-purple-400';
+    default:
+      return 'text-gray-400';
+  }
 };

@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { AlertTriangle, Clock } from 'lucide-react';
 import { useSocket } from '../../hooks/useSocket';
 import { formatRelativeTime, getMismatchBadge } from '../../utils/helpers';
 
-export const RecentActivity = () => {
+const RecentActivity = () => {
     const { subscribe, unsubscribe } = useSocket();
     const [activities, setActivities] = useState([]);
 
@@ -71,3 +71,5 @@ export const RecentActivity = () => {
         </div>
     );
 };
+
+export default RecentActivity;
