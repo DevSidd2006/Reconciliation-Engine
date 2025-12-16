@@ -44,6 +44,49 @@ A **complete banking reconciliation system** that processes transactions in real
 
 ---
 
+## 🚀 **Quick Start**
+
+### **🎯 Automated Startup (Recommended)**
+```bash
+# Windows - Double-click or run:
+start_project.bat
+
+# For clean restart if issues:
+clean_restart.bat
+```
+
+### **📖 Detailed Instructions**
+See **[STARTUP_GUIDE.md](STARTUP_GUIDE.md)** for complete step-by-step instructions, troubleshooting, and common issues.
+
+### **⚡ Quick Manual Steps**
+```bash
+# 1. Start Infrastructure
+cd kafka && docker-compose up -d && cd ../backend && docker-compose up -d
+
+# 2. Start Backend (new terminal)
+cd backend && python -m uvicorn app.main_simple:app --port 8002 --reload
+
+# 3. Start Frontend (new terminal)  
+cd frontend && npm start
+
+# 4. Start Consumer (new terminal)
+cd backend && python -m app.consumers.simple_reconciliation_consumer
+
+# 5. Start Producer (new terminal)
+cd producers && python coordinated_producer.py
+```
+
+### **🌐 Access Points**
+- **Frontend Dashboard**: http://localhost:3000
+- **Backend API**: http://localhost:8002  
+- **API Documentation**: http://localhost:8002/docs
+
+### **🔐 Login Credentials**
+- **Admin**: `admin` / `admin123`
+- **Auditor**: `auditor` / `auditor123`
+
+---
+
 ## 🏗 System Architecture
 
 The system uses an Event-Driven Architecture (EDA) to ingest and process transactions securely.

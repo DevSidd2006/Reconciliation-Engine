@@ -13,7 +13,7 @@ import ReconciliationStatus from './components/ReconciliationStatus';
 import RedisMonitor from './components/RedisMonitor';
 import ErrorBoundary from './components/ErrorBoundary';
 
-const API_BASE = 'http://localhost:8000/api';
+const API_BASE = 'http://localhost:8002/api';
 
 function AuthenticatedApp() {
   const { user, loading: authLoading } = useAuth();
