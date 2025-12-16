@@ -1,0 +1,22 @@
+# Traefik TLS Configuration for Self-Signed Certificates
+tls:
+  certificates:
+    - certFile: /etc/traefik/certs/localhost.crt
+      keyFile: /etc/traefik/certs/localhost.key
+      stores:
+        - default
+  
+  stores:
+    default:
+      defaultCertificate:
+        certFile: /etc/traefik/certs/localhost.crt
+        keyFile: /etc/traefik/certs/localhost.key
+
+  options:
+    default:
+      minVersion: "VersionTLS12"
+      maxVersion: "VersionTLS13"
+      cipherSuites:
+        - "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384"
+        - "TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305"
+        - "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256"

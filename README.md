@@ -27,54 +27,84 @@ Banks face reconciliation issues when transactions flowing through multiple syst
 
 ## ⚡ Quick Start
 
-### Prerequisites
-- Node.js 18+
-- Python 3.9+
-- Redis (optional, for persistent state)
-- PostgreSQL (optional, for DB storage)
-- Kafka (optional, for streaming)
+### 🚀 One-Command Setup (Recommended)
 
-### 1. Backend Setup
+**Complete automated setup:**
 ```bash
+# From project root
+python backend/scripts/setup_complete_stack.py
+```
+
+This single command will:
+- ✅ Check all prerequisites (Docker, Python, Node.js)
+- ✅ Set up Python virtual environment
+- ✅ Install all dependencies (backend + frontend)
+- ✅ Start complete security stack (PostgreSQL, Redis, Keycloak, Traefik, API)
+- ✅ Import Keycloak realm automatically
+- ✅ Generate test tokens for all roles
+- ✅ Validate all services are working
+- ✅ Provide access URLs and credentials
+
+### 🔧 Manual Setup (Alternative)
+
+**Prerequisites:**
+- Docker & Docker Compose
+- Python 3.9+
+- Node.js 18+
+
+**Security Stack Only:**
+```bash
+# Windows
+backend\scripts\start_security_stack.bat
+
+# Cross-platform
+python backend/scripts/start_security_stack.py
+
+# Interactive token generation
+python backend/scripts/start_security_stack.py --interactive
+```
+
+**Individual Components:**
+```bash
+# 1. Backend Setup
 cd backend
 python -m venv venv
 .\venv\Scripts\activate   # Windows
-# source venv/bin/activate  # Mac/Linux
 pip install -r requirements.txt
-uvicorn app.main:app --reload --port 8000
-```
 
-### 2. Frontend Setup
-```bash
+# 2. Frontend Setup  
 cd frontend
 npm install
 npm run dev
+
+# 3. Start Security Stack
+python backend/scripts/start_security_stack.py
 ```
 
-### 3. Infrastructure Setup
+### 🎯 After Setup
+
+Once setup completes, you'll have:
+
+| Service | URL | Credentials |
+|---------|-----|-------------|
+| **API Documentation** | http://localhost:8000/docs | Use tokens from `backend/tmp/tokens.json` |
+| **API Health** | http://localhost:8000/health | Public endpoint |
+| **Keycloak Admin** | http://localhost:8080 | admin/admin123 |
+| **Traefik Dashboard** | http://localhost:8081 | No auth required |
+| **Frontend** | http://localhost:5173 | Start with `npm run dev` |
+
+### 🔑 Test Users & Tokens
+
+| Role | Username | Password | Access Level |
+|------|----------|----------|--------------|
+| **Admin** | admin | admin123 | Full system access |
+| **Auditor** | auditor | auditor123 | Read-only audit access |
+| **Operator** | operator | operator123 | Transaction operations |
+| **Viewer** | viewer | viewer123 | Basic read access |
+
+**Test your tokens:**
 ```bash
-# Start Kafka & Schema Registry
-cd kafka
-docker-compose up -d
-
-# Start PostgreSQL & Redis
-cd backend
-docker-compose up -d
-
-# Register Avro Schema
-cd kafka
-python register_schema.py
-```
-
-### 4. Start Data Pipeline
-```bash
-# Start Kafka Consumer (Terminal 1)
-cd backend/app
-python consumers/kafka_consumer.py
-
-# Start Transaction Producer (Terminal 2)
-cd producers
-python transaction_producer.py
+python backend/scripts/test_tokens.py
 ```
 
 ---
@@ -177,6 +207,188 @@ pytest tests/test_redis/ -v
 - **Effectiveness**: 100% duplicate prevention
 - **Race Conditions**: Eliminated with atomic Redis operations
 - **Memory Efficiency**: TTL-based cleanup prevents memory leaks
+
+---
+
+## 🔒 Phase 4 — Banking-Grade Security Architecture
+
+### Security Overview
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    BANKING-GRADE SECURITY LAYER                │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐ │
+│  │     HTTPS       │  │   KEYCLOAK      │  │      RBAC       │ │
+│  │   (Traefik)     │  │  OAuth2/OIDC    │  │  Role-Based     │ │
+│  │                 │  │                 │  │  Access Control │ │
+│  │ • TLS Termination│  │ • JWT Tokens    │  │ • Admin         │ │
+│  │ • Let's Encrypt │  │ • User Management│  │ • Auditor       │ │
+│  │ • Auto Renewal  │  │ • Multi-Factor  │  │ • Operator      │ │
+│  │ • HTTP Redirect │  │ • Session Mgmt  │  │ • Viewer        │ │
+│  └─────────────────┘  └─────────────────┘  └─────────────────┘ │
+│           │                     │                     │         │
+│           ▼                     ▼                     ▼         │
+│  ┌─────────────────────────────────────────────────────────────┐ │
+│  │                 SECURITY MIDDLEWARE                        │ │
+│  │                                                             │ │
+│  │ • Security Headers    • Request Validation                 │ │
+│  │ • CORS Hardening     • Threat Detection                    │ │
+│  │ • Audit Logging      • Performance Monitoring             │ │
+│  └─────────────────────────────────────────────────────────────┘ │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### Authentication & Authorization
+
+| Component | Technology | Purpose |
+|-----------|------------|---------|
+| **Identity Provider** | Keycloak | OAuth2/OpenID Connect, User Management |
+| **Token Format** | JWT (RS256) | Stateless authentication with digital signatures |
+| **Authorization** | RBAC | Role-based access control with hierarchical permissions |
+| **Session Management** | Keycloak | Secure session handling with configurable timeouts |
+
+### Role-Based Access Control
+
+| Role | Level | Permissions | Endpoints |
+|------|-------|-------------|-----------|
+| **Admin** | 100 | Full system access | All endpoints, user management |
+| **Auditor** | 75 | Read-only access, audit logs | `/transactions/stats`, `/mismatches/stats`, `/audit` |
+| **Operator** | 50 | Transaction operations | `/transactions/*`, `/mismatches/*` |
+| **Viewer** | 25 | Basic read access | `/transactions` (read), `/mismatches` (read) |
+
+### Security Headers
+
+```http
+Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
+X-XSS-Protection: 1; mode=block
+Referrer-Policy: strict-origin-when-cross-origin
+Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'
+```
+
+### Audit Logging
+
+All security events are logged to PostgreSQL with:
+- **Authentication Events**: Login attempts, token validation
+- **Authorization Decisions**: Access grants/denials with role context
+- **Data Access**: Resource access with user identification
+- **Administrative Actions**: System configuration changes
+- **Security Incidents**: Threat detection and anomalies
+
+### HTTPS Configuration
+
+- **Reverse Proxy**: Traefik with automatic HTTPS
+- **Certificates**: Let's Encrypt with auto-renewal
+- **TLS Version**: TLS 1.2+ only
+- **Cipher Suites**: Strong encryption algorithms only
+- **HSTS**: HTTP Strict Transport Security enabled
+
+---
+
+## 🚀 Production Deployment
+
+### Environment Variables
+
+```bash
+# Database Configuration
+DATABASE_URL=postgresql://user:pass@localhost:5433/reconciliation_db
+POSTGRES_PASSWORD=secure_password_here
+
+# Redis Configuration  
+REDIS_URL=redis://localhost:6379
+REDIS_PASSWORD=secure_redis_password
+
+# Security Configuration
+KEYCLOAK_SERVER_URL=https://auth.yourdomain.com
+KEYCLOAK_REALM=reconciliation
+KEYCLOAK_CLIENT_ID=reconciliation-api
+KEYCLOAK_CLIENT_SECRET=your-secure-client-secret
+JWT_ALGORITHM=RS256
+JWT_AUDIENCE=reconciliation-api
+
+# CORS Configuration
+ALLOWED_ORIGINS=https://reconciliation.yourdomain.com,https://app.yourdomain.com
+ALLOWED_CREDENTIALS=true
+
+# HTTPS Configuration
+ENABLE_HTTPS=true
+TRAEFIK_DOMAIN=yourdomain.com
+TRAEFIK_EMAIL=admin@yourdomain.com
+```
+
+### Secure Deployment
+
+```bash
+# 1. Start with Traefik (HTTPS + Security)
+cd backend
+docker-compose -f docker-compose.traefik.yml up -d
+
+# 2. Wait for services to start (especially Keycloak)
+docker-compose -f docker-compose.traefik.yml logs -f keycloak
+
+# 3. Access Keycloak Admin Console
+# URL: http://localhost:8080/admin
+# Username: admin
+# Password: admin123
+
+# 4. Verify realm import
+# - Check that 'reconciliation' realm exists
+# - Verify users: admin, auditor, operator
+# - Confirm client: reconciliation-api
+
+# 5. Get authentication token
+curl -X POST "http://localhost:8080/realms/reconciliation/protocol/openid_connect/token" \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "grant_type=password" \
+  -d "client_id=reconciliation-api" \
+  -d "client_secret=reconciliation-api-secret-2024" \
+  -d "username=auditor" \
+  -d "password=auditor123"
+
+# 6. Test protected endpoints
+curl -H "Authorization: Bearer <jwt_token>" http://localhost:8000/transactions/stats
+curl -H "Authorization: Bearer <jwt_token>" http://localhost:8000/admin/system-health
+```
+
+### Authentication Testing
+
+```bash
+# Test different role access levels
+
+# 1. Auditor Token (can access stats)
+AUDITOR_TOKEN=$(curl -s -X POST "http://localhost:8080/realms/reconciliation/protocol/openid_connect/token" \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "grant_type=password&client_id=reconciliation-api&client_secret=reconciliation-api-secret-2024&username=auditor&password=auditor123" \
+  | jq -r '.access_token')
+
+curl -H "Authorization: Bearer $AUDITOR_TOKEN" http://localhost:8000/transactions/stats
+
+# 2. Operator Token (can access transactions)
+OPERATOR_TOKEN=$(curl -s -X POST "http://localhost:8080/realms/reconciliation/protocol/openid_connect/token" \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "grant_type=password&client_id=reconciliation-api&client_secret=reconciliation-api-secret-2024&username=operator&password=operator123" \
+  | jq -r '.access_token')
+
+curl -H "Authorization: Bearer $OPERATOR_TOKEN" http://localhost:8000/transactions
+
+# 3. Admin Token (can access admin endpoints)
+ADMIN_TOKEN=$(curl -s -X POST "http://localhost:8080/realms/reconciliation/protocol/openid_connect/token" \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "grant_type=password&client_id=reconciliation-api&client_secret=reconciliation-api-secret-2024&username=admin&password=admin123" \
+  | jq -r '.access_token')
+
+curl -H "Authorization: Bearer $ADMIN_TOKEN" http://localhost:8000/admin/system-health
+```
+
+### Security Monitoring
+
+- **Real-time Threat Detection**: Suspicious patterns, malicious requests
+- **Performance Monitoring**: Response times, resource usage
+- **Audit Trail**: Complete user activity logging
+- **Compliance Reporting**: Automated security compliance reports
 npm run dev
 ```
 
