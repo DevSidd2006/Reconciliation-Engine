@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { useSocket } from '../../hooks/useSocket';
 import { CHART_DATA_POINTS } from '../../utils/constants';
 
-export const RealtimeChart = () => {
+const RealtimeChart = () => {
     const { subscribe, unsubscribe } = useSocket();
     const [data, setData] = useState([]);
 
@@ -125,3 +125,5 @@ export const RealtimeChart = () => {
         </div>
     );
 };
+
+export default RealtimeChart;

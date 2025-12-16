@@ -1,41 +1,89 @@
-import { useState, useEffect } from 'react';
-import socketService from '../services/socket';
+import { useEffect, useRef, useCallback } from 'react';
+import { SOCKET_URL } from '../utils/constants';
 
 export const useSocket = () => {
-    const [isConnected, setIsConnected] = useState(false);
+  const socketRef = useRef(null);
+  const listenersRef = useRef(new Map());
 
-    useEffect(() => {
-        socketService.connect();
+  useEffect(() => {
+    // Initialize WebSocket connection
+    const connectWebSocket = () => {
+      try {
+        const wsUrl = SOCKET_URL.replace('http', 'ws') + '/ws';
+        socketRef.current = new WebSocket(wsUrl);
 
-        const checkConnection = () => {
-            setIsConnected(socketService.isConnected());
+        socketRef.current.onopen = () => {
+          console.log('WebSocket connected');
         };
 
-        // Check connection status periodically
-        const interval = setInterval(checkConnection, 1000);
-        checkConnection();
+        socketRef.current.onmessage = (event) => {
+          try {
+            const data = JSON.parse(event.data);
+            const { type, payload } = data;
 
-        return () => {
-            clearInterval(interval);
+            // Call all listeners for this event type
+            const listeners = listenersRef.current.get(type) || [];
+            listeners.forEach(callback => callback(payload));
+          } catch (error) {
+            console.error('Error parsing WebSocket message:', error);
+          }
         };
-    }, []);
 
-    const subscribe = (event, callback) => {
-        socketService.on(event, callback);
+        socketRef.current.onclose = () => {
+          console.log('WebSocket disconnected');
+          // Attempt to reconnect after 3 seconds
+          setTimeout(connectWebSocket, 3000);
+        };
+
+        socketRef.current.onerror = (error) => {
+          console.error('WebSocket error:', error);
+        };
+      } catch (error) {
+        console.error('Failed to connect WebSocket:', error);
+        // Retry connection after 5 seconds
+        setTimeout(connectWebSocket, 5000);
+      }
     };
 
-    const unsubscribe = (event, callback) => {
-        socketService.off(event, callback);
-    };
+    connectWebSocket();
 
-    const emit = (event, data) => {
-        socketService.emit(event, data);
+    return () => {
+      if (socketRef.current) {
+        socketRef.current.close();
+      }
     };
+  }, []);
 
-    return {
-        isConnected,
-        subscribe,
-        unsubscribe,
-        emit,
-    };
+  const subscribe = useCallback((eventType, callback) => {
+    const listeners = listenersRef.current.get(eventType) || [];
+    listeners.push(callback);
+    listenersRef.current.set(eventType, listeners);
+  }, []);
+
+  const unsubscribe = useCallback((eventType, callback) => {
+    const listeners = listenersRef.current.get(eventType) || [];
+    const filteredListeners = listeners.filter(listener => listener !== callback);
+    
+    if (filteredListeners.length === 0) {
+      listenersRef.current.delete(eventType);
+    } else {
+      listenersRef.current.set(eventType, filteredListeners);
+    }
+  }, []);
+
+  const emit = useCallback((eventType, data) => {
+    if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
+      socketRef.current.send(JSON.stringify({
+        type: eventType,
+        payload: data
+      }));
+    }
+  }, []);
+
+  return {
+    subscribe,
+    unsubscribe,
+    emit,
+    isConnected: socketRef.current?.readyState === WebSocket.OPEN
+  };
 };

@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { Layout } from './components/layout/Layout';
-import { Dashboard } from './pages/Dashboard';
+import Dashboard from './pages/Dashboard.jsx';
 import { Transactions } from './pages/Transactions';
 import { Mismatches } from './pages/Mismatches';
 import ErrorBoundary from './components/common/ErrorBoundary';
@@ -18,7 +18,6 @@ function AppContent() {
                 notifications={notifications}
                 removeNotification={removeNotification}
             />
-
             <BrowserRouter>
                 <Layout>
                     <Routes>

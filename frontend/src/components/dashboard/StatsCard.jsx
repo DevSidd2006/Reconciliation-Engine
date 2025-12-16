@@ -1,7 +1,6 @@
-import React from 'react';
 import { TrendingUp, TrendingDown } from 'lucide-react';
 
-export const StatsCard = ({ title, value, change, changeType, icon: Icon, loading }) => {
+const StatsCard = ({ title, value, change, changeType, icon: Icon, loading }) => {
     const isPositive = changeType === 'positive';
     const TrendIcon = isPositive ? TrendingUp : TrendingDown;
 
@@ -18,9 +17,8 @@ export const StatsCard = ({ title, value, change, changeType, icon: Icon, loadin
     return (
         <div className="glass-card-hover p-6 group">
             <div className="flex items-start justify-between mb-4">
-                <div>
-                    <p className="text-sm text-dark-400 font-medium">{title}</p>
-                </div>
+                <p className="text-sm text-dark-400 font-medium">{title}</p>
+
                 {Icon && (
                     <div className="p-3 rounded-lg bg-primary-500/20 text-primary-400 group-hover:scale-110 transition-transform">
                         <Icon className="w-5 h-5" />
@@ -44,3 +42,5 @@ export const StatsCard = ({ title, value, change, changeType, icon: Icon, loadin
         </div>
     );
 };
+
+export default StatsCard;
