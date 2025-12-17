@@ -55,7 +55,7 @@ const AdminPanel = () => {
 
   const downloadReport = async (reportType) => {
     try {
-      const response = await axios.get(`/api/reports/${reportType}`, {
+      const response = await axios.get(`/api/analytics/reports/${reportType}`, {
         responseType: 'blob'
       });
       
@@ -66,6 +66,8 @@ const AdminPanel = () => {
       document.body.appendChild(link);
       link.click();
       link.remove();
+      
+      alert('Report downloaded successfully!');
     } catch (err) {
       console.error('Download failed:', err);
       alert('Report download failed: ' + (err.response?.data?.detail || err.message));
@@ -287,29 +289,31 @@ const AdminPanel = () => {
                   <div style={{ padding: '16px' }}>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                       <button
-                        onClick={() => handleOperation('clearCache', '/api/redis/clear', 'Cache cleared successfully!')}
-                        disabled={operationLoading.clearCache}
+                        onClick={() => alert('Operation not available in current version')}
+                        disabled={true}
                         className="btn"
                         style={{
-                          backgroundColor: 'var(--error-red)',
-                          color: 'var(--primary-white)',
-                          padding: '12px'
+                          backgroundColor: 'var(--gray-400)',
+                          color: 'var(--gray-600)',
+                          padding: '12px',
+                          cursor: 'not-allowed'
                         }}
                       >
-                        {operationLoading.clearCache ? '🔄 Clearing...' : '🗑️ Clear All Cache'}
+                        🗑️ Clear All Cache (Disabled)
                       </button>
                       
                       <button
-                        onClick={() => handleOperation('flushStats', '/api/redis/flush-stats', 'Statistics flushed successfully!')}
-                        disabled={operationLoading.flushStats}
+                        onClick={() => alert('Operation not available in current version')}
+                        disabled={true}
                         className="btn"
                         style={{
-                          backgroundColor: 'var(--warning-orange)',
-                          color: 'var(--primary-black)',
-                          padding: '12px'
+                          backgroundColor: 'var(--gray-400)',
+                          color: 'var(--gray-600)',
+                          padding: '12px',
+                          cursor: 'not-allowed'
                         }}
                       >
-                        {operationLoading.flushStats ? '🔄 Flushing...' : '📊 Flush Statistics'}
+                        📊 Flush Statistics (Disabled)
                       </button>
                     </div>
                   </div>
@@ -323,29 +327,31 @@ const AdminPanel = () => {
                   <div style={{ padding: '16px' }}>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                       <button
-                        onClick={() => handleOperation('recreateTables', '/api/database/recreate-tables', 'Tables recreated successfully!')}
-                        disabled={operationLoading.recreateTables}
+                        onClick={() => alert('Operation not available in current version')}
+                        disabled={true}
                         className="btn"
                         style={{
-                          backgroundColor: 'var(--error-red)',
-                          color: 'var(--primary-white)',
-                          padding: '12px'
+                          backgroundColor: 'var(--gray-400)',
+                          color: 'var(--gray-600)',
+                          padding: '12px',
+                          cursor: 'not-allowed'
                         }}
                       >
-                        {operationLoading.recreateTables ? '🔄 Recreating...' : '🔄 Recreate Tables'}
+                        🔄 Recreate Tables (Disabled)
                       </button>
                       
                       <button
-                        onClick={() => handleOperation('vacuum', '/api/database/vacuum', 'Database optimized successfully!')}
-                        disabled={operationLoading.vacuum}
+                        onClick={() => alert('Operation not available in current version')}
+                        disabled={true}
                         className="btn"
                         style={{
-                          backgroundColor: 'var(--accent-blue)',
-                          color: 'var(--primary-white)',
-                          padding: '12px'
+                          backgroundColor: 'var(--gray-400)',
+                          color: 'var(--gray-600)',
+                          padding: '12px',
+                          cursor: 'not-allowed'
                         }}
                       >
-                        {operationLoading.vacuum ? '🔄 Optimizing...' : '⚡ Optimize Database'}
+                        ⚡ Optimize Database (Disabled)
                       </button>
                     </div>
                   </div>
@@ -360,42 +366,45 @@ const AdminPanel = () => {
                 <div style={{ padding: '16px' }}>
                   <div className="grid grid-3" style={{ gap: '12px' }}>
                     <button
-                      onClick={() => handleOperation('reprocessAll', '/api/reconciliation/reprocess-all', 'Reprocessing all transactions...')}
-                      disabled={operationLoading.reprocessAll}
+                      onClick={() => alert('Operation not available in current version')}
+                      disabled={true}
                       className="btn"
                       style={{
-                        backgroundColor: 'var(--warning-orange)',
-                        color: 'var(--primary-black)',
-                        padding: '12px'
+                        backgroundColor: 'var(--gray-400)',
+                        color: 'var(--gray-600)',
+                        padding: '12px',
+                        cursor: 'not-allowed'
                       }}
                     >
-                      {operationLoading.reprocessAll ? '🔄 Processing...' : '🔄 Reprocess All'}
+                      🔄 Reprocess All (Disabled)
                     </button>
                     
                     <button
-                      onClick={() => handleOperation('retryFailed', '/api/reconciliation/retry-failed', 'Retrying failed reconciliations...')}
-                      disabled={operationLoading.retryFailed}
+                      onClick={() => alert('Operation not available in current version')}
+                      disabled={true}
                       className="btn"
                       style={{
-                        backgroundColor: 'var(--accent-magenta)',
-                        color: 'var(--primary-white)',
-                        padding: '12px'
+                        backgroundColor: 'var(--gray-400)',
+                        color: 'var(--gray-600)',
+                        padding: '12px',
+                        cursor: 'not-allowed'
                       }}
                     >
-                      {operationLoading.retryFailed ? '🔄 Retrying...' : '🔁 Retry Failed'}
+                      🔁 Retry Failed (Disabled)
                     </button>
                     
                     <button
-                      onClick={() => handleOperation('clearMismatches', '/api/reconciliation/clear-resolved', 'Resolved mismatches cleared!')}
-                      disabled={operationLoading.clearMismatches}
+                      onClick={() => alert('Operation not available in current version')}
+                      disabled={true}
                       className="btn"
                       style={{
-                        backgroundColor: 'var(--success-green)',
-                        color: 'var(--primary-white)',
-                        padding: '12px'
+                        backgroundColor: 'var(--gray-400)',
+                        color: 'var(--gray-600)',
+                        padding: '12px',
+                        cursor: 'not-allowed'
                       }}
                     >
-                      {operationLoading.clearMismatches ? '🔄 Clearing...' : '✅ Clear Resolved'}
+                      ✅ Clear Resolved (Disabled)
                     </button>
                   </div>
                 </div>

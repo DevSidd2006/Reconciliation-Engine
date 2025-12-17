@@ -4,6 +4,7 @@ import axios from 'axios';
 const KPICards = ({ dateRange }) => {
   const [kpis, setKpis] = useState({
     total_transactions_today: 0,
+    total_transactions_all_time: 0,
     total_mismatches: 0,
     reconciliation_accuracy: 100,
     pending_transactions: 0,
@@ -53,6 +54,14 @@ const KPICards = ({ dateRange }) => {
       icon: '💳',
       color: 'var(--accent-blue)',
       trend: trends.transactions_vs_yesterday,
+      format: 'number'
+    },
+    {
+      title: 'Total Transactions (All Time)',
+      value: kpis.total_transactions_all_time,
+      icon: '🏦',
+      color: 'var(--accent-cyan)',
+      trend: 'up',
       format: 'number'
     },
     {
@@ -132,7 +141,7 @@ const KPICards = ({ dateRange }) => {
     return (
       <div className="kpi-cards-loading" style={{ marginBottom: '32px' }}>
         <div className="grid grid-3">
-          {[1, 2, 3, 4, 5, 6].map(i => (
+          {[1, 2, 3, 4, 5, 6, 7].map(i => (
             <div key={i} className="card" style={{ padding: '24px', textAlign: 'center' }}>
               <div style={{ 
                 backgroundColor: 'var(--gray-200)', 

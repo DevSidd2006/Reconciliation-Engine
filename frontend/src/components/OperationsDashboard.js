@@ -10,7 +10,7 @@ import AnomalyAlerts from './AnomalyAlerts';
 import AdminPanel from './AdminPanel';
 
 const OperationsDashboard = () => {
-  const { user, isAdmin, isAuditor } = useAuth();
+  const { user, isAdmin, isAuditor, logout } = useAuth();
   const [activeTab, setActiveTab] = useState('overview');
   const [selectedTransaction, setSelectedTransaction] = useState(null);
   const [autoRefresh, setAutoRefresh] = useState(true);
@@ -136,17 +136,39 @@ const OperationsDashboard = () => {
               </select>
             </div>
 
-            {/* User Info */}
-            <div style={{
-              padding: '8px 12px',
-              backgroundColor: 'var(--accent-blue)',
-              color: 'var(--primary-white)',
-              border: '2px solid var(--primary-black)',
-              fontFamily: 'var(--font-mono)',
-              fontSize: '0.875rem',
-              fontWeight: '700'
-            }}>
-              👤 {user?.username} ({user?.roles?.join(', ')})
+            {/* User Info & Logout */}
+            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+              <div style={{
+                padding: '8px 12px',
+                backgroundColor: 'var(--accent-blue)',
+                color: 'var(--primary-white)',
+                border: '2px solid var(--primary-black)',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.875rem',
+                fontWeight: '700'
+              }}>
+                👤 {user?.username} ({user?.roles?.join(', ')})
+              </div>
+              
+              <button
+                onClick={() => {
+                  if (window.confirm('Are you sure you want to logout?')) {
+                    logout();
+                  }
+                }}
+                className="btn"
+                style={{
+                  backgroundColor: 'var(--error-red)',
+                  color: 'var(--primary-white)',
+                  padding: '8px 12px',
+                  fontSize: '0.875rem',
+                  fontWeight: '700',
+                  border: '2px solid var(--primary-black)'
+                }}
+                title="Logout"
+              >
+                🚪 LOGOUT
+              </button>
             </div>
           </div>
         </div>

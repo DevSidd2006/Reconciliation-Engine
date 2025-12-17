@@ -3,8 +3,11 @@ Real Analytics Router with Simple Authentication
 Uses real database data with simple JWT authentication
 """
 from fastapi import APIRouter, Query, HTTPException, Depends
+from fastapi.responses import StreamingResponse
 from typing import Optional, Dict, Any, List
 from datetime import datetime, timedelta
+import io
+import csv
 from .auth_router_simple import verify_token
 from ..services.database_service import db_service
 
@@ -33,6 +36,7 @@ def get_overview_stats(
         return {
             "kpis": {
                 "total_transactions_today": len(today_transactions),
+                "total_transactions_all_time": stats.get('total_transactions', 0),
                 "total_mismatches": stats.get('total_mismatches', 0),
                 "reconciliation_accuracy": stats.get('success_rate', 100.0),
                 "pending_transactions": stats.get('pending_reconciliation', 0),
@@ -208,10 +212,18 @@ def get_mismatch_type_counts(
         
         for mtype, count in mismatch_types.items():
             if count > 0:
+                # Assign proper severity levels
+                if "AMOUNT" in mtype or "CURRENCY" in mtype:
+                    severity = "HIGH"
+                elif "STATUS" in mtype or "ACCOUNT" in mtype:
+                    severity = "MEDIUM"
+                else:
+                    severity = "LOW"
+                
                 chart_data.append({
                     "type": mtype.replace('_', ' ').title(),
                     "count": count,
-                    "severity": "HIGH" if "AMOUNT" in mtype or "CURRENCY" in mtype else "MEDIUM" if "STATUS" in mtype else "LOW",
+                    "severity": severity,
                     "color": colors.get(mtype, "#666666")
                 })
         
@@ -351,3 +363,95 @@ def manual_reconciliation(
         "triggered_by": current_user['username'],
         "triggered_at": datetime.now().isoformat()
     }
+
+# ==================== REPORT ENDPOINTS ====================
+
+def require_admin(current_user: dict = Depends(verify_token)):
+    """Require admin role for report downloads"""
+    if 'admin' not in current_user.get('roles', []):
+        raise HTTPException(status_code=403, detail="Admin privileges required for reports")
+    return current_user
+
+def generate_csv_response(data: List[Dict], filename: str):
+    """Generate CSV response from data"""
+    output = io.StringIO()
+    if data:
+        writer = csv.DictWriter(output, fieldnames=data[0].keys())
+        writer.writeheader()
+        writer.writerows(data)
+    
+    response = StreamingResponse(
+        io.BytesIO(output.getvalue().encode('utf-8')),
+        media_type="text/csv",
+        headers={"Content-Disposition": f"attachment; filename={filename}"}
+    )
+    return response
+
+@router.get("/reports/transactions")
+def download_transactions_report(current_user: dict = Depends(require_admin)):
+    """📄 Download All Transactions Report - Admin Only"""
+    try:
+        transactions = db_service.get_transactions(limit=10000)  # Get more for report
+        filename = f"transactions_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
+        return generate_csv_response(transactions, filename)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to generate report: {str(e)}")
+
+@router.get("/reports/transactions-today")
+def download_today_transactions_report(current_user: dict = Depends(require_admin)):
+    """📅 Download Today's Transactions Report - Admin Only"""
+    try:
+        today = datetime.now().date()
+        transactions = db_service.get_transactions_by_date(today)
+        filename = f"transactions_today_{today.strftime('%Y%m%d')}.csv"
+        return generate_csv_response(transactions, filename)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to generate report: {str(e)}")
+
+@router.get("/reports/reconciliation-summary")
+def download_reconciliation_summary_report(current_user: dict = Depends(require_admin)):
+    """📊 Download Reconciliation Summary Report - Admin Only"""
+    try:
+        stats = db_service.get_transaction_stats()
+        # Convert stats to list format for CSV
+        summary_data = [
+            {"metric": "Total Transactions", "value": stats.get('total_transactions', 0)},
+            {"metric": "Total Mismatches", "value": stats.get('total_mismatches', 0)},
+            {"metric": "Success Rate", "value": f"{stats.get('success_rate', 0)}%"},
+            {"metric": "Pending Reconciliation", "value": stats.get('pending_reconciliation', 0)}
+        ]
+        filename = f"reconciliation_summary_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
+        return generate_csv_response(summary_data, filename)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to generate report: {str(e)}")
+
+@router.get("/reports/mismatches")
+def download_mismatches_report(current_user: dict = Depends(require_admin)):
+    """🚨 Download All Mismatches Report - Admin Only"""
+    try:
+        mismatches = db_service.get_mismatches(limit=10000)  # Get more for report
+        filename = f"mismatches_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
+        return generate_csv_response(mismatches, filename)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to generate report: {str(e)}")
+
+@router.get("/reports/high-severity-mismatches")
+def download_high_severity_mismatches_report(current_user: dict = Depends(require_admin)):
+    """🔴 Download High Severity Mismatches Report - Admin Only"""
+    try:
+        mismatches = db_service.get_mismatches(limit=10000, severity="HIGH")
+        filename = f"high_severity_mismatches_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
+        return generate_csv_response(mismatches, filename)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to generate report: {str(e)}")
+
+@router.get("/reports/audit-trail")
+def download_audit_trail_report(current_user: dict = Depends(require_admin)):
+    """📋 Download Audit Trail Report - Admin Only"""
+    try:
+        # For audit trail, we'll use transaction data with additional fields
+        transactions = db_service.get_transactions(limit=10000)
+        filename = f"audit_trail_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
+        return generate_csv_response(transactions, filename)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to generate report: {str(e)}")

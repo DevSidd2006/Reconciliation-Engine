@@ -3,8 +3,11 @@ Real Dashboard Router with Simple Authentication
 Uses real database data with simple JWT authentication
 """
 from fastapi import APIRouter, Query, HTTPException, Depends
+from fastapi.responses import StreamingResponse
 from typing import Optional, Dict, Any, List
 from datetime import datetime, timedelta
+import io
+import csv
 from .auth_router_simple import verify_token
 from ..services.database_service import db_service
 

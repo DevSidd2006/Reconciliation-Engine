@@ -137,18 +137,17 @@ const AnalyticsCharts = ({ dateRange }) => {
                 </div>
                 
                 {/* Severity indicator for mismatch types */}
-                {item.type && (
+                {item.severity && (
                   <div style={{
                     padding: '4px 8px',
-                    backgroundColor: item.type.includes('AMOUNT') ? 'var(--error-red)' : 
-                                   item.type.includes('STATUS') ? 'var(--warning-orange)' : 'var(--accent-blue)',
+                    backgroundColor: item.severity === 'HIGH' ? 'var(--error-red)' : 
+                                   item.severity === 'MEDIUM' ? 'var(--warning-orange)' : 'var(--accent-blue)',
                     color: 'var(--primary-white)',
                     fontSize: '0.75rem',
                     fontWeight: '700',
                     border: '1px solid var(--primary-black)'
                   }}>
-                    {item.type.includes('AMOUNT') ? 'HIGH' : 
-                     item.type.includes('STATUS') ? 'MED' : 'LOW'}
+                    {item.severity === 'MEDIUM' ? 'MED' : item.severity}
                   </div>
                 )}
               </div>
