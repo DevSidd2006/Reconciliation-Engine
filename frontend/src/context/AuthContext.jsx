@@ -29,9 +29,10 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    const login = async () => {
+    const login = async (username, password) => {
         try {
-            await authService.login();
+            // Pass credentials to auth service if needed (for mock auth, they're optional)
+            await authService.login(username, password);
             const userInfo = authService.getUserInfo();
             setUser(userInfo);
             setAuthenticated(true);

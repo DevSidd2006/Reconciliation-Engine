@@ -6,7 +6,7 @@
 ![Kafka](https://img.shields.io/badge/Streaming-Kafka-black)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
 
-**A production-grade, bank-level mismatch detection system using Kafka, FastAPI, Redis, PostgreSQL, Keycloak & React.**
+**A production-grade, bank-level mismatch detection system using Kafka, FastAPI, Redis, PostgreSQL & React.**
 
 ---
 
@@ -39,8 +39,7 @@ This single command will:
 - ✅ Check all prerequisites (Docker, Python, Node.js)
 - ✅ Set up Python virtual environment
 - ✅ Install all dependencies (backend + frontend)
-- ✅ Start complete security stack (PostgreSQL, Redis, Keycloak, Traefik, API)
-- ✅ Import Keycloak realm automatically
+- ✅ Start complete security stack (PostgreSQL, Redis, Traefik, API)
 - ✅ Generate test tokens for all roles
 - ✅ Validate all services are working
 - ✅ Provide access URLs and credentials
@@ -89,7 +88,7 @@ Once setup completes, you'll have:
 |---------|-----|-------------|
 | **API Documentation** | http://localhost:8000/docs | Use tokens from `backend/tmp/tokens.json` |
 | **API Health** | http://localhost:8000/health | Public endpoint |
-| **Keycloak Admin** | http://localhost:8080 | admin/admin123 |
+
 | **Traefik Dashboard** | http://localhost:8081 | No auth required |
 | **Frontend** | http://localhost:5173 | Start with `npm run dev` |
 
@@ -220,10 +219,10 @@ pytest tests/test_redis/ -v
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                 │
 │  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐ │
-│  │     HTTPS       │  │   KEYCLOAK      │  │      RBAC       │ │
-│  │   (Traefik)     │  │  OAuth2/OIDC    │  │  Role-Based     │ │
+│  │     HTTPS       │  │   MOCK AUTH     │  │      RBAC       │ │
+│  │   (Traefik)     │  │  Mock Tokens    │  │  Role-Based     │ │
 │  │                 │  │                 │  │  Access Control │ │
-│  │ • TLS Termination│  │ • JWT Tokens    │  │ • Admin         │ │
+│  │ • TLS Termination│  │ • Mock Tokens   │  │ • Admin         │ │
 │  │ • Let's Encrypt │  │ • User Management│  │ • Auditor       │ │
 │  │ • Auto Renewal  │  │ • Multi-Factor  │  │ • Operator      │ │
 │  │ • HTTP Redirect │  │ • Session Mgmt  │  │ • Viewer        │ │
@@ -244,10 +243,10 @@ pytest tests/test_redis/ -v
 
 | Component | Technology | Purpose |
 |-----------|------------|---------|
-| **Identity Provider** | Keycloak | OAuth2/OpenID Connect, User Management |
+| **Identity Provider** | Mock Auth | Simplified authentication for development |
 | **Token Format** | JWT (RS256) | Stateless authentication with digital signatures |
 | **Authorization** | RBAC | Role-based access control with hierarchical permissions |
-| **Session Management** | Keycloak | Secure session handling with configurable timeouts |
+| **Session Management** | Mock Auth | Simplified session handling for development |
 
 ### Role-Based Access Control
 
@@ -301,13 +300,8 @@ POSTGRES_PASSWORD=secure_password_here
 REDIS_URL=redis://localhost:6379
 REDIS_PASSWORD=secure_redis_password
 
-# Security Configuration
-KEYCLOAK_SERVER_URL=https://auth.yourdomain.com
-KEYCLOAK_REALM=reconciliation
-KEYCLOAK_CLIENT_ID=reconciliation-api
-KEYCLOAK_CLIENT_SECRET=your-secure-client-secret
-JWT_ALGORITHM=RS256
-JWT_AUDIENCE=reconciliation-api
+# Security Configuration - Mock Auth Only
+JWT_ALGORITHM=HS256
 
 # CORS Configuration
 ALLOWED_ORIGINS=https://reconciliation.yourdomain.com,https://app.yourdomain.com
@@ -326,61 +320,32 @@ TRAEFIK_EMAIL=admin@yourdomain.com
 cd backend
 docker-compose -f docker-compose.traefik.yml up -d
 
-# 2. Wait for services to start (especially Keycloak)
-docker-compose -f docker-compose.traefik.yml logs -f keycloak
+# 2. Wait for services to start
+docker-compose -f docker-compose.traefik.yml logs -f api
 
-# 3. Access Keycloak Admin Console
-# URL: http://localhost:8080/admin
-# Username: admin
-# Password: admin123
-
-# 4. Verify realm import
-# - Check that 'reconciliation' realm exists
-# - Verify users: admin, auditor, operator
-# - Confirm client: reconciliation-api
-
-# 5. Get authentication token
-curl -X POST "http://localhost:8080/realms/reconciliation/protocol/openid_connect/token" \
-  -H "Content-Type: application/x-www-form-urlencoded" \
-  -d "grant_type=password" \
-  -d "client_id=reconciliation-api" \
-  -d "client_secret=reconciliation-api-secret-2024" \
-  -d "username=auditor" \
-  -d "password=auditor123"
-
-# 6. Test protected endpoints
-curl -H "Authorization: Bearer <jwt_token>" http://localhost:8000/transactions/stats
-curl -H "Authorization: Bearer <jwt_token>" http://localhost:8000/admin/system-health
+# 3. Test API endpoints with mock authentication
+# Test protected endpoints with mock token
+curl -H "Authorization: Bearer mock-jwt-token" http://localhost:8000/transactions/stats
+curl -H "Authorization: Bearer mock-jwt-token" http://localhost:8000/admin/system-health
 ```
 
 ### Authentication Testing
 
 ```bash
-# Test different role access levels
+# Test API endpoints with mock authentication
+# All requests use the same mock token since Keycloak is removed
 
-# 1. Auditor Token (can access stats)
-AUDITOR_TOKEN=$(curl -s -X POST "http://localhost:8080/realms/reconciliation/protocol/openid_connect/token" \
-  -H "Content-Type: application/x-www-form-urlencoded" \
-  -d "grant_type=password&client_id=reconciliation-api&client_secret=reconciliation-api-secret-2024&username=auditor&password=auditor123" \
-  | jq -r '.access_token')
+MOCK_TOKEN="mock-jwt-token"
 
-curl -H "Authorization: Bearer $AUDITOR_TOKEN" http://localhost:8000/transactions/stats
+# Test stats endpoints
+curl -H "Authorization: Bearer $MOCK_TOKEN" http://localhost:8000/transactions/stats
+curl -H "Authorization: Bearer $MOCK_TOKEN" http://localhost:8000/mismatches/stats
 
-# 2. Operator Token (can access transactions)
-OPERATOR_TOKEN=$(curl -s -X POST "http://localhost:8080/realms/reconciliation/protocol/openid_connect/token" \
-  -H "Content-Type: application/x-www-form-urlencoded" \
-  -d "grant_type=password&client_id=reconciliation-api&client_secret=reconciliation-api-secret-2024&username=operator&password=operator123" \
-  | jq -r '.access_token')
+# Test transaction endpoints
+curl -H "Authorization: Bearer $MOCK_TOKEN" http://localhost:8000/transactions/
 
-curl -H "Authorization: Bearer $OPERATOR_TOKEN" http://localhost:8000/transactions
-
-# 3. Admin Token (can access admin endpoints)
-ADMIN_TOKEN=$(curl -s -X POST "http://localhost:8080/realms/reconciliation/protocol/openid_connect/token" \
-  -H "Content-Type: application/x-www-form-urlencoded" \
-  -d "grant_type=password&client_id=reconciliation-api&client_secret=reconciliation-api-secret-2024&username=admin&password=admin123" \
-  | jq -r '.access_token')
-
-curl -H "Authorization: Bearer $ADMIN_TOKEN" http://localhost:8000/admin/system-health
+# Test admin endpoints
+curl -H "Authorization: Bearer $MOCK_TOKEN" http://localhost:8000/admin/system-health
 ```
 
 ### Security Monitoring
@@ -418,7 +383,7 @@ graph TD
     KAFKA["📨 Apache Kafka<br/>(Message Bus)"]
 
     %% Security
-    KC["🔐 Keycloak<br/>(OAuth2 + JWT)"]
+    KC["🔐 Mock Auth<br/>(Development)"]
 
     %% Backend Processing
     API["⚙️ FastAPI Backend<br/>(Reconciliation Engine)"]
@@ -483,16 +448,16 @@ graph TD
 - Guarantees durability, ordering & no data loss
 - TLS secured communication (Producers ↔ Kafka ↔ Backend)
 
-**4. AUTHENTICATION + AUTHORIZATION (KEYCLOAK)**
-- Provides OAuth2 + JWT
-- Provides login UI for Dashboard
+**4. AUTHENTICATION + AUTHORIZATION (MOCK AUTH)**
+- Provides mock JWT tokens
+- Simplified authentication for development
 - Implements RBAC (admin, viewer roles)
 - Protects backend API endpoints
 - Backend verifies JWT on every request
 
 **5. RECONCILIATION ENGINE (FastAPI Backend)**
 1. Kafka Consumer reads events (TLS secure)
-2. Keycloak auth validates JWT
+2. Mock auth validates JWT
 3. Optional schema validation
 4. Temporary event state stored in Redis
 5. When ≥2 sources → perform reconciliation:
@@ -512,7 +477,7 @@ graph TD
 - **Redis**: Temporary in-flight event storage
 
 **7. REACT DASHBOARD**
-- User logs in via Keycloak login screen
+- User uses mock authentication
 - Receives JWT token
 - Uses HTTPS (TLS) to call backend APIs
 - Listens to Socket.IO for real-time mismatches
@@ -529,7 +494,7 @@ graph TD
 | Streaming | Apache Kafka | Real-time event ingestion & buffering |
 | Cache | Redis | Temporary in-flight event state storage |
 | Database | PostgreSQL | Permanent storage for results & audit logs |
-| Auth | Keycloak | IAM, OAuth2, and Role-Based Access Control |
+| Auth | Mock Auth | Simplified authentication for development |
 | Real-Time | Socket.IO | Push updates to frontend |
 
 ---
@@ -541,7 +506,7 @@ graph TD
 ✔ **Strict Schema Validation**: Ensures every transaction follows identical structure (Avro).
 
 ✔ **Enterprise-Grade Security**:
-- Keycloak (OAuth2 + JWT)
+- Mock Authentication (Development)
 - Role-based access (admin/viewer)
 - TLS encryption for all communication
 
@@ -558,12 +523,12 @@ FastAPI (high-performance Python API)
 Kafka Consumer (real-time ingestion)
 Redis (temporary event state)
 PostgreSQL (permanent storage)
-Keycloak (Auth + RBAC)
+Mock Auth (Development + RBAC)
 Socket.IO (real-time push updates)
 
 🟩 Frontend
 React.js
-Keycloak JS Adapter (for login)
+Mock Authentication
 Socket.IO client
 TLS-secure HTTPS calls
 

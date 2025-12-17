@@ -23,7 +23,7 @@ def test_https():
         ("API Health", "https://localhost/api/health"),
         ("API Root", "https://localhost/api/"),
         ("Traefik Dashboard", "https://localhost/dashboard/"),
-        ("Keycloak", "https://localhost/auth/"),
+
     ]
     
     success_count = 0
@@ -58,7 +58,7 @@ def test_https():
         print("\n📋 Access URLs:")
         print("   • API: https://localhost/api/health")
         print("   • Dashboard: https://localhost/dashboard/")
-        print("   • Keycloak: https://localhost/auth/")
+
         print("\n⚠️  Browser Warning:")
         print("   Your browser will show a security warning.")
         print("   Click 'Advanced' → 'Proceed to localhost (unsafe)'")

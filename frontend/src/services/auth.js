@@ -1,101 +1,62 @@
-import Keycloak from 'keycloak-js';
-import { KEYCLOAK_CONFIG, ENABLE_KEYCLOAK } from '../utils/constants';
+// Keycloak completely removed - using mock authentication only
 
 class AuthService {
     constructor() {
-        this.keycloak = null;
         this.authenticated = false;
+        this.token = 'mock-jwt-token';
+        this.user = {
+            name: 'Mock Admin',
+            email: 'admin@reconciliation.com',
+            preferred_username: 'admin',
+            roles: ['admin', 'operator', 'auditor', 'viewer'],
+            realm_access: {
+                roles: ['admin', 'operator', 'auditor', 'viewer']
+            },
+            resource_access: {
+                'reconciliation-api': {
+                    roles: ['admin', 'operator', 'auditor', 'viewer']
+                }
+            }
+        };
     }
 
     async init() {
-        if (!ENABLE_KEYCLOAK) {
-            console.log('Keycloak is disabled. Using mock authentication.');
-            this.authenticated = true;
-            return true;
-        }
-
-        try {
-            this.keycloak = new Keycloak(KEYCLOAK_CONFIG);
-
-            this.authenticated = await this.keycloak.init({
-                onLoad: 'login-required',
-                checkLoginIframe: false,
-            });
-
-            if (this.authenticated) {
-                localStorage.setItem('token', this.keycloak.token);
-
-                // Refresh token periodically
-                setInterval(() => {
-                    this.keycloak.updateToken(70).then((refreshed) => {
-                        if (refreshed) {
-                            localStorage.setItem('token', this.keycloak.token);
-                        }
-                    }).catch(() => {
-                        console.error('Failed to refresh token');
-                    });
-                }, 60000);
-            }
-
-            return this.authenticated;
-        } catch (error) {
-            console.error('Keycloak initialization failed:', error);
-            return false;
-        }
+        console.log('Using Mock Authentication');
+        this.authenticated = true;
+        // Store the mock token in localStorage so the API service can use it
+        localStorage.setItem('token', this.token);
+        return Promise.resolve(true);
     }
 
     login() {
-        if (!ENABLE_KEYCLOAK) {
-            this.authenticated = true;
-            return Promise.resolve();
-        }
-        return this.keycloak?.login();
+        this.authenticated = true;
+        // Store the mock token in localStorage
+        localStorage.setItem('token', this.token);
+        return Promise.resolve();
     }
 
     logout() {
+        this.authenticated = false;
+        // Remove token from localStorage
         localStorage.removeItem('token');
-
-        if (!ENABLE_KEYCLOAK) {
-            this.authenticated = false;
-            window.location.href = '/login';
-            return Promise.resolve();
-        }
-
-        return this.keycloak?.logout();
+        window.location.href = '/login'; // Or just reload
+        return Promise.resolve();
     }
 
     getToken() {
-        if (!ENABLE_KEYCLOAK) {
-            return localStorage.getItem('token') || 'mock-token';
-        }
-        return this.keycloak?.token;
+        return this.token;
     }
 
     isAuthenticated() {
-        if (!ENABLE_KEYCLOAK) {
-            return this.authenticated;
-        }
-        return this.keycloak?.authenticated || false;
+        return this.authenticated;
     }
 
     getUserInfo() {
-        if (!ENABLE_KEYCLOAK) {
-            return {
-                name: 'Demo User',
-                email: 'demo@reconciliation.com',
-                roles: ['admin'],
-            };
-        }
-
-        return this.keycloak?.tokenParsed || null;
+        return this.user;
     }
 
     hasRole(role) {
-        if (!ENABLE_KEYCLOAK) {
-            return true; // Mock user has all roles
-        }
-
-        return this.keycloak?.hasRealmRole(role) || false;
+        return true; // Admin has all roles
     }
 }
 

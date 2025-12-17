@@ -8,7 +8,7 @@ A modern, real-time React dashboard for monitoring transaction reconciliation wi
 - **Modern UI**: Glassmorphism design with dark theme and smooth animations
 - **Responsive**: Mobile-first design that works on all devices
 - **Data Visualization**: Interactive charts using Recharts
-- **Authentication**: Keycloak integration with mock auth fallback
+- **Authentication**: Mock authentication for development
 - **Type Safety**: Built with modern React patterns and hooks
 
 ## 📦 Tech Stack
@@ -20,7 +20,7 @@ A modern, real-time React dashboard for monitoring transaction reconciliation wi
 - **Socket.IO Client** - Real-time communication
 - **Axios** - HTTP client
 - **Recharts** - Chart library
-- **Keycloak JS** - Authentication
+
 - **Lucide React** - Icon library
 
 ## 🛠️ Installation
@@ -113,8 +113,7 @@ Socket.IO events:
 
 The app supports two authentication modes:
 
-1. **Keycloak** (Production): Set `VITE_ENABLE_KEYCLOAK=true`
-2. **Mock Auth** (Development): Set `VITE_ENABLE_KEYCLOAK=false`
+1. **Mock Auth** (Development): Simplified authentication for development
 
 ## 📱 Pages
 
@@ -127,13 +126,13 @@ The app supports two authentication modes:
 1. **Backend Integration**: Ensure backend API endpoints are implemented
 2. **Socket.IO Server**: Add Socket.IO to FastAPI backend
 3. **CORS Configuration**: Enable CORS for frontend origin
-4. **Keycloak Setup**: Configure Keycloak realm and client (optional)
+
 5. **Testing**: Add unit and integration tests
 
 ## 📝 Development Notes
 
 - The app uses mock data when backend endpoints return errors
-- Keycloak is disabled by default for easier development
+- Mock authentication is used for simplified development
 - Socket.IO will gracefully degrade if server is unavailable
 - All components are responsive and mobile-friendly
 

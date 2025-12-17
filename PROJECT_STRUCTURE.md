@@ -87,12 +87,12 @@ Reconciliation-Engine/
     *   `frontend/src/hooks/useSocket.js` triggers a callback.
     *   **React State** updates, refreshing the **RealtimeChart** automatically.
 
-### 4. **Authentication Flow** (User ↔ Keycloak ↔ App)
+### 4. **Authentication Flow** (User ↔ Mock Auth ↔ App)
 *   **Login**: 
     *   User clicks "Login" in Frontend.
-    *   `frontend/src/services/auth.js` redirects to **Keycloak** login page.
+    *   `frontend/src/services/auth.js` uses **Mock Authentication**.
 *   **Token**: 
-    *   Keycloak returns a **JWT Access Token**.
+    *   Mock auth returns a **Mock JWT Token**.
     *   Frontend stores this token in memory/context.
 *   **Authorization**: 
     *   Every API call in `services/api.js` automatically attaches the token: `Authorization: Bearer <token>`.

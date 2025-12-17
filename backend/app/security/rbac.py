@@ -12,7 +12,7 @@ import logging
 from typing import List, Optional, Dict, Any
 from fastapi import Depends, HTTPException, status, Request
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from .keycloak_config import keycloak_config
+# Removed Keycloak dependency
 from .audit_logger import audit_logger
 
 # Configure logging
@@ -248,9 +248,21 @@ class RBACManager:
             )
         
         try:
-            # Validate token with Keycloak
-            payload = keycloak_config.validate_token(credentials.credentials)
-            user_info = keycloak_config.extract_user_info(payload)
+            # Mock authentication - accept any token
+            if not credentials.credentials:
+                raise HTTPException(
+                    status_code=status.HTTP_401_UNAUTHORIZED,
+                    detail="Invalid token format"
+                )
+            
+            # Return mock admin user
+            user_info = {
+                "user_id": "mock-admin-id",
+                "username": "admin", 
+                "name": "Mock Admin",
+                "email": "admin@example.com",
+                "roles": ["admin", "operator", "auditor", "viewer"]
+            }
             
             # Log successful authentication
             audit_logger.log_authentication(

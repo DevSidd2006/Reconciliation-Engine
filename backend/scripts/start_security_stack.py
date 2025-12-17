@@ -76,6 +76,23 @@ class SecurityStackManager:
         
         self.log(f"Loading environment variables from {env_path}")
         
+        # Try loading .env.dev as well (overrides .env)
+        env_dev_path = self.project_root / ".env.dev"
+        if env_dev_path.exists():
+            self.log(f"Loading environment variables from {env_dev_path}")
+            try:
+                with open(env_dev_path, 'r') as f:
+                    for line in f:
+                        line = line.strip()
+                        if line and not line.startswith('#') and '=' in line:
+                            key, value = line.split('=', 1)
+                            key = key.strip()
+                            value = value.strip().strip('"\'')
+                            self.env_vars[key] = value
+                            os.environ[key] = value
+            except Exception as e:
+                self.warning(f"Failed to load .env.dev: {e}")
+
         try:
             with open(env_path, 'r') as f:
                 for line in f:
@@ -87,24 +104,13 @@ class SecurityStackManager:
                         self.env_vars[key] = value
                         os.environ[key] = value
             
-            # Set default public URLs if not provided
-            if 'KEYCLOAK_PUBLIC_ISSUER' not in self.env_vars:
-                realm = self.env_vars.get('KEYCLOAK_REALM', 'reconciliation')
-                self.env_vars['KEYCLOAK_PUBLIC_ISSUER'] = f"http://localhost:8080/realms/{realm}"
-                os.environ['KEYCLOAK_PUBLIC_ISSUER'] = self.env_vars['KEYCLOAK_PUBLIC_ISSUER']
-                self.log(f"Set default KEYCLOAK_PUBLIC_ISSUER: {self.env_vars['KEYCLOAK_PUBLIC_ISSUER']}")
-            
-            if 'KEYCLOAK_PUBLIC_JWKS_URL' not in self.env_vars:
-                realm = self.env_vars.get('KEYCLOAK_REALM', 'reconciliation')
-                self.env_vars['KEYCLOAK_PUBLIC_JWKS_URL'] = f"http://localhost:8080/realms/{realm}/protocol/openid-connect/certs"
-                os.environ['KEYCLOAK_PUBLIC_JWKS_URL'] = self.env_vars['KEYCLOAK_PUBLIC_JWKS_URL']
-                self.log(f"Set default KEYCLOAK_PUBLIC_JWKS_URL: {self.env_vars['KEYCLOAK_PUBLIC_JWKS_URL']}")
+            # Keycloak removed - using mock authentication
+            self.log("Using mock authentication - Keycloak removed from system")
             
             # Validate required variables
             required_vars = [
-                "POSTGRES_PASSWORD", "REDIS_PASSWORD", "KEYCLOAK_ADMIN_PASSWORD",
-                "KEYCLOAK_SERVER_URL", "KEYCLOAK_REALM", "KEYCLOAK_CLIENT_ID",
-                "KEYCLOAK_CLIENT_SECRET", "TRAEFIK_DOMAIN", "TRAEFIK_EMAIL"
+                "POSTGRES_PASSWORD", "REDIS_PASSWORD",
+                "TRAEFIK_DOMAIN", "TRAEFIK_EMAIL"
             ]
             
             missing_vars = [var for var in required_vars if var not in self.env_vars]
@@ -216,7 +222,7 @@ class SecurityStackManager:
         
         # Check if services are already running
         containers = ["reconciliation_postgres", "reconciliation_redis", 
-                     "reconciliation_keycloak", "reconciliation_traefik", "reconciliation_api"]
+                     "reconciliation_traefik", "reconciliation_api"]
         
         services_running = all(self.get_container_status(container) == "running" 
                              for container in containers)
@@ -264,130 +270,11 @@ class SecurityStackManager:
             self.warning(f"Migration command failed: {e}")
             return True  # Don't fail the entire process
     
-    def check_realm_exists(self, keycloak_url: str, realm: str) -> bool:
-        """Check if Keycloak realm exists"""
-        self.log(f"Checking if realm '{realm}' exists...")
-        
-        # Use public URL for realm operations
-        if keycloak_url.startswith('http://keycloak:'):
-            keycloak_url = keycloak_url.replace('http://keycloak:8080', 'http://localhost:8082')
-        
-        try:
-            # Get admin token
-            token_data = {
-                'username': self.env_vars.get('KEYCLOAK_ADMIN'),
-                'password': self.env_vars.get('KEYCLOAK_ADMIN_PASSWORD'),
-                'grant_type': 'password',
-                'client_id': 'admin-cli'
-            }
-            
-            response = requests.post(f"{keycloak_url}/realms/master/protocol/openid-connect/token",
-                                   data=token_data, timeout=10)
-            
-            if response.status_code != 200:
-                self.error("Failed to get admin token from Keycloak")
-                return False
-            
-            admin_token = response.json().get('access_token')
-            if not admin_token:
-                self.error("No access token in response")
-                return False
-            
-            # Check if realm exists
-            headers = {'Authorization': f'Bearer {admin_token}'}
-            response = requests.get(f"{keycloak_url}/admin/realms/{realm}",
-                                  headers=headers, timeout=10)
-            
-            return response.status_code == 200
-            
-        except Exception as e:
-            self.log(f"Error checking realm: {e}")
-            return False
+
     
-    def import_realm(self) -> bool:
-        """Import Keycloak realm"""
-        # Use public URL for realm operations (not internal Docker URL)
-        keycloak_url = self.env_vars.get('KEYCLOAK_PUBLIC_ISSUER', 'http://localhost:8082').replace('/realms/reconciliation', '')
-        realm = self.env_vars.get('KEYCLOAK_REALM')
-        
-        if self.check_realm_exists(keycloak_url, realm):
-            self.success(f"Realm '{realm}' already exists, skipping import")
-            return True
-        
-        self.log(f"Importing Keycloak realm '{realm}'...")
-        
-        try:
-            # Get admin token
-            token_data = {
-                'username': self.env_vars.get('KEYCLOAK_ADMIN'),
-                'password': self.env_vars.get('KEYCLOAK_ADMIN_PASSWORD'),
-                'grant_type': 'password',
-                'client_id': 'admin-cli'
-            }
-            
-            response = requests.post(f"{keycloak_url}/realms/master/protocol/openid-connect/token",
-                                   data=token_data, timeout=10)
-            
-            if response.status_code != 200:
-                self.error("Failed to get admin token for realm import")
-                return False
-            
-            admin_token = response.json().get('access_token')
-            
-            # Import realm from JSON file
-            realm_file = self.project_root / "keycloak" / "realm-export.json"
-            if not realm_file.exists():
-                self.error(f"Realm export file not found: {realm_file}")
-                return False
-            
-            with open(realm_file, 'r') as f:
-                realm_json = f.read()
-            
-            headers = {
-                'Authorization': f'Bearer {admin_token}',
-                'Content-Type': 'application/json'
-            }
-            
-            response = requests.post(f"{keycloak_url}/admin/realms",
-                                   headers=headers, data=realm_json, timeout=30)
-            
-            if response.status_code == 201:
-                self.success(f"Realm '{realm}' imported successfully")
-                return True
-            else:
-                self.error(f"Failed to import realm (HTTP {response.status_code})")
-                return False
-                
-        except Exception as e:
-            self.error(f"Failed to import realm: {e}")
-            return False
+
     
-    def generate_tokens(self) -> bool:
-        """Generate test tokens"""
-        self.log("Generating test access tokens...")
-        
-        python_script = self.project_root / "scripts" / "generate_tokens.py"
-        if not python_script.exists():
-            self.error(f"Token generation script not found: {python_script}")
-            return False
-        
-        try:
-            cmd = [sys.executable, str(python_script)]
-            if self.interactive:
-                cmd.append('--interactive')
-            
-            result = subprocess.run(cmd, cwd=self.project_root, timeout=60)
-            
-            if result.returncode == 0:
-                self.success("Test tokens generated successfully")
-                return True
-            else:
-                self.error("Failed to generate test tokens")
-                return False
-                
-        except Exception as e:
-            self.error(f"Failed to run token generation script: {e}")
-            return False
+
     
     def setup_https(self) -> bool:
         """Set up HTTPS with self-signed certificates"""
@@ -420,15 +307,7 @@ class SecurityStackManager:
         """Validate all services"""
         self.log("Validating all services...")
         
-        keycloak_url = self.env_vars.get('KEYCLOAK_SERVER_URL')
-        realm = self.env_vars.get('KEYCLOAK_REALM')
-        domain = self.env_vars.get('TRAEFIK_DOMAIN', 'localhost')
-        
-        # Check Keycloak (use public URL)
-        keycloak_public_url = "http://localhost:8082"
-        if not self.wait_for_service("Keycloak", f"{keycloak_public_url}/realms/{realm}", 10, 3):
-            self.error("Keycloak validation failed")
-            return False
+
         
         # Check HTTPS if enabled
         if self.env_vars.get('ENABLE_HTTPS', 'false').lower() == 'true':
@@ -477,7 +356,6 @@ class SecurityStackManager:
         
         print(f"🔓 HTTP URLs (Development):")
         print(f"   • API: {Colors.BLUE}http://localhost:8000/{Colors.NC}")
-        print(f"   • Keycloak: {Colors.BLUE}http://localhost:8082/{Colors.NC}")
         print(f"   • Traefik Dashboard: {Colors.BLUE}http://localhost:8081/{Colors.NC}")
         print()
         print(f"📁 Files:")
@@ -488,7 +366,6 @@ class SecurityStackManager:
         print("🐳 Services running:")
         print("  - PostgreSQL (internal)")
         print("  - Redis (internal)")
-        print("  - Keycloak (port 8082)")
         print("  - Traefik (ports 80, 443, 8081)")
         print("  - Backend API (port 8000)")
         
@@ -522,13 +399,6 @@ class SecurityStackManager:
                 return False
             
             # Use localhost URL for health check (external access)
-            keycloak_health_url = "http://localhost:8082"
-            if not self.wait_for_service("Keycloak", keycloak_health_url, 30, 5):
-                return False
-            
-            # Configure Keycloak
-            if not self.import_realm():
-                return False
             
             # Start API and run migrations
             if not self.wait_for_service("API", "http://localhost:8000/health", 20, 3):
@@ -536,9 +406,7 @@ class SecurityStackManager:
             
             self.run_migrations()
             
-            # Generate tokens
-            if not self.generate_tokens():
-                return False
+
             
             # Set up HTTPS if enabled
             if self.env_vars.get('ENABLE_HTTPS', 'false').lower() == 'true':

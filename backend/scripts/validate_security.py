@@ -2,9 +2,9 @@
 """
 Banking-Grade Security Validation Script for Transaction Reconciliation Engine
 
-This script automatically validates all Phase 4 security features:
+This script automatically validates all security features:
 - HTTPS/TLS configuration
-- Keycloak authentication
+- Mock authentication
 - RBAC authorization
 - Audit logging
 - Rate limiting
@@ -19,7 +19,7 @@ from pathlib import Path
 
 # Test configuration
 API_BASE_URL = "http://localhost:8000"
-KEYCLOAK_BASE_URL = "http://localhost:8080"
+# Keycloak removed - using mock authentication
 TRAEFIK_DASHBOARD_URL = "http://localhost:8081"
 
 class SecurityValidator:
@@ -47,7 +47,7 @@ class SecurityValidator:
         
         services = [
             ("API Server", API_BASE_URL),
-            ("Keycloak", KEYCLOAK_BASE_URL),
+
             ("Traefik Dashboard", TRAEFIK_DASHBOARD_URL)
         ]
         

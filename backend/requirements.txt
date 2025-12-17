@@ -11,8 +11,7 @@ python-dotenv>=1.0.1
 python-socketio>=5.11.2
 kafka-python>=2.0.2
 
-# Security Dependencies
-PyJWT>=2.8.0
-cryptography>=41.0.0
-python-jose[cryptography]>=3.3.0
+
 requests>=2.31.0
+
+aiokafka>=0.10.0

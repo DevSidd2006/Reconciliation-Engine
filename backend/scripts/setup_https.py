@@ -159,11 +159,11 @@ class HTTPSSetup:
         print("   • API: https://localhost/api/")
         print("   • API Health: https://localhost/api/health")
         print("   • Traefik Dashboard: https://localhost/dashboard/")
-        print("   • Keycloak: https://localhost/auth/")
+
         print()
         print("🔓 HTTP URLs (Development):")
         print("   • API: http://localhost:8000/")
-        print("   • Keycloak: http://localhost:8082/")
+
         print("   • Traefik Dashboard: http://localhost:8081/")
         print()
         print("⚠️  Browser Security Warning:")

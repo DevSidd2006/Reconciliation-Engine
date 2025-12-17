@@ -1,8 +1,19 @@
+import sys
+import os
+
+# Add current directory (backend/app) to sys.path so modules can import each other
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 from routers.transactions_router import router as txn_router
 from routers.mismatches_router import router as mismatch_router
 from routers.admin_router import router as admin_router
+from routers.reports_router import router as reports_router
+from routers.ai_insights_router import router as ai_insights_router
+from routers.live_stream_router import router as live_stream_router
+from routers.system_health_router import router as system_health_router
+from routers.api_docs_router import router as api_docs_router
 from utils.redis import banking_rate_limit_middleware
 from security import (
     SecurityHeadersMiddleware, RequestValidationMiddleware, 
@@ -10,7 +21,6 @@ from security import (
 )
 from fastapi.middleware.cors import CORSMiddleware
 import logging
-import os
 
 # Configure comprehensive logging
 logging.basicConfig(
@@ -83,6 +93,11 @@ async def global_exception_handler(request: Request, exc: Exception):
 app.include_router(txn_router, prefix="/transactions", tags=["Transactions"])
 app.include_router(mismatch_router, prefix="/mismatches", tags=["Mismatches"])
 app.include_router(admin_router, prefix="/admin", tags=["Administration"])
+app.include_router(reports_router, prefix="/reports", tags=["Reports"])
+app.include_router(ai_insights_router, prefix="/ai-insights", tags=["AI Insights"])
+app.include_router(live_stream_router, prefix="/live-stream", tags=["Live Stream"])
+app.include_router(system_health_router, prefix="/system-health", tags=["System Health"])
+app.include_router(api_docs_router, prefix="/api-docs", tags=["API Documentation"])
 
 @app.get("/", tags=["Health"])
 async def root(request: Request):
@@ -140,7 +155,7 @@ async def health_check(request: Request):
 async def security_status():
     """Security configuration status endpoint"""
     return {
-        "authentication": "Keycloak OAuth2/OIDC",
+        "authentication": "Mock Auth (Dev Mode)",
         "authorization": "Role-Based Access Control (RBAC)",
         "audit_logging": "enabled",
         "rate_limiting": "enabled",
@@ -156,15 +171,26 @@ async def startup_event():
     logger.info("Starting Banking-Grade Transaction Reconciliation API")
     logger.info("Security features: Authentication, Authorization, Audit Logging, Rate Limiting")
     
-    # Log application startup
-    audit_logger.log_admin_action(
-        user_id="system",
-        username="system",
-        action="application_startup",
-        resource="api_server",
-        ip_address="127.0.0.1",
-        details={"version": "1.0.0", "security_enabled": True}
-    )
+    try:
+        # Log application startup
+        audit_logger.log_admin_action(
+            user_id="system",
+            username="system",
+            action="application_startup",
+            resource="api_server",
+            ip_address="127.0.0.1",
+            details={"version": "1.0.0", "security_enabled": True, "realtime_enabled": True}
+        )
+    except Exception as e:
+        logger.warning(f"Could not log startup action: {e}")
+    
+    # Optional: Start Kafka Consumer in background (can be commented out if Kafka not available)
+    # import asyncio
+    # from services.consumer import consume_transactions
+    # try:
+    #     asyncio.create_task(consume_transactions())
+    # except Exception as e:
+    #     logger.warning(f"Could not start Kafka consumer: {e}")
 
 # Shutdown event
 @app.on_event("shutdown")
@@ -172,12 +198,22 @@ async def shutdown_event():
     """Application shutdown with security logging"""
     logger.info("Shutting down Banking-Grade Transaction Reconciliation API")
     
-    # Log application shutdown
-    audit_logger.log_admin_action(
-        user_id="system",
-        username="system",
-        action="application_shutdown",
-        resource="api_server",
-        ip_address="127.0.0.1",
-        details={"graceful_shutdown": True}
-    )
+    try:
+        # Log application shutdown
+        audit_logger.log_admin_action(
+            user_id="system",
+            username="system",
+            action="application_shutdown",
+            resource="api_server",
+            ip_address="127.0.0.1",
+            details={"graceful_shutdown": True}
+        )
+    except Exception as e:
+        logger.warning(f"Could not log shutdown action: {e}")
+
+# Wrap FastAPI with Socket.IO
+from utils.socket_manager import socket_manager
+import socketio
+
+# Create a new ASGI app that combines Socket.IO and FastAPI
+app = socketio.ASGIApp(socket_manager.server, other_asgi_app=app)

@@ -219,30 +219,61 @@ def get_mismatches_by_transaction(
             detail=error("Failed to retrieve transaction mismatches", "TXN_MISMATCH_ERROR")
         )
 
-@router.post("/resolve")
-def resolve_mismatch(
-    mismatch_data: dict,
+@router.post("/{mismatch_id}/resolve")
+async def resolve_mismatch(
+    mismatch_id: str,
+    resolution_data: dict,
     request: Request,
     current_user: dict = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
     """Resolve a mismatch (operator access required)"""
     try:
-        # Log data access
-        audit_logger.log_data_access(
+        from datetime import datetime
+        from utils.socket_manager import socket_manager
+        
+        # 1. Get Mismatch
+        mismatch = db.query(Mismatch).filter(Mismatch.id == mismatch_id).first()
+        if not mismatch:
+            raise HTTPException(status_code=404, detail="Mismatch not found")
+            
+        # 2. Update Status
+        mismatch.status = "RESOLVED"
+        mismatch.resolution_notes = resolution_data.get("notes", "Resolved by operator")
+        mismatch.resolved_at = datetime.utcnow()
+        mismatch.resolved_by = current_user["username"]
+        
+        db.commit()
+        db.refresh(mismatch)
+        
+        # 3. Invalidate Caches
+        cache_manager.invalidate_pattern("mismatches:*")
+        
+        # 4. Emit Real-time Event
+        await socket_manager.emit_mismatch("mismatch_resolved", {
+            "id": mismatch.id,
+            "status": "RESOLVED",
+            "resolved_by": mismatch.resolved_by,
+            "resolved_at": mismatch.resolved_at.isoformat()
+        })
+
+        # 5. Log Action
+        audit_logger.log_admin_action(
             user_id=current_user["user_id"],
             username=current_user["username"],
-            method=request.method,
-            endpoint=request.url.path,
+            action="resolve_mismatch",
             resource="mismatches",
-            action="resolve",
             ip_address=request.client.host,
-            record_count=1
+            details={
+                "mismatch_id": mismatch_id, 
+                "notes": mismatch.resolution_notes
+            }
         )
         
-        return success(data={"message": "Mismatch resolution endpoint - implementation pending"})
+        return success(data={"message": "Mismatch resolved successfully", "mismatch": mismatch})
     except Exception as e:
         logger.error(f"Failed to resolve mismatch: {e}")
+        db.rollback()
         raise HTTPException(
             status_code=500,
             detail=error("Failed to resolve mismatch", "MISMATCH_RESOLVE_ERROR")

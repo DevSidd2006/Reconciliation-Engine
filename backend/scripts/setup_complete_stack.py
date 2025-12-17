@@ -190,7 +190,7 @@ class CompleteStackSetup:
         print("🌐 Access Points:")
         print("  • API Documentation: http://localhost:8000/docs")
         print("  • API Health: http://localhost:8000/health")
-        print("  • Keycloak Admin: http://localhost:8080")
+
         print("  • Traefik Dashboard: http://localhost:8081")
         print()
         print("🔑 Test Users:")
@@ -223,8 +223,8 @@ class CompleteStackSetup:
         print("This script will set up the complete system including:")
         print("  • Backend API with virtual environment")
         print("  • Frontend dependencies")
-        print("  • Docker containers (PostgreSQL, Redis, Keycloak, Traefik)")
-        print("  • Automatic realm import and token generation")
+        print("  • Docker containers (PostgreSQL, Redis, Traefik)")
+        print("  • Mock authentication for development")
         print("  • Health checks and validation")
         print()
         

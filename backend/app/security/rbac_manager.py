@@ -9,7 +9,7 @@ This module provides:
 """
 
 from fastapi import Depends, HTTPException, status
-from security.auth import get_current_user
+from security import get_current_user
 
 ROLE_HIERARCHY = {
     "admin": ["auditor", "operator", "viewer"],

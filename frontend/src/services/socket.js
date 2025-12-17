@@ -19,32 +19,48 @@ class SocketService {
         }
 
         const token = localStorage.getItem('token');
+        console.log('SocketService: Connecting to', SOCKET_URL, 'with token:', token ? 'present' : 'missing');
 
         this.socket = io(SOCKET_URL, {
-            auth: {
-                token: token || '',
-            },
-            transports: ['websocket', 'polling'],
+            transports: ['polling', 'websocket'],
             reconnection: true,
             reconnectionDelay: 1000,
             reconnectionDelayMax: 5000,
             reconnectionAttempts: 5,
+            timeout: 10000,
+            forceNew: true
         });
 
         this.socket.on('connect', () => {
-            console.log('Socket.IO connected:', this.socket.id);
+            console.log('✅ Socket.IO connected successfully! ID:', this.socket.id);
         });
 
         this.socket.on('disconnect', (reason) => {
-            console.log('Socket.IO disconnected:', reason);
+            console.log('❌ Socket.IO disconnected. Reason:', reason);
         });
 
         this.socket.on('connect_error', (error) => {
-            console.error('Socket.IO connection error:', error);
+            console.error('🚫 Socket.IO connection error:', error.message || error);
         });
 
         this.socket.on('error', (error) => {
-            console.error('Socket.IO error:', error);
+            console.error('⚠️ Socket.IO error:', error);
+        });
+
+        this.socket.on('reconnect', (attemptNumber) => {
+            console.log('🔄 Socket.IO reconnected after', attemptNumber, 'attempts');
+        });
+
+        this.socket.on('reconnect_attempt', (attemptNumber) => {
+            console.log('🔄 Socket.IO reconnection attempt', attemptNumber);
+        });
+
+        this.socket.on('reconnect_error', (error) => {
+            console.error('🚫 Socket.IO reconnection error:', error);
+        });
+
+        this.socket.on('reconnect_failed', () => {
+            console.error('💥 Socket.IO reconnection failed - giving up');
         });
     }
 

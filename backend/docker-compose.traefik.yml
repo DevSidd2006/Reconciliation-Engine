@@ -35,7 +35,7 @@ services:
     ports:
       - "80:80"
       - "443:443"
-      - "8081:8080"  # Traefik dashboard (avoid conflict with Keycloak)
+      - "8081:8080"  # Traefik dashboard
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./traefik:/etc/traefik/certs:ro
@@ -67,8 +67,6 @@ services:
     environment:
       - DATABASE_URL=postgresql://postgres:${POSTGRES_PASSWORD}@postgres:5432/reconciliation_db
       - REDIS_URL=redis://:${REDIS_PASSWORD:-redis123}@redis:6379
-      - KEYCLOAK_SERVER_URL=http://keycloak:8080
-      - INTERNAL_NETWORK=${INTERNAL_NETWORK}
       - REDIS_PASSWORD=${REDIS_PASSWORD:-redis123}
     env_file:
       - .env
@@ -103,45 +101,7 @@ services:
       - "traefik.http.routers.api-http.middlewares=api-strip-prefix@docker"
       - "traefik.http.middlewares.api-auth.forwardauth.trustforwardheader=true"
 
-  # Keycloak Identity Provider
-  keycloak:
-    image: quay.io/keycloak/keycloak:23.0
-    container_name: reconciliation_keycloak
-    environment:
-      - KEYCLOAK_ADMIN=admin
-      - KEYCLOAK_ADMIN_PASSWORD=${KEYCLOAK_ADMIN_PASSWORD:-admin123}
-      - KC_HOSTNAME_STRICT=false
-      - KC_HTTP_ENABLED=true
-      - KC_PROXY=edge
-      - KC_HOSTNAME_PORT=8082
-    command:
-      - start-dev
-      - --import-realm
-    volumes:
-      - ./keycloak/realm-export.json:/opt/keycloak/data/import/realm-export.json:ro
-    depends_on:
-      - postgres
-    networks:
-      - banking_network
-    ports:
-      - "8082:8080"  # Expose for development (avoid port conflict)
-    labels:
-      - "traefik.enable=true"
-      
-      # Keycloak routing for localhost HTTPS
-      - "traefik.http.routers.keycloak.rule=Host(`localhost`) && PathPrefix(`/auth/`)"
-      - "traefik.http.routers.keycloak.tls=true"
-      - "traefik.http.routers.keycloak.middlewares=security-headers@docker,keycloak-strip-prefix@docker"
-      
-      # Keycloak routing for HTTP (development)
-      - "traefik.http.routers.keycloak-http.rule=Host(`localhost`) && PathPrefix(`/auth/`)"
-      - "traefik.http.routers.keycloak-http.middlewares=security-headers@docker,keycloak-strip-prefix@docker"
-      
-      # Service configuration
-      - "traefik.http.services.keycloak.loadbalancer.server.port=8080"
-      
-      # Strip /auth prefix middleware
-      - "traefik.http.middlewares.keycloak-strip-prefix.stripprefix.prefixes=/auth"
+
 
   # PostgreSQL Database (internal only)
   postgres:
@@ -153,7 +113,6 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./init-keycloak-db.sql:/docker-entrypoint-initdb.d/init-keycloak-db.sql
     networks:
       - banking_network
     # No external ports - internal access only

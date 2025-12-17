@@ -9,7 +9,6 @@ This package provides comprehensive security features including:
 - Threat detection and monitoring
 """
 
-from .keycloak_config import keycloak_config, KeycloakConfig
 from .auth import get_current_user
 from .rbac_manager import require_admin, require_auditor, require_operator, require_viewer, has_role
 from .audit_logger import audit_logger, BankingAuditLogger, AuditLog
@@ -19,11 +18,7 @@ from .security_middleware import (
 )
 
 __all__ = [
-    # Keycloak Integration
-    'keycloak_config',
-    'KeycloakConfig',
-    
-    # Authentication
+    # Authentication (Mock only)
     'get_current_user',
     
     # RBAC System

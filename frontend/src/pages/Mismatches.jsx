@@ -1,14 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Filter, AlertTriangle } from 'lucide-react';
+import { Search, AlertTriangle } from 'lucide-react';
 import { mismatchAPI } from '../services/api';
 import { LoadingSpinner, LoadingSkeleton } from '../components/common/LoadingSpinner';
-import { formatDate, getMismatchBadge, getMismatchColor } from '../utils/helpers';
+import { formatDate, getMismatchBadge } from '../utils/helpers';
 
 export const Mismatches = () => {
+    // Data Loading State
     const [mismatches, setMismatches] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [typeFilter, setTypeFilter] = useState('all');
+
+    // Resolution Modal State
+    const [selectedMismatch, setSelectedMismatch] = useState(null);
+    const [resolutionNotes, setResolutionNotes] = useState("");
+    const [resolving, setResolving] = useState(false);
 
     useEffect(() => {
         loadMismatches();
@@ -17,15 +23,9 @@ export const Mismatches = () => {
     const loadMismatches = async () => {
         try {
             setLoading(true);
-            // Mock data for now - replace with actual API call when backend is ready
-            const mockMismatches = Array.from({ length: 15 }, (_, i) => ({
-                id: `MISM${String(i + 1).padStart(6, '0')}`,
-                txn_id: `TXN${String(Math.floor(Math.random() * 1000)).padStart(6, '0')}`,
-                mismatch_type: ['amount_mismatch', 'status_mismatch', 'timestamp_mismatch', 'missing_transaction'][Math.floor(Math.random() * 4)],
-                detected_at: new Date(Date.now() - Math.random() * 86400000).toISOString(),
-                details: 'Core banking shows $1,234.56 but gateway shows $1,234.57. Difference: $0.01',
-            }));
-            setMismatches(mockMismatches);
+            const response = await mismatchAPI.getAll();
+            // Backend returns wrapped response: { status: "success", data: [...] }
+            setMismatches(response.data || []);
         } catch (error) {
             console.error('Failed to load mismatches:', error);
         } finally {
@@ -33,15 +33,81 @@ export const Mismatches = () => {
         }
     };
 
+    const handleResolveClick = (mismatch) => {
+        setSelectedMismatch(mismatch);
+        setResolutionNotes("");
+    };
+
+    const confirmResolve = async () => {
+        if (!selectedMismatch) return;
+        try {
+            setResolving(true);
+            await mismatchAPI.resolve(selectedMismatch.id, { notes: resolutionNotes });
+
+            // Optimistic update
+            setMismatches(prev => prev.map(m =>
+                m.id === selectedMismatch.id
+                    ? { ...m, status: 'RESOLVED', resolution_notes: resolutionNotes }
+                    : m
+            ));
+
+            setSelectedMismatch(null);
+        } catch (error) {
+            console.error("Failed to resolve:", error);
+            alert("Failed to resolve mismatch. Please try again.");
+        } finally {
+            setResolving(false);
+        }
+    };
+
     const filteredMismatches = mismatches.filter((mismatch) => {
-        const matchesSearch = mismatch.txn_id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            mismatch.id.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesSearch = String(mismatch.txn_id).toLowerCase().includes(searchTerm.toLowerCase()) ||
+            String(mismatch.id).toLowerCase().includes(searchTerm.toLowerCase());
         const matchesType = typeFilter === 'all' || mismatch.mismatch_type === typeFilter;
         return matchesSearch && matchesType;
     });
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-6 relative">
+            {/* Resolution Modal */}
+            {selectedMismatch && (
+                <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+                    <div className="bg-gray-800 border border-gray-700 rounded-lg p-6 max-w-md w-full">
+                        <h3 className="text-xl font-bold text-white mb-4">Resolve Mismatch</h3>
+                        <p className="text-gray-400 mb-2">ID: {selectedMismatch.id}</p>
+                        <p className="text-gray-400 mb-4 text-sm">{selectedMismatch.details}</p>
+
+                        <div className="mb-4">
+                            <label className="block text-gray-300 mb-2 text-sm">Resolution Notes</label>
+                            <textarea
+                                className="w-full bg-gray-900 border border-gray-700 rounded p-3 text-white focus:ring-2 focus:ring-blue-500 outline-none"
+                                rows="3"
+                                placeholder="Explain how this was resolved..."
+                                value={resolutionNotes}
+                                onChange={(e) => setResolutionNotes(e.target.value)}
+                            />
+                        </div>
+
+                        <div className="flex justify-end gap-3">
+                            <button
+                                onClick={() => setSelectedMismatch(null)}
+                                className="px-4 py-2 text-gray-300 hover:text-white"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={confirmResolve}
+                                disabled={resolving}
+                                className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded font-medium flex items-center"
+                            >
+                                {resolving ? <LoadingSpinner className="w-4 h-4 mr-2" /> : null}
+                                Confirm Resolution
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             {/* Page Header */}
             <div>
                 <h1 className="text-3xl font-bold text-gradient mb-2">Mismatches</h1>
@@ -110,8 +176,8 @@ export const Mismatches = () => {
                         <div key={mismatch.id} className="glass-card-hover p-6">
                             <div className="flex items-start justify-between mb-4">
                                 <div className="flex items-center gap-3">
-                                    <div className="p-3 rounded-lg bg-danger-light/20">
-                                        <AlertTriangle className="w-6 h-6 text-danger-light" />
+                                    <div className={`p-3 rounded-lg ${mismatch.status === 'RESOLVED' ? 'bg-green-900/20' : 'bg-red-900/20'}`}>
+                                        <AlertTriangle className={`w-6 h-6 ${mismatch.status === 'RESOLVED' ? 'text-green-500' : 'text-red-500'}`} />
                                     </div>
                                     <div>
                                         <div className="flex items-center gap-2 mb-1">
@@ -119,6 +185,11 @@ export const Mismatches = () => {
                                             <span className={getMismatchBadge(mismatch.mismatch_type)}>
                                                 {mismatch.mismatch_type.replace('_', ' ')}
                                             </span>
+                                            {mismatch.status === 'RESOLVED' && (
+                                                <span className="px-2 py-0.5 rounded text-xs bg-green-900 text-green-400 border border-green-800">
+                                                    RESOLVED
+                                                </span>
+                                            )}
                                         </div>
                                         <p className="text-sm text-dark-400">
                                             Transaction: <span className="font-mono text-primary-400">{mismatch.txn_id}</span>
@@ -130,15 +201,25 @@ export const Mismatches = () => {
 
                             <div className="bg-white/5 rounded-lg p-4 mb-4">
                                 <p className="text-sm text-dark-200">{mismatch.details}</p>
+                                {mismatch.resolution_notes && (
+                                    <div className="mt-2 pt-2 border-t border-white/10 text-xs text-green-400">
+                                        <span className="font-bold">Resolution:</span> {mismatch.resolution_notes}
+                                    </div>
+                                )}
                             </div>
 
                             <div className="flex gap-3">
                                 <button className="btn-primary text-sm px-4 py-2">
                                     Investigate
                                 </button>
-                                <button className="btn-secondary text-sm px-4 py-2">
-                                    Mark as Resolved
-                                </button>
+                                {mismatch.status !== 'RESOLVED' && (
+                                    <button
+                                        onClick={() => handleResolveClick(mismatch)}
+                                        className="btn-secondary text-sm px-4 py-2"
+                                    >
+                                        Mark as Resolved
+                                    </button>
+                                )}
                             </div>
                         </div>
                     ))

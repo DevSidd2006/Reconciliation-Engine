@@ -1,12 +1,4 @@
-// Authentication configuration
-export const ENABLE_KEYCLOAK = false;
-
-// Keycloak configuration
-export const KEYCLOAK_CONFIG = {
-  url: import.meta.env.VITE_KEYCLOAK_URL || 'http://localhost:8082',
-  realm: import.meta.env.VITE_KEYCLOAK_REALM || 'reconciliation',
-  clientId: import.meta.env.VITE_KEYCLOAK_CLIENT_ID || 'reconciliation-frontend',
-};
+// Authentication configuration - Keycloak removed, using mock auth only
 
 // Chart configuration
 export const CHART_DATA_POINTS = 12;

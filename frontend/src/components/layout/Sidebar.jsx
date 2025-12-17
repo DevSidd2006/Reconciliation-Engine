@@ -1,11 +1,30 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, ArrowLeftRight, AlertTriangle, X, Menu } from 'lucide-react';
+import { 
+    LayoutDashboard, 
+    ArrowLeftRight, 
+    AlertTriangle, 
+    X, 
+    Menu,
+    FileText,
+    Radio,
+    Brain,
+    FileSearch,
+    Activity,
+    Settings,
+    Shield
+} from 'lucide-react';
 
 const menuItems = [
     { path: '/', icon: LayoutDashboard, label: 'Dashboard' },
     { path: '/transactions', icon: ArrowLeftRight, label: 'Transactions' },
     { path: '/mismatches', icon: AlertTriangle, label: 'Mismatches' },
+    { path: '/reports', icon: FileText, label: 'Reports' },
+    { path: '/live-stream', icon: Radio, label: 'Live Stream' },
+    { path: '/ai-insights', icon: Brain, label: 'AI Insights' },
+    { path: '/audit-logs', icon: FileSearch, label: 'Audit Logs' },
+    { path: '/system-health', icon: Activity, label: 'System Health' },
+    { path: '/settings', icon: Settings, label: 'Settings' },
 ];
 
 export const Sidebar = ({ isOpen, onClose }) => {

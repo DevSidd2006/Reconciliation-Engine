@@ -1,5 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TransactionsTable, MismatchesTable, FiltersBar } from '../components/dashboard';
+import MismatchHeatmap from '../components/dashboard/MismatchHeatmap';
+import { KPICards } from '../components/dashboard/KPICards';
+import { RealTimeChart } from '../components/dashboard/RealTimeChart';
+import { AIInsightPanel } from '../components/dashboard/AIInsightPanel';
 import { useTransactions, useMismatches } from '../hooks';
 
 const LoadingSpinner = () => (
@@ -31,8 +35,45 @@ export default function Dashboard() {
     status: ''
   });
 
+  const [stats, setStats] = useState({
+    totalTransactions: 0,
+    matchedTransactions: 0,
+    mismatches: 0,
+    pendingTransactions: 0,
+    highRiskAlerts: 0
+  });
+
   const { transactions, loading: transactionsLoading, error: transactionsError, refetch: refetchTransactions } = useTransactions();
   const { mismatches, loading: mismatchesLoading, error: mismatchesError, refetch: refetchMismatches } = useMismatches();
+
+  // Calculate stats from transactions and mismatches
+  useEffect(() => {
+    if (transactions.length > 0) {
+      const totalTransactions = transactions.length;
+      const matchedTransactions = transactions.filter(t => t.status === 'matched').length;
+      const pendingTransactions = transactions.filter(t => t.status === 'pending').length;
+      const mismatchCount = mismatches.length;
+      const highRiskAlerts = mismatches.filter(m => m.severity === 'high').length;
+
+      setStats({
+        totalTransactions,
+        matchedTransactions,
+        mismatches: mismatchCount,
+        pendingTransactions,
+        highRiskAlerts
+      });
+    }
+  }, [transactions, mismatches]);
+
+  // Auto-refresh every 30 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      refetchTransactions();
+      refetchMismatches();
+    }, 30000);
+
+    return () => clearInterval(interval);
+  }, [refetchTransactions, refetchMismatches]);
 
   // Filter transactions based on current filters
   const filteredTransactions = transactions.filter(transaction => {
@@ -50,45 +91,90 @@ export default function Dashboard() {
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
-      <h1 className="text-3xl font-bold text-dark-100 mb-6">
-        Transaction Reconciliation Dashboard
-      </h1>
+      <div className="flex items-center justify-between mb-8">
+        <div>
+          <h1 className="text-3xl font-bold text-dark-100">
+            Banking Reconciliation Dashboard
+          </h1>
+          <p className="text-dark-400 mt-2">Real-time transaction monitoring and mismatch detection</p>
+        </div>
+        <div className="text-right">
+          <p className="text-sm text-dark-400">Last sync:</p>
+          <p className="text-sm text-dark-200">{new Date().toLocaleString()}</p>
+        </div>
+      </div>
 
+      {/* KPI Summary Cards */}
+      <KPICards stats={stats} />
+
+      {/* Real-Time Streaming Chart */}
+      <RealTimeChart />
+
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-8">
+        {/* Recent Transactions */}
+        <div className="xl:col-span-1">
+          <div className="glass-card p-6">
+            <h3 className="text-lg font-semibold mb-4 text-dark-100">Recent Transactions</h3>
+            {transactionsLoading ? (
+              <LoadingSpinner />
+            ) : transactionsError ? (
+              <ErrorMessage message={transactionsError} onRetry={refetchTransactions} />
+            ) : (
+              <TransactionsTable transactions={filteredTransactions.slice(0, 5)} compact={true} />
+            )}
+          </div>
+        </div>
+
+        {/* Recent Mismatches */}
+        <div className="xl:col-span-1">
+          <div className="glass-card p-6">
+            <h3 className="text-lg font-semibold mb-4 text-dark-100">Recent Mismatches</h3>
+            {mismatchesLoading ? (
+              <LoadingSpinner />
+            ) : mismatchesError ? (
+              <ErrorMessage message={mismatchesError} onRetry={refetchMismatches} />
+            ) : (
+              <MismatchesTable mismatches={mismatches.slice(0, 5)} compact={true} />
+            )}
+          </div>
+        </div>
+
+        {/* AI Insights Panel */}
+        <div className="xl:col-span-1">
+          <AIInsightPanel />
+        </div>
+      </div>
+
+      {/* Mismatch Heatmap */}
+      <div className="mb-8">
+        <MismatchHeatmap data={mismatches} />
+      </div>
+
+      {/* Filters and Full Tables */}
       <FiltersBar filters={filters} setFilters={setFilters} />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div>
-          <h2 className="text-xl font-semibold mb-4 text-dark-100">Recent Transactions</h2>
+        <div className="glass-card p-6">
+          <h3 className="text-lg font-semibold mb-4 text-dark-100">All Transactions</h3>
           {transactionsLoading ? (
             <LoadingSpinner />
           ) : transactionsError ? (
             <ErrorMessage message={transactionsError} onRetry={refetchTransactions} />
           ) : (
-            <TransactionsTable transactions={filteredTransactions.slice(0, 10)} />
+            <TransactionsTable transactions={filteredTransactions} />
           )}
         </div>
 
-        <div>
-          <h2 className="text-xl font-semibold mb-4 text-dark-100">Recent Mismatches</h2>
+        <div className="glass-card p-6">
+          <h3 className="text-lg font-semibold mb-4 text-dark-100">All Mismatches</h3>
           {mismatchesLoading ? (
             <LoadingSpinner />
           ) : mismatchesError ? (
             <ErrorMessage message={mismatchesError} onRetry={refetchMismatches} />
           ) : (
-            <MismatchesTable mismatches={mismatches.slice(0, 10)} />
+            <MismatchesTable mismatches={mismatches} />
           )}
         </div>
-      </div>
-
-      <div className="mt-8">
-        <h2 className="text-xl font-semibold mb-4 text-dark-100">All Transactions</h2>
-        {transactionsLoading ? (
-          <LoadingSpinner />
-        ) : transactionsError ? (
-          <ErrorMessage message={transactionsError} onRetry={refetchTransactions} />
-        ) : (
-          <TransactionsTable transactions={filteredTransactions} />
-        )}
       </div>
     </div>
   );

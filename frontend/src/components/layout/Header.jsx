@@ -22,9 +22,11 @@ export const Header = ({ onMenuClick }) => {
 
                     <div className="hidden lg:block">
                         <h2 className="text-lg font-semibold text-dark-100">
-                            Transaction Reconciliation Dashboard
+                            Banking Reconciliation System
                         </h2>
-                        <p className="text-xs text-dark-400">Monitor real-time transaction mismatches</p>
+                        <p className="text-xs text-dark-400">
+                            Last sync: {new Date().toLocaleTimeString()} • Real-time monitoring active
+                        </p>
                     </div>
                 </div>
 

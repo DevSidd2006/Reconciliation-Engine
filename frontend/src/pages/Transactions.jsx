@@ -142,7 +142,11 @@ export const Transactions = () => {
                                 </tr>
                             ) : (
                                 filteredTransactions.map((txn) => (
-                                    <tr key={txn.txn_id} className="hover:bg-white/5 transition-colors">
+                                    <tr
+                                        key={txn.txn_id}
+                                        className="hover:bg-white/5 transition-colors cursor-pointer"
+                                        onClick={() => window.location.href = `/transactions/${txn.txn_id}`}
+                                    >
                                         <td className="px-6 py-4">
                                             <span className="font-mono text-sm text-primary-400">{txn.txn_id}</span>
                                         </td>
