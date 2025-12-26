@@ -9,6 +9,7 @@ import AnalyticsCharts from './AnalyticsCharts';
 import AnomalyAlerts from './AnomalyAlerts';
 import AdminPanel from './AdminPanel';
 import PaymentReconciliation from './PaymentReconciliation';
+import SystemHealth from './SystemHealth';
 import Sidebar from './Sidebar';
 
 const OperationsDashboard = () => {
@@ -45,6 +46,7 @@ const OperationsDashboard = () => {
       case 'transactions': return 'Live Transactions';
       case 'mismatches': return 'Reconciliation Mismatches';
       case 'analytics': return 'Analytics & Reports';
+      case 'system-health': return 'System Health Monitor';
       case 'reconciliation': return 'Transaction Reconciliation';
       case 'drilldown': return 'Transaction Details';
       case 'admin': return 'System Administration';
@@ -145,6 +147,10 @@ const OperationsDashboard = () => {
 
           {activeTab === 'analytics' && (
             <AnalyticsCharts dateRange={dateRange} />
+          )}
+
+          {activeTab === 'system-health' && (
+            <SystemHealth />
           )}
 
           {activeTab === 'reconciliation' && (

@@ -36,6 +36,12 @@ const Sidebar = ({ activeTab, setActiveTab, selectedTransaction, onLogout }) => 
           description: 'Reports and analytics'
         },
         {
+          id: 'system-health',
+          label: 'System Health',
+          icon: '⚡',
+          description: 'Infrastructure monitoring and system health'
+        },
+        {
           id: 'reconciliation',
           label: 'Transaction Reconciliation',
           icon: '⚖',

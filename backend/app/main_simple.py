@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from .routers.auth_router_simple import router as auth_router
 from .routers.analytics_router_simple import router as analytics_router
 from .routers.dashboard_router_simple import router as dashboard_router
+from .routers.system_health_router import router as system_health_router
 
 app = FastAPI(
     title="Banking Reconciliation API - Working",
@@ -36,6 +37,7 @@ async def add_no_cache_headers(request: Request, call_next):
 app.include_router(auth_router, prefix="/auth", tags=["Authentication"])
 app.include_router(analytics_router, prefix="/api/analytics", tags=["Analytics"])
 app.include_router(dashboard_router, prefix="/api", tags=["Dashboard"])
+app.include_router(system_health_router, prefix="/api", tags=["System Health"])
 
 # Add Redis stats endpoint to prevent 404 errors
 @app.get("/api/redis/stats")
