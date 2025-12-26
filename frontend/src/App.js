@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './styles/brutalism.css';
+import './styles/professional.css';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import LoginForm from './components/LoginForm';
 import UserProfile from './components/UserProfile';
@@ -28,19 +28,27 @@ function AuthenticatedApp() {
     return (
       <div className="App">
         <header className="header">
-          <div className="container">
-            <h1>🏦 RECONCILIATION ENGINE</h1>
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '1rem', margin: 0 }}>
-              AUTHENTICATING...
+          <div className="header-content">
+            <h1>🏦 Reconciliation Engine</h1>
+            <p className="header-subtitle">
+              Authenticating...
             </p>
           </div>
         </header>
-        <div className="container">
-          <div className="card" style={{ textAlign: 'center', padding: '60px' }}>
-            <h2>🔐 VERIFYING CREDENTIALS...</h2>
-            <p style={{ fontFamily: 'var(--font-mono)', marginTop: '20px' }}>
-              Checking authentication status
-            </p>
+        <div className="container" style={{ marginTop: 'var(--space-12)' }}>
+          <div className="card text-center">
+            <div className="card-body">
+              <h2>🔐 Verifying Credentials...</h2>
+              <p className="text-gray-600" style={{ marginTop: 'var(--space-4)' }}>
+                Checking authentication status
+              </p>
+              <div className="loading" style={{ 
+                height: '4px', 
+                backgroundColor: 'var(--gray-200)', 
+                borderRadius: 'var(--radius)',
+                marginTop: 'var(--space-6)'
+              }}></div>
+            </div>
           </div>
         </div>
       </div>

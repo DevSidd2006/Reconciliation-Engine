@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banking Dashboard - Theme Toggle Demo</title>
+    <link rel="stylesheet" href="../src/styles/professional.css">
+    <style>
+        @import url('../src/styles/professional.css');
+        
+        .demo-container {
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .demo-section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: var(--surface-primary);
+            border: 1px solid var(--surface-tertiary);
+            border-radius: var(--radius-lg);
+        }
+        
+        .theme-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .showcase-item {
+            padding: 1rem;
+            background: var(--surface-secondary);
+            border: 1px solid var(--surface-tertiary);
+            border-radius: var(--radius);
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with Theme Toggle -->
+    <div class="header">
+        <div class="header-content">
+            <div>
+                <h1>Banking Dashboard Theme Demo</h1>
+                <p class="header-subtitle">Experience Dark & Light Themes</p>
+            </div>
+            <div style="display: flex; gap: var(--space-4); align-items: center;">
+                <div class="theme-toggle" onclick="toggleTheme()" title="Switch theme">
+                    <span class="theme-toggle-icon">🌙</span>
+                    <div class="theme-toggle-switch"></div>
+                    <span class="theme-toggle-label">Dark</span>
+                </div>
+                <div class="status status-info">Demo User</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="demo-container">
+        <!-- Theme Toggle Instructions -->
+        <div class="demo-section">
+            <h2>Theme Toggle</h2>
+            <p>Click the theme toggle above to switch between dark and light modes. The theme preference is automatically saved to your browser's local storage.</p>
+            
+            <div class="alert alert-info" style="margin-top: 1rem;">
+                <strong>Pro Tip:</strong> The theme automatically detects your system preference on first visit!
+            </div>
+        </div>
+
+        <!-- Sample KPI Cards -->
+        <div class="demo-section">
+            <h2>Sample KPI Cards</h2>
+            <div class="grid grid-3">
+                <div class="metric">
+                    <div style="font-size: 2rem; margin-bottom: var(--space-2);">⧉</div>
+                    <div class="metric-value" style="color: var(--accent-blue);">1,247</div>
+                    <div class="metric-label">Total Transactions</div>
+                    <div class="metric-change positive">+12%</div>
+                </div>
+
+                <div class="metric">
+                    <div style="font-size: 2rem; margin-bottom: var(--space-2);">⊞</div>
+                    <div class="metric-value" style="color: var(--success);">98.5%</div>
+                    <div class="metric-label">Accuracy Rate</div>
+                    <div class="metric-change positive">+2.1%</div>
+                </div>
+
+                <div class="metric">
+                    <div style="font-size: 2rem; margin-bottom: var(--space-2);">⚠</div>
+                    <div class="metric-value" style="color: var(--warning);">2.3s</div>
+                    <div class="metric-label">Avg Response Time</div>
+                    <div class="metric-change negative">-0.5s</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Status Indicators -->
+        <div class="demo-section">
+            <h2>Status Indicators</h2>
+            <div style="display: flex; gap: var(--space-3); flex-wrap: wrap;">
+                <div class="status-indicator status-matched">Matched</div>
+                <div class="status-indicator status-processing">Processing</div>
+                <div class="status-indicator status-pending">Pending</div>
+                <div class="status-indicator status-mismatch">Mismatch</div>
+            </div>
+        </div>
+
+        <!-- Sample Table -->
+        <div class="demo-section">
+            <h2>Data Table</h2>
+            <table class="banking-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>TXN-001</td>
+                        <td>₹1,25,000.00</td>
+                        <td><span class="status-indicator status-matched">Matched</span></td>
+                        <td>10:30 AM</td>
+                    </tr>
+                    <tr>
+                        <td>TXN-002</td>
+                        <td>₹75,500.00</td>
+                        <td><span class="status-indicator status-processing">Processing</span></td>
+                        <td>10:28 AM</td>
+                    </tr>
+                    <tr>
+                        <td>TXN-003</td>
+                        <td>₹2,50,000.00</td>
+                        <td><span class="status-indicator status-pending">Pending</span></td>
+                        <td>10:25 AM</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Buttons Demo -->
+        <div class="demo-section">
+            <h2>Interactive Elements</h2>
+            <div style="display: flex; gap: var(--space-3); flex-wrap: wrap; margin-bottom: var(--space-4);">
+                <button class="btn btn-primary">Primary Action</button>
+                <button class="btn btn-success">Success Action</button>
+                <button class="btn btn-warning">Warning Action</button>
+                <button class="btn btn-error">Error Action</button>
+                <button class="btn btn-secondary">Secondary Action</button>
+            </div>
+
+            <div class="alert alert-success">
+                <strong>Theme Toggle Successfully Implemented!</strong>
+                <p>Your banking dashboard now supports both dark and light themes with smooth transitions and persistent preferences.</p>
+            </div>
+        </div>
+
+        <!-- Theme Features -->
+        <div class="demo-section">
+            <h2>Theme Features</h2>
+            <div class="theme-showcase">
+                <div class="showcase-item">
+                    <h4>Dark Theme</h4>
+                    <p>Professional dark interface perfect for extended use and low-light environments.</p>
+                </div>
+                <div class="showcase-item">
+                    <h4>Light Theme</h4>
+                    <p>Clean light interface ideal for bright environments and detailed data analysis.</p>
+                </div>
+                <div class="showcase-item">
+                    <h4>Smooth Transitions</h4>
+                    <p>Seamless theme switching with optimized animations and no visual glitches.</p>
+                </div>
+                <div class="showcase-item">
+                    <h4>Persistent Storage</h4>
+                    <p>Your theme preference is automatically saved and restored on future visits.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let isDark = true;
+
+        function toggleTheme() {
+            const root = document.documentElement;
+            const toggle = document.querySelector('.theme-toggle');
+            const icon = document.querySelector('.theme-toggle-icon');
+            const label = document.querySelector('.theme-toggle-label');
+            
+            // Add switching class to prevent transition flashing
+            root.classList.add('theme-switching');
+            
+            if (isDark) {
+                // Switch to light theme
+                root.setAttribute('data-theme', 'light');
+                toggle.classList.add('active');
+                icon.textContent = '☀️';
+                label.textContent = 'Light';
+                isDark = false;
+                localStorage.setItem('demo-theme', 'light');
+            } else {
+                // Switch to dark theme
+                root.removeAttribute('data-theme');
+                toggle.classList.remove('active');
+                icon.textContent = '🌙';
+                label.textContent = 'Dark';
+                isDark = true;
+                localStorage.setItem('demo-theme', 'dark');
+            }
+            
+            // Remove switching class after a brief delay
+            setTimeout(() => {
+                root.classList.remove('theme-switching');
+            }, 50);
+        }
+
+        // Initialize theme
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('demo-theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
+            
+            if (initialTheme === 'light') {
+                toggleTheme();
+            }
+        });
+    </script>
+</body>
+</html>

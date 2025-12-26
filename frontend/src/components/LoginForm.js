@@ -54,161 +54,119 @@ const LoginForm = () => {
   return (
     <div className="App">
       <header className="header">
-        <div className="container">
-          <h1>🏦 BANKING RECONCILIATION</h1>
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '1rem', margin: 0 }}>
-            SECURE AUTHENTICATION REQUIRED
-          </p>
+        <div className="header-content">
+          <div>
+            <h1>Banking Reconciliation</h1>
+            <p className="header-subtitle">
+              Secure Authentication Required
+            </p>
+          </div>
         </div>
       </header>
 
-      <div className="container">
-        <div className="card" style={{ maxWidth: '500px', margin: '0 auto' }}>
+      <div className="container" style={{ maxWidth: '500px', marginTop: 'var(--space-12)' }}>
+        <div className="card">
           <div className="card-header">
-            <h3 className="card-title">🔐 SECURE LOGIN</h3>
+            <h3 className="card-title">
+              <span className="icon">🔒</span>
+              Secure Login
+            </h3>
           </div>
 
-          <form onSubmit={handleSubmit} style={{ padding: '24px' }}>
-            {error && (
-              <div className="alert alert-error" style={{ marginBottom: '24px' }}>
-                <strong>❌ Authentication Failed</strong>
-                <p>{error}</p>
+          <div className="card-body">
+            <form onSubmit={handleSubmit}>
+              {error && (
+                <div className="alert alert-error" style={{ marginBottom: 'var(--space-6)' }}>
+                  <strong>
+                    <span className="icon">⚠</span>
+                    Authentication Failed
+                  </strong>
+                  <p>{error}</p>
+                </div>
+              )}
+
+              <div className="form-group">
+                <label className="form-label">
+                  Username
+                </label>
+                <input
+                  type="text"
+                  name="username"
+                  value={credentials.username}
+                  onChange={handleChange}
+                  required
+                  className="form-input"
+                  placeholder="Enter your username"
+                />
               </div>
-            )}
 
-            <div style={{ marginBottom: '20px' }}>
-              <label style={{ 
-                display: 'block', 
-                marginBottom: '8px', 
-                fontWeight: '700',
-                fontFamily: 'var(--font-mono)'
-              }}>
-                USERNAME
-              </label>
-              <input
-                type="text"
-                name="username"
-                value={credentials.username}
-                onChange={handleChange}
-                required
-                style={{
-                  width: '100%',
-                  padding: '12px',
-                  border: '3px solid var(--primary-black)',
-                  backgroundColor: 'var(--primary-white)',
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '1rem',
-                  boxSizing: 'border-box'
-                }}
-                placeholder="Enter your username"
-              />
-            </div>
+              <div className="form-group">
+                <label className="form-label">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  name="password"
+                  value={credentials.password}
+                  onChange={handleChange}
+                  required
+                  className="form-input"
+                  placeholder="Enter your password"
+                />
+              </div>
 
-            <div style={{ marginBottom: '24px' }}>
-              <label style={{ 
-                display: 'block', 
-                marginBottom: '8px', 
-                fontWeight: '700',
-                fontFamily: 'var(--font-mono)'
-              }}>
-                PASSWORD
-              </label>
-              <input
-                type="password"
-                name="password"
-                value={credentials.password}
-                onChange={handleChange}
-                required
-                style={{
-                  width: '100%',
-                  padding: '12px',
-                  border: '3px solid var(--primary-black)',
-                  backgroundColor: 'var(--primary-white)',
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '1rem',
-                  boxSizing: 'border-box'
-                }}
-                placeholder="Enter your password"
-              />
-            </div>
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="btn btn-primary"
-              style={{ width: '100%', marginBottom: '24px' }}
-            >
-              {loading ? '🔄 AUTHENTICATING...' : '🔐 SECURE LOGIN'}
-            </button>
-          </form>
+              <button
+                type="submit"
+                disabled={loading}
+                className="btn btn-primary"
+                style={{ width: '100%' }}
+              >
+                <span className="icon">{loading ? '↻' : '🔒'}</span>
+                {loading ? 'Authenticating...' : 'Secure Login'}
+              </button>
+            </form>
+          </div>
 
           {/* Demo Users Section */}
-          <div style={{ 
-            borderTop: '3px solid var(--primary-black)', 
-            padding: '24px',
-            backgroundColor: 'var(--gray-100)'
-          }}>
-            <h4 style={{ 
-              marginBottom: '16px', 
-              fontFamily: 'var(--font-mono)',
-              textAlign: 'center'
-            }}>
-              🎭 DEMO USERS
+          <div className="card-footer">
+            <h4 className="text-center" style={{ marginBottom: 'var(--space-4)' }}>
+              <span className="icon">👥</span>
+              Demo Users
             </h4>
             
-            <div className="grid grid-3">
+            <div className="grid grid-3" style={{ gap: 'var(--space-2)' }}>
               <button
                 onClick={() => loginAsDemo('admin')}
                 disabled={loading}
-                className="btn"
-                style={{
-                  backgroundColor: 'var(--error-red)',
-                  color: 'var(--primary-white)',
-                  fontSize: '0.875rem',
-                  padding: '8px 12px'
-                }}
+                className="btn btn-error btn-sm"
               >
-                👑 ADMIN
+                <span className="icon">👑</span>
+                Admin
               </button>
               
               <button
                 onClick={() => loginAsDemo('auditor')}
                 disabled={loading}
-                className="btn"
-                style={{
-                  backgroundColor: 'var(--warning-orange)',
-                  color: 'var(--primary-black)',
-                  fontSize: '0.875rem',
-                  padding: '8px 12px'
-                }}
+                className="btn btn-warning btn-sm"
               >
-                🔍 AUDITOR
+                <span className="icon">🔍</span>
+                Auditor
               </button>
               
               <button
                 onClick={() => loginAsDemo('operator')}
                 disabled={loading}
-                className="btn"
-                style={{
-                  backgroundColor: 'var(--accent-cyan)',
-                  color: 'var(--primary-black)',
-                  fontSize: '0.875rem',
-                  padding: '8px 12px'
-                }}
+                className="btn btn-secondary btn-sm"
               >
-                ⚙️ OPERATOR
+                <span className="icon">⚙</span>
+                Operator
               </button>
             </div>
 
-            <div style={{ 
-              marginTop: '16px', 
-              fontSize: '0.75rem', 
-              fontFamily: 'var(--font-mono)',
-              color: 'var(--gray-800)'
-            }}>
-              <p><strong>ADMIN:</strong> Full system access, all operations</p>
-              <p><strong>AUDITOR:</strong> Read-only access to all data</p>
-              <p><strong>OPERATOR:</strong> Limited operational access</p>
+            <div className="text-xs text-gray-600" style={{ marginTop: 'var(--space-4)' }}>
+              <p><strong>Admin:</strong> Full system access, all operations</p>
+              <p><strong>Auditor:</strong> Read-only access to all data</p>
+              <p><strong>Operator:</strong> Limited operational access</p>
             </div>
           </div>
         </div>

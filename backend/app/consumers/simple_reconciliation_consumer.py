@@ -36,6 +36,8 @@ def consume_topic(topic_name):
             stdout=subprocess.PIPE, 
             stderr=subprocess.PIPE, 
             text=True,
+            encoding='utf-8',
+            errors='ignore',
             bufsize=1
         )
         

@@ -3,7 +3,7 @@ const ReconciliationStatus = ({ details }) => {
     return (
       <div className="card" style={{ marginBottom: '32px' }}>
         <div className="card-header">
-          <h3 className="card-title">⚖️ RECONCILIATION STATUS</h3>
+          <h3 className="card-title">RECONCILIATION STATUS</h3>
         </div>
         <div style={{ textAlign: 'center', padding: '40px', fontFamily: 'var(--font-mono)' }}>
           LOADING RECONCILIATION DATA...
@@ -17,14 +17,14 @@ const ReconciliationStatus = ({ details }) => {
   return (
     <div className="card" style={{ marginBottom: '32px' }}>
       <div className="card-header">
-        <h3 className="card-title">⚖️ RECONCILIATION STATUS</h3>
+        <h3 className="card-title">RECONCILIATION STATUS</h3>
       </div>
       
       <div className="grid grid-3">
         {/* Reconciliation Progress */}
         <div>
           <h4 style={{ marginBottom: '16px', color: 'var(--primary-black)' }}>
-            📊 RECONCILIATION PROGRESS
+            RECONCILIATION PROGRESS
           </h4>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.875rem' }}>
             <div style={{ marginBottom: '8px' }}>
@@ -49,12 +49,12 @@ const ReconciliationStatus = ({ details }) => {
         {/* Mismatch Breakdown */}
         <div>
           <h4 style={{ marginBottom: '16px', color: 'var(--primary-black)' }}>
-            🚨 MISMATCH TYPES
+            MISMATCH TYPES
           </h4>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.875rem' }}>
             {Object.entries(mismatch_breakdown || {}).length === 0 ? (
               <div style={{ color: 'var(--success-green)', fontWeight: '700' }}>
-                ✅ NO MISMATCHES
+                NO MISMATCHES
               </div>
             ) : (
               Object.entries(mismatch_breakdown).map(([type, count]) => (
@@ -83,7 +83,7 @@ const ReconciliationStatus = ({ details }) => {
         {/* Source Activity */}
         <div>
           <h4 style={{ marginBottom: '16px', color: 'var(--primary-black)' }}>
-            🔄 SOURCE ACTIVITY
+            SOURCE ACTIVITY
           </h4>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.875rem' }}>
             {Object.entries(source_breakdown || {}).map(([source, count]) => (
@@ -115,7 +115,7 @@ const ReconciliationStatus = ({ details }) => {
       {details.recent_reconciled && details.recent_reconciled.length > 0 && (
         <div style={{ marginTop: '24px', borderTop: '3px solid var(--primary-black)', paddingTop: '16px' }}>
           <h4 style={{ marginBottom: '16px', color: 'var(--primary-black)' }}>
-            📋 RECENT RECONCILIATION RESULTS
+            RECENT RECONCILIATION RESULTS
           </h4>
           <div style={{ maxHeight: '200px', overflowY: 'auto' }}>
             {(details.recent_reconciled || []).slice(0, 5).map((result, index) => (

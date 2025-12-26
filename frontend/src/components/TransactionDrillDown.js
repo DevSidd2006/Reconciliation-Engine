@@ -105,14 +105,14 @@ const TransactionDrillDown = ({ transaction, onClose }) => {
       <div className="transaction-drilldown">
         <div className="card">
           <div className="card-header">
-            <h3 className="card-title">🔍 TRANSACTION DRILL-DOWN</h3>
+            <h3 className="card-title">TRANSACTION DRILL-DOWN</h3>
             <button onClick={onClose} className="btn" style={{ backgroundColor: 'var(--gray-400)' }}>
-              ✕ Close
+              Close
             </button>
           </div>
           <div style={{ textAlign: 'center', padding: '60px' }}>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: '1.2rem' }}>
-              🔄 Loading transaction details...
+              Loading transaction details...
             </div>
           </div>
         </div>
@@ -125,16 +125,16 @@ const TransactionDrillDown = ({ transaction, onClose }) => {
       <div className="transaction-drilldown">
         <div className="card">
           <div className="card-header">
-            <h3 className="card-title">🔍 TRANSACTION DRILL-DOWN</h3>
+            <h3 className="card-title">TRANSACTION DRILL-DOWN</h3>
             <button onClick={onClose} className="btn" style={{ backgroundColor: 'var(--gray-400)' }}>
-              ✕ Close
+              Close
             </button>
           </div>
           <div className="alert alert-error">
-            <h3>❌ Error Loading Transaction</h3>
+            <h3>Error Loading Transaction</h3>
             <p>{error}</p>
             <button onClick={fetchTransactionDetails} className="btn btn-primary" style={{ marginTop: '16px' }}>
-              🔄 Retry
+              Retry
             </button>
           </div>
         </div>
@@ -150,7 +150,7 @@ const TransactionDrillDown = ({ transaction, onClose }) => {
       <div className="card">
         <div className="card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
-            <h3 className="card-title">🔍 TRANSACTION DRILL-DOWN</h3>
+            <h3 className="card-title">TRANSACTION DRILL-DOWN</h3>
             <div style={{ 
               fontFamily: 'var(--font-mono)', 
               fontSize: '0.875rem', 
@@ -172,7 +172,7 @@ const TransactionDrillDown = ({ transaction, onClose }) => {
                   padding: '8px 16px'
                 }}
               >
-                {manualReconciling ? '🔄 Processing...' : '🔄 Re-run Reconciliation'}
+                {manualReconciling ? 'Processing...' : 'Re-run Reconciliation'}
               </button>
             )}
             <button 
@@ -184,7 +184,7 @@ const TransactionDrillDown = ({ transaction, onClose }) => {
                 padding: '8px 16px'
               }}
             >
-              ✕ Close
+              Close
             </button>
           </div>
         </div>
@@ -192,7 +192,7 @@ const TransactionDrillDown = ({ transaction, onClose }) => {
         {/* Transaction Overview */}
         <div style={{ padding: '24px', borderBottom: '2px solid var(--gray-200)' }}>
           <h4 style={{ marginBottom: '16px', color: 'var(--primary-black)' }}>
-            📊 TRANSACTION OVERVIEW
+            TRANSACTION OVERVIEW
           </h4>
           
           <div className="grid grid-3" style={{ gap: '16px' }}>
@@ -232,7 +232,7 @@ const TransactionDrillDown = ({ transaction, onClose }) => {
         {/* Source Comparison Matrix */}
         <div style={{ padding: '24px', borderBottom: '2px solid var(--gray-200)' }}>
           <h4 style={{ marginBottom: '16px', color: 'var(--primary-black)' }}>
-            🔄 SOURCE COMPARISON MATRIX
+            SOURCE COMPARISON MATRIX
           </h4>
           
           <div style={{ overflowX: 'auto' }}>
@@ -325,7 +325,7 @@ const TransactionDrillDown = ({ transaction, onClose }) => {
         {mismatches.length > 0 && (
           <div style={{ padding: '24px', borderBottom: '2px solid var(--gray-200)' }}>
             <h4 style={{ marginBottom: '16px', color: 'var(--primary-black)' }}>
-              🚨 DETECTED MISMATCHES
+              DETECTED MISMATCHES
             </h4>
             
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -339,7 +339,7 @@ const TransactionDrillDown = ({ transaction, onClose }) => {
                 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
                     <div style={{ fontWeight: '800', fontSize: '1rem' }}>
-                      ❌ {mismatch.type?.replace('_', ' ')} - {mismatch.severity} SEVERITY
+                      {mismatch.type?.replace('_', ' ')} - {mismatch.severity} SEVERITY
                     </div>
                     <div style={{ fontSize: '0.875rem', fontFamily: 'var(--font-mono)' }}>
                       Detected: {new Date(mismatch.detected_at).toLocaleString()}
@@ -366,7 +366,7 @@ const TransactionDrillDown = ({ transaction, onClose }) => {
         {/* Resolution Actions */}
         <div style={{ padding: '24px' }}>
           <h4 style={{ marginBottom: '16px', color: 'var(--primary-black)' }}>
-            🛠️ RESOLUTION ACTIONS
+            RESOLUTION ACTIONS
           </h4>
           
           <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
@@ -379,7 +379,7 @@ const TransactionDrillDown = ({ transaction, onClose }) => {
                 padding: '8px 16px'
               }}
             >
-              📄 Export Details
+              Export Details
             </button>
             
             <button
@@ -395,7 +395,7 @@ const TransactionDrillDown = ({ transaction, onClose }) => {
                 padding: '8px 16px'
               }}
             >
-              📋 Copy to Clipboard
+              Copy to Clipboard
             </button>
             
             {mismatches.length > 0 && (
@@ -407,7 +407,7 @@ const TransactionDrillDown = ({ transaction, onClose }) => {
                   padding: '8px 16px'
                 }}
               >
-                🚨 Escalate to Support
+                Escalate to Support
               </button>
             )}
             
@@ -423,7 +423,7 @@ const TransactionDrillDown = ({ transaction, onClose }) => {
                 padding: '8px 16px'
               }}
             >
-              📧 Email Investigation
+              Email Investigation
             </button>
           </div>
         </div>

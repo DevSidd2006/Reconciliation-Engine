@@ -22,7 +22,7 @@ const TransactionStream = ({ transactions = [] }) => {
   return (
     <div className="card">
       <div className="card-header">
-        <h3 className="card-title">🔄 Live Transaction Stream</h3>
+        <h3 className="card-title">Live Transaction Stream</h3>
       </div>
       
       <div style={{ maxHeight: '500px', overflowY: 'auto' }}>

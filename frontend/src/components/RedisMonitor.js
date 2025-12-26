@@ -3,11 +3,11 @@ const RedisMonitor = ({ redisStats }) => {
     return (
       <div className="card" style={{ marginBottom: '32px' }}>
         <div className="card-header">
-          <h3 className="card-title">🚀 REDIS CACHE STATUS</h3>
+          <h3 className="card-title">REDIS CACHE STATUS</h3>
         </div>
         <div style={{ textAlign: 'center', padding: '40px', fontFamily: 'var(--font-mono)' }}>
           <div style={{ color: 'var(--error-red)', fontWeight: '700', fontSize: '1.2rem' }}>
-            ❌ REDIS DISCONNECTED
+            REDIS DISCONNECTED
           </div>
           <p style={{ marginTop: '16px', color: 'var(--gray-800)' }}>
             Cache performance monitoring unavailable
@@ -35,7 +35,7 @@ const RedisMonitor = ({ redisStats }) => {
   return (
     <div className="card" style={{ marginBottom: '32px' }}>
       <div className="card-header">
-        <h3 className="card-title">🚀 REDIS CACHE PERFORMANCE</h3>
+        <h3 className="card-title">REDIS CACHE PERFORMANCE</h3>
       </div>
       
       <div className="grid grid-4">
@@ -81,7 +81,7 @@ const RedisMonitor = ({ redisStats }) => {
       {/* Banking-Specific Metrics */}
       <div style={{ marginTop: '24px', borderTop: '3px solid var(--primary-black)', paddingTop: '16px' }}>
         <h4 style={{ marginBottom: '16px', color: 'var(--primary-black)' }}>
-          🏦 BANKING CACHE METRICS
+          BANKING CACHE METRICS
         </h4>
         
         <div className="grid grid-4">
@@ -143,7 +143,7 @@ const RedisMonitor = ({ redisStats }) => {
       {/* Performance Indicators */}
       <div style={{ marginTop: '24px', borderTop: '3px solid var(--primary-black)', paddingTop: '16px' }}>
         <h4 style={{ marginBottom: '16px', color: 'var(--primary-black)' }}>
-          📊 PERFORMANCE INDICATORS
+          PERFORMANCE INDICATORS
         </h4>
         
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.875rem' }}>
@@ -173,8 +173,8 @@ const RedisMonitor = ({ redisStats }) => {
           }}>
             <span><strong>Cache Performance:</strong></span>
             <span style={{ fontWeight: '700' }}>
-              {performance.cache_hit_ratio >= 80 ? '🚀 EXCELLENT' : 
-               performance.cache_hit_ratio >= 60 ? '⚡ GOOD' : '🐌 NEEDS OPTIMIZATION'}
+              {performance.cache_hit_ratio >= 80 ? 'EXCELLENT' : 
+               performance.cache_hit_ratio >= 60 ? 'GOOD' : 'NEEDS OPTIMIZATION'}
             </span>
           </div>
 
@@ -188,7 +188,7 @@ const RedisMonitor = ({ redisStats }) => {
           }}>
             <span><strong>Transaction Load:</strong></span>
             <span style={{ fontWeight: '700' }}>
-              {inflight_transactions.total > 100 ? '⚠️ HIGH VOLUME' : '✅ NORMAL'}
+              {inflight_transactions.total > 100 ? 'HIGH VOLUME' : 'NORMAL'}
             </span>
           </div>
         </div>

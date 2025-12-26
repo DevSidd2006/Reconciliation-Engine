@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Banking Dashboard - Style Preview</title>
+    <link rel="stylesheet" href="../src/styles/professional.css">
+    <style>
+        /* Import the professional CSS styles */
+        @import url('../src/styles/professional.css');
+        
+        /* Additional preview styles */
+        .preview-section {
+            margin-bottom: 3rem;
+            padding: 2rem;
+            border: 1px solid var(--surface-tertiary);
+            border-radius: var(--radius-lg);
+            background: var(--surface-primary);
+        }
+        
+        .preview-title {
+            color: var(--primary-blue);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-content">
+            <div>
+                <h1>Banking Operations Dashboard</h1>
+                <p class="header-subtitle">Real-time Transaction Reconciliation & Monitoring</p>
+            </div>
+            <div style="display: flex; gap: var(--space-4); align-items: center;">
+                <!-- Theme Toggle -->
+                <div class="theme-toggle active" onclick="toggleTheme()" title="Switch theme">
+                    <span class="theme-toggle-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <circle cx="12" cy="12" r="5"/>
+                            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+                        </svg>
+                    </span>
+                    <div class="theme-toggle-switch"></div>
+                    <span class="theme-toggle-label">Light</span>
+                </div>
+                
+                <div class="status status-info">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                    admin (Admin)
+                </div>
+                <button class="btn btn-primary">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/>
+                        <path d="M21 3v5h-5"/>
+                        <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/>
+                        <path d="M3 21v-5h5"/>
+                    </svg>
+                    Refresh
+                </button>
+                <button class="btn btn-error">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                        <polyline points="16,17 21,12 16,7"/>
+                        <line x1="21" y1="12" x2="9" y2="12"/>
+                    </svg>
+                    Logout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav">
+        <button class="nav-item active">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <rect x="3" y="3" width="7" height="7"/>
+                <rect x="14" y="3" width="7" height="7"/>
+                <rect x="14" y="14" width="7" height="7"/>
+                <rect x="3" y="14" width="7" height="7"/>
+            </svg>
+            Overview
+        </button>
+        <button class="nav-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/>
+            </svg>
+            Transactions
+        </button>
+        <button class="nav-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
+                <path d="M12 9v4"/>
+                <path d="m12 17 .01 0"/>
+            </svg>
+            Mismatches
+        </button>
+        <button class="nav-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <line x1="12" y1="20" x2="12" y2="10"/>
+                <line x1="18" y1="20" x2="18" y2="4"/>
+                <line x1="6" y1="20" x2="6" y2="16"/>
+            </svg>
+            Analytics
+        </button>
+        <button class="nav-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
+                <circle cx="12" cy="12" r="3"/>
+            </svg>
+            Admin
+        </button>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- KPI Cards Section -->
+        <div class="preview-section">
+            <h2 class="preview-title">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <line x1="12" y1="20" x2="12" y2="10"/>
+                    <line x1="18" y1="20" x2="18" y2="4"/>
+                    <line x1="6" y1="20" x2="6" y2="16"/>
+                </svg>
+                Key Performance Indicators
+            </h2>
+            
+            <div class="grid grid-3">
+                <div class="metric">
+                    <div style="font-size: 2.5rem; margin-bottom: var(--space-3);">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/>
+                        </svg>
+                    </div>
+                    <div class="metric-value" style="color: var(--accent-blue);">94</div>
+                    <div class="metric-label">Total Transactions Today</div>
+                    <div class="metric-change positive">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+                            <polyline points="17 6 23 6 23 12"/>
+                        </svg>
+                        UP
+                    </div>
+                </div>
+
+                <div class="metric">
+                    <div style="font-size: 2.5rem; margin-bottom: var(--space-3);">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                            <line x1="16" y1="2" x2="16" y2="6"/>
+                            <line x1="8" y1="2" x2="8" y2="6"/>
+                            <line x1="3" y1="10" x2="21" y2="10"/>
+                        </svg>
+                    </div>
+                    <div class="metric-value" style="color: var(--accent-cyan);">94</div>
+                    <div class="metric-label">Total Transactions (All Time)</div>
+                    <div class="metric-change stable">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <line x1="5" y1="12" x2="19" y2="12"/>
+                        </svg>
+                        STABLE
+                    </div>
+                </div>
+
+                <div class="metric">
+                    <div style="font-size: 2.5rem; margin-bottom: var(--space-3);">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
+                            <path d="M12 9v4"/>
+                            <path d="m12 17 .01 0"/>
+                        </svg>
+                    </div>
+                    <div class="metric-value" style="color: var(--error);">49</div>
+                    <div class="metric-label">Total Mismatches</div>
+                    <div class="metric-change negative">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/>
+                            <polyline points="17 18 23 18 23 12"/>
+                        </svg>
+                        DOWN
+                    </div>
+                </div>
+
+                <div class="metric">
+                    <div style="font-size: 2.5rem; margin-bottom: var(--space-3);">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M12 6v6l4 2"/>
+                        </svg>
+                    </div>
+                    <div class="metric-value" style="color: var(--success);">42.2%</div>
+                    <div class="metric-label">Reconciliation Accuracy</div>
+                    <div class="metric-change stable">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <line x1="5" y1="12" x2="19" y2="12"/>
+                        </svg>
+                        STABLE
+                    </div>
+                </div>
+
+                <div class="metric">
+                    <div style="font-size: 2.5rem; margin-bottom: var(--space-3);">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <circle cx="12" cy="12" r="3"/>
+                            <path d="M12 1v6M12 17v6M5.64 5.64l4.24 4.24M14.12 14.12l4.24 4.24M1 12h6M17 12h6M5.64 18.36l4.24-4.24M14.12 9.88l4.24-4.24"/>
+                        </svg>
+                    </div>
+                    <div class="metric-value" style="color: var(--warning);">4</div>
+                    <div class="metric-label">Pending Transactions</div>
+                    <div class="metric-change stable">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <line x1="5" y1="12" x2="19" y2="12"/>
+                        </svg>
+                        STABLE
+                    </div>
+                </div>
+
+                <div class="metric">
+                    <div style="font-size: 2.5rem; margin-bottom: var(--space-3);">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/>
+                            <path d="M21 3v5h-5"/>
+                            <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/>
+                            <path d="M3 21v-5h5"/>
+                        </svg>
+                    </div>
+                    <div class="metric-value" style="color: var(--accent-magenta);">1</div>
+                    <div class="metric-label">Duplicates Detected</div>
+                    <div class="metric-change stable">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <line x1="5" y1="12" x2="19" y2="12"/>
+                        </svg>
+                        STABLE
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Status Indicators Section -->
+        <div class="preview-section">
+            <h2 class="preview-title">🔍 Status Indicators</h2>
+            
+            <div style="display: flex; gap: var(--space-4); flex-wrap: wrap;">
+                <div class="status-indicator status-matched">✅ Matched</div>
+                <div class="status-indicator status-mismatch">❌ Mismatch</div>
+                <div class="status-indicator status-pending">⏳ Pending</div>
+                <div class="status-indicator status-processing">🔄 Processing</div>
+            </div>
+        </div>
+
+        <!-- Table Section -->
+        <div class="preview-section">
+            <h2 class="preview-title">📋 Transaction Data</h2>
+            
+            <table class="banking-table">
+                <thead>
+                    <tr>
+                        <th>Transaction ID</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Source</th>
+                        <th>Timestamp</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>TXN-001</td>
+                        <td>₹22,85,95,011.00</td>
+                        <td><span class="status-indicator status-matched">✅ Matched</span></td>
+                        <td>Core Banking</td>
+                        <td>2025-12-26 10:30:15</td>
+                    </tr>
+                    <tr>
+                        <td>TXN-002</td>
+                        <td>₹2,94,88,387.00</td>
+                        <td><span class="status-indicator status-processing">🔄 Processing</span></td>
+                        <td>Gateway</td>
+                        <td>2025-12-26 10:29:45</td>
+                    </tr>
+                    <tr>
+                        <td>TXN-003</td>
+                        <td>₹48,69,12,883.00</td>
+                        <td><span class="status-indicator status-mismatch">❌ Mismatch</span></td>
+                        <td>Mobile</td>
+                        <td>2025-12-26 10:28:30</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Buttons Section -->
+        <div class="preview-section">
+            <h2 class="preview-title">🎛️ Controls</h2>
+            
+            <div style="display: flex; gap: var(--space-4); flex-wrap: wrap;">
+                <button class="btn btn-primary">🔄 Refresh Data</button>
+                <button class="btn btn-success">✅ Approve All</button>
+                <button class="btn btn-warning">⚠️ Review Pending</button>
+                <button class="btn btn-error">🚨 Emergency Stop</button>
+                <button class="btn btn-secondary">📊 Export Report</button>
+            </div>
+        </div>
+
+        <!-- Alerts Section -->
+        <div class="preview-section">
+            <h2 class="preview-title">🚨 System Alerts</h2>
+            
+            <div class="alert alert-success">
+                <strong>✅ System Status: Excellent</strong>
+                <p>94 transactions processed today with 42.2% accuracy • 4 pending reconciliation</p>
+            </div>
+
+            <div class="alert alert-warning">
+                <strong>⚠️ Attention Required</strong>
+                <p>Some transactions require manual review due to amount discrepancies.</p>
+            </div>
+
+            <div class="alert alert-error">
+                <strong>🚨 Critical Alert</strong>
+                <p>High number of mismatches detected. Immediate attention required.</p>
+            </div>
+
+            <div class="alert alert-info">
+                <strong>ℹ️ Information</strong>
+                <p>System maintenance scheduled for tonight at 2:00 AM EST.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Theme toggle functionality for preview
+        let isDark = true;
+
+        function toggleTheme() {
+            const root = document.documentElement;
+            const toggle = document.querySelector('.theme-toggle');
+            const icon = document.querySelector('.theme-toggle-icon');
+            const label = document.querySelector('.theme-toggle-label');
+            
+            // Add switching class to prevent transition flashing
+            root.classList.add('theme-switching');
+            
+            if (isDark) {
+                // Switch to light theme
+                root.setAttribute('data-theme', 'light');
+                toggle.classList.add('active');
+                icon.textContent = '☀️';
+                label.textContent = 'Light';
+                isDark = false;
+            } else {
+                // Switch to dark theme
+                root.removeAttribute('data-theme');
+                toggle.classList.remove('active');
+                icon.textContent = '🌙';
+                label.textContent = 'Dark';
+                isDark = true;
+            }
+            
+            // Remove switching class after a brief delay
+            setTimeout(() => {
+                root.classList.remove('theme-switching');
+            }, 50);
+        }
+
+        // Initialize theme based on system preference
+        window.addEventListener('DOMContentLoaded', () => {
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (!prefersDark) {
+                toggleTheme();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -16,10 +16,10 @@ const UserProfile = () => {
 
   const getRoleIcon = (role) => {
     switch (role) {
-      case 'admin': return '👑';
-      case 'auditor': return '🔍';
-      case 'operator': return '⚙️';
-      default: return '👤';
+      case 'admin': return 'Admin';
+      case 'auditor': return 'Auditor';
+      case 'operator': return 'Operator';
+      default: return 'User';
     }
   };
 
@@ -35,7 +35,7 @@ const UserProfile = () => {
   return (
     <div className="card" style={{ marginBottom: '32px' }}>
       <div className="card-header">
-        <h3 className="card-title">👤 USER PROFILE</h3>
+        <h3 className="card-title">User Profile</h3>
       </div>
       
       <div style={{ padding: '24px' }}>
@@ -43,7 +43,7 @@ const UserProfile = () => {
           {/* User Information */}
           <div>
             <h4 style={{ marginBottom: '16px', color: 'var(--primary-black)' }}>
-              📋 USER INFORMATION
+              User Information
             </h4>
             
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.875rem' }}>
@@ -125,7 +125,7 @@ const UserProfile = () => {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div>
               <h4 style={{ margin: 0, color: 'var(--primary-black)' }}>
-                🛡️ SECURITY STATUS
+                Security Status
               </h4>
               <p style={{ 
                 margin: '4px 0 0 0', 
@@ -134,7 +134,7 @@ const UserProfile = () => {
                 color: 'var(--success-green)',
                 fontWeight: '700'
               }}>
-                ✅ AUTHENTICATED & AUTHORIZED
+                AUTHENTICATED & AUTHORIZED
               </p>
             </div>
             
@@ -147,7 +147,7 @@ const UserProfile = () => {
                 padding: '8px 16px'
               }}
             >
-              🚪 LOGOUT
+              Logout
             </button>
           </div>
         </div>

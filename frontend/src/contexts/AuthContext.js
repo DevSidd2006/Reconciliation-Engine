@@ -31,13 +31,13 @@ export const AuthProvider = ({ children }) => {
   // Check if user is authenticated on app load
   useEffect(() => {
     const checkAuth = async () => {
-      console.log('🔍 Checking auth, token:', token ? 'exists' : 'none');
+      console.log('Checking auth, token:', token ? 'exists' : 'none');
       
       if (token) {
         try {
-          console.log('🔍 Validating existing token...');
+          console.log('Validating existing token...');
           const response = await axios.get('/auth/me');
-          console.log('✅ Token valid, user:', response.data);
+          console.log('Token valid, user:', response.data);
           setUser(response.data);
         } catch (error) {
           console.error('❌ Auth check failed:', error);

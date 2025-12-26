@@ -51,7 +51,7 @@ const KPICards = ({ dateRange }) => {
     {
       title: 'Total Transactions Today',
       value: kpis.total_transactions_today,
-      icon: '💳',
+      icon: '⧉',
       color: 'var(--accent-blue)',
       trend: trends.transactions_vs_yesterday,
       format: 'number'
@@ -59,7 +59,7 @@ const KPICards = ({ dateRange }) => {
     {
       title: 'Total Transactions (All Time)',
       value: kpis.total_transactions_all_time,
-      icon: '🏦',
+      icon: '⊞',
       color: 'var(--accent-cyan)',
       trend: 'up',
       format: 'number'
@@ -67,7 +67,7 @@ const KPICards = ({ dateRange }) => {
     {
       title: 'Total Mismatches',
       value: kpis.total_mismatches,
-      icon: '🚨',
+      icon: '⚠',
       color: 'var(--error-red)',
       trend: trends.mismatches_vs_yesterday,
       format: 'number'
@@ -75,7 +75,7 @@ const KPICards = ({ dateRange }) => {
     {
       title: 'Reconciliation Accuracy',
       value: kpis.reconciliation_accuracy,
-      icon: '🎯',
+      icon: '⊞',
       color: kpis.reconciliation_accuracy >= 90 ? 'var(--success-green)' : 
              kpis.reconciliation_accuracy >= 70 ? 'var(--warning-orange)' : 'var(--error-red)',
       trend: trends.accuracy_trend,
@@ -92,7 +92,7 @@ const KPICards = ({ dateRange }) => {
     {
       title: 'Duplicates Detected',
       value: kpis.duplicates_detected,
-      icon: '🔄',
+      icon: '↻',
       color: 'var(--accent-magenta)',
       trend: 'stable',
       format: 'number'
@@ -121,10 +121,10 @@ const KPICards = ({ dateRange }) => {
 
   const getTrendIcon = (trend) => {
     switch (trend) {
-      case 'up': return '📈';
-      case 'down': return '📉';
-      case 'stable': return '➡️';
-      default: return '➡️';
+      case 'up': return '↗';
+      case 'down': return '↘';
+      case 'stable': return '→';
+      default: return '→';
     }
   };
 
@@ -139,20 +139,22 @@ const KPICards = ({ dateRange }) => {
 
   if (loading) {
     return (
-      <div className="kpi-cards-loading" style={{ marginBottom: '32px' }}>
+      <div className="kpi-cards-loading" style={{ marginBottom: 'var(--space-8)' }}>
         <div className="grid grid-3">
           {[1, 2, 3, 4, 5, 6, 7].map(i => (
-            <div key={i} className="card" style={{ padding: '24px', textAlign: 'center' }}>
+            <div key={i} className="card" style={{ padding: 'var(--space-6)', textAlign: 'center' }}>
               <div style={{ 
                 backgroundColor: 'var(--gray-200)', 
                 height: '60px', 
-                marginBottom: '16px',
+                marginBottom: 'var(--space-4)',
+                borderRadius: 'var(--radius)',
                 animation: 'pulse 1.5s ease-in-out infinite'
               }}></div>
               <div style={{ 
                 backgroundColor: 'var(--gray-200)', 
                 height: '20px', 
-                marginBottom: '8px',
+                marginBottom: 'var(--space-2)',
+                borderRadius: 'var(--radius)',
                 animation: 'pulse 1.5s ease-in-out infinite'
               }}></div>
             </div>
@@ -164,96 +166,64 @@ const KPICards = ({ dateRange }) => {
 
   if (error) {
     return (
-      <div className="alert alert-error" style={{ marginBottom: '32px' }}>
-        <h3>❌ KPI Loading Error</h3>
+      <div className="alert alert-error" style={{ marginBottom: 'var(--space-8)' }}>
+        <h3>KPI Loading Error</h3>
         <p>{error}</p>
-        <button className="btn btn-primary" onClick={fetchKPIs} style={{ marginTop: '16px' }}>
-          🔄 Retry
+        <button className="btn btn-primary" onClick={fetchKPIs} style={{ marginTop: 'var(--space-4)' }}>
+          Retry
         </button>
       </div>
     );
   }
 
   return (
-    <div className="kpi-cards" style={{ marginBottom: '32px' }}>
-      <div className="card-header" style={{ marginBottom: '16px' }}>
-        <h3 className="card-title">📊 KEY PERFORMANCE INDICATORS</h3>
+    <div className="kpi-cards" style={{ marginBottom: 'var(--space-8)' }}>
+      <div className="card-header" style={{ marginBottom: 'var(--space-4)' }}>
+        <h3 className="card-title">
+          <span className="icon">⊞</span>
+          Key Performance Indicators
+        </h3>
       </div>
 
       <div className="grid grid-3">
         {kpiCards.map((kpi, index) => (
-          <div key={index} className="card kpi-card" style={{ 
-            textAlign: 'center',
-            padding: '24px',
-            position: 'relative',
-            overflow: 'hidden'
-          }}>
-            {/* Background accent */}
-            <div style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              height: '4px',
-              backgroundColor: kpi.color
-            }}></div>
-
+          <div key={index} className="metric">
             {/* Icon */}
             <div style={{ 
-              fontSize: '3rem', 
-              marginBottom: '16px',
-              filter: 'drop-shadow(2px 2px 0px var(--primary-black))'
+              fontSize: '2.5rem', 
+              marginBottom: 'var(--space-3)'
             }}>
               {kpi.icon}
             </div>
 
             {/* Value */}
-            <div style={{ 
-              fontSize: '2.5rem', 
-              fontWeight: '800', 
-              color: kpi.color,
-              marginBottom: '8px',
-              fontFamily: 'var(--font-mono)'
-            }}>
+            <div className="metric-value" style={{ color: kpi.color }}>
               {formatValue(kpi.value, kpi.format)}
             </div>
 
             {/* Title */}
-            <div style={{ 
-              fontSize: '0.875rem', 
-              fontWeight: '700',
-              color: 'var(--primary-black)',
-              marginBottom: '8px',
-              textTransform: 'uppercase',
-              letterSpacing: '0.5px'
-            }}>
+            <div className="metric-label">
               {kpi.title}
             </div>
 
             {/* Subtitle */}
             {kpi.subtitle && (
-              <div style={{ 
-                fontSize: '0.75rem', 
-                color: 'var(--gray-600)',
-                fontFamily: 'var(--font-mono)',
-                marginBottom: '8px'
-              }}>
+              <div className="text-xs text-gray-500" style={{ marginTop: 'var(--space-1)' }}>
                 {kpi.subtitle}
               </div>
             )}
 
             {/* Trend */}
-            <div style={{ 
+            <div className="metric-change" style={{ 
+              color: getTrendColor(kpi.trend),
               display: 'flex', 
               alignItems: 'center', 
               justifyContent: 'center',
-              gap: '4px',
-              fontSize: '0.75rem',
-              color: getTrendColor(kpi.trend),
-              fontWeight: '700'
+              gap: 'var(--space-1)',
+              marginTop: 'var(--space-2)'
             }}>
               <span>{getTrendIcon(kpi.trend)}</span>
-              <span style={{ textTransform: 'uppercase' }}>
+              <span className="text-xs font-semibold">
                 {kpi.trend || 'STABLE'}
               </span>
             </div>
@@ -262,22 +232,18 @@ const KPICards = ({ dateRange }) => {
       </div>
 
       {/* Summary Alert */}
-      <div className="kpi-summary" style={{ 
-        marginTop: '24px',
-        padding: '16px',
-        backgroundColor: kpis.reconciliation_accuracy >= 90 ? 'var(--success-green)' : 
-                         kpis.reconciliation_accuracy >= 70 ? 'var(--warning-orange)' : 'var(--error-red)',
-        color: 'var(--primary-white)',
-        border: '3px solid var(--primary-black)',
-        textAlign: 'center'
-      }}>
-        <div style={{ fontWeight: '800', fontSize: '1.1rem', marginBottom: '8px' }}>
-          🏦 SYSTEM STATUS: {
-            kpis.reconciliation_accuracy >= 90 ? '✅ EXCELLENT' :
-            kpis.reconciliation_accuracy >= 70 ? '⚠️ ATTENTION NEEDED' : '🚨 CRITICAL'
+      <div className={`alert ${
+        kpis.reconciliation_accuracy >= 90 ? 'alert-success' : 
+        kpis.reconciliation_accuracy >= 70 ? 'alert-warning' : 'alert-error'
+      }`} style={{ marginTop: 'var(--space-6)' }}>
+        <div className="font-semibold" style={{ marginBottom: 'var(--space-2)' }}>
+          <span className="icon">⊞</span>
+          System Status: {
+            kpis.reconciliation_accuracy >= 90 ? 'Excellent' :
+            kpis.reconciliation_accuracy >= 70 ? 'Attention Needed' : 'Critical'
           }
         </div>
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.875rem' }}>
+        <div className="text-sm font-mono">
           {kpis.total_transactions_today} transactions processed today with {kpis.reconciliation_accuracy}% accuracy
           {kpis.pending_transactions > 0 && ` • ${kpis.pending_transactions} pending reconciliation`}
           {kpis.delayed_transactions > 0 && ` • ${kpis.delayed_transactions} delayed transactions`}
