@@ -45,7 +45,7 @@ const OperationsDashboard = () => {
       case 'transactions': return 'Live Transactions';
       case 'mismatches': return 'Reconciliation Mismatches';
       case 'analytics': return 'Analytics & Reports';
-      case 'reconciliation': return 'Payment Reconciliation';
+      case 'reconciliation': return 'Transaction Reconciliation';
       case 'drilldown': return 'Transaction Details';
       case 'admin': return 'System Administration';
       default: return 'Banking Operations';

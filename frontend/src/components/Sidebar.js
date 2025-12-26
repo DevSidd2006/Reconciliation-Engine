@@ -37,9 +37,9 @@ const Sidebar = ({ activeTab, setActiveTab, selectedTransaction, onLogout }) => 
         },
         {
           id: 'reconciliation',
-          label: 'Payment Reconciliation',
+          label: 'Transaction Reconciliation',
           icon: '⚖',
-          description: 'Real-time payment reconciliation dashboard'
+          description: 'Real-time transaction reconciliation dashboard'
         }
       ]
     },
