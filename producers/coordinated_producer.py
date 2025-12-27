@@ -37,14 +37,23 @@ class CoordinatedProducer:
             return False
     
     def generate_base_transaction(self):
-        """Generate a base transaction that will be sent to multiple sources"""
+        """Generate a realistic base banking transaction"""
+        from utils import generate_realistic_amount, choose_realistic_status, choose_realistic_currency, TRANSACTION_TYPES, CHANNELS, BANK_CODES
+        
         return {
             "txn_id": str(uuid.uuid4()),
-            "amount": round(random.uniform(100, 2000), 2),
-            "status": random.choice(["SUCCESS", "FAILED", "PENDING"]),
+            "amount": generate_realistic_amount(),
+            "status": choose_realistic_status(),
             "timestamp": datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%f"),
-            "currency": "INR",
-            "account_id": str(random.randint(100000, 999999)),
+            "currency": choose_realistic_currency(),
+            "account_id": str(random.randint(100000000, 999999999)),  # 9-digit account numbers
+            "transaction_type": random.choice(TRANSACTION_TYPES),
+            "channel": random.choice(CHANNELS),
+            "bank_code": random.choice(BANK_CODES),
+            "reference_number": f"REF{random.randint(100000000, 999999999)}",
+            "merchant_id": f"MER{random.randint(10000, 99999)}" if random.random() < 0.3 else None,
+            "description": f"Banking transaction via {random.choice(CHANNELS)}",
+            "batch_id": f"BATCH{datetime.now().strftime('%Y%m%d')}{random.randint(1000, 9999)}",
         }
     
     def create_source_transaction(self, base_txn, source):
@@ -65,48 +74,63 @@ class CoordinatedProducer:
         """Send the same transaction to multiple sources with potential mismatches"""
         base_txn = self.generate_base_transaction()
         
-        print(f"\n🔄 Creating coordinated transaction: {base_txn['txn_id']}")
-        print(f"   Base amount: ₹{base_txn['amount']}, Status: {base_txn['status']}")
+        print(f"\n🏦 Creating banking transaction: {base_txn['txn_id']}")
+        print(f"   💰 Amount: ₹{base_txn['amount']:,.2f} {base_txn['currency']}")
+        print(f"   📊 Status: {base_txn['status']} | Type: {base_txn['transaction_type']}")
+        print(f"   🏛️  Bank: {base_txn['bank_code']} | Channel: {base_txn['channel']}")
+        print(f"   🔢 Account: {base_txn['account_id']} | Ref: {base_txn['reference_number']}")
         
-        # Decide which sources will receive this transaction (2-3 sources)
+        # Decide which sources will receive this transaction (2-3 sources for reconciliation)
         available_sources = list(self.topics.keys())
-        num_sources = random.choice([2, 3])  # Send to 2 or 3 sources
+        num_sources = random.choice([2, 3])  # Banking systems typically have 2-3 source systems
         selected_sources = random.sample(available_sources, num_sources)
         
-        print(f"   Sending to sources: {selected_sources}")
+        print(f"   🔄 Processing through systems: {selected_sources}")
         
-        # Send to each selected source
-        for source in selected_sources:
+        # Send to each selected source with realistic timing
+        for i, source in enumerate(selected_sources):
             source_txn, mismatch = self.create_source_transaction(base_txn, source)
             topic = self.topics[source]
+            
+            # Add source-specific fields
+            source_txn["processing_time"] = datetime.now().isoformat()
+            source_txn["source_system_id"] = f"{source.upper()}_SYS_{random.randint(100, 999)}"
             
             success = self.send_to_kafka_via_docker(topic, source_txn)
             
             if success:
-                print(f"   ✅ [{source.upper()}] Sent → Amount: ₹{source_txn['amount']}, Status: {source_txn['status']}, Mismatch: {mismatch}")
+                mismatch_emoji = "✅" if mismatch == "CORRECT" else "⚠️"
+                print(f"   {mismatch_emoji} [{source.upper()}] ₹{source_txn['amount']:,.2f} | {source_txn['status']} | {mismatch}")
             else:
-                print(f"   ❌ [{source.upper()}] Failed to send")
+                print(f"   ❌ [{source.upper()}] Failed to process transaction")
             
-            # Small delay between sources to simulate real-world timing
-            time.sleep(random.uniform(0.5, 2.0))
+            # Realistic inter-system processing delay
+            if i < len(selected_sources) - 1:  # Don't delay after last source
+                delay = random.uniform(0.5, 3.0)  # 0.5-3 second realistic processing delay
+                time.sleep(delay)
     
     def run(self):
-        """Run the coordinated producer"""
-        print("🚀 Starting Coordinated Transaction Producer...")
-        print("This will create transactions with the same txn_id across multiple sources")
+        """Run the realistic banking transaction producer"""
+        print("🏦 Starting Realistic Banking Transaction Producer...")
+        print("🔄 Simulating real-time Indian banking transactions with reconciliation")
+        print("📊 Features: INR currency, Various channels, Realistic amounts, Banking workflows")
         print("Press Ctrl+C to stop\n")
         
         try:
+            transaction_count = 0
             while True:
+                transaction_count += 1
+                print(f"📈 Transaction #{transaction_count}")
                 self.send_coordinated_transaction()
                 
-                # Wait before next transaction (30-60 seconds for very slow observation)
-                wait_time = random.uniform(30, 60)
-                print(f"   ⏳ Waiting {wait_time:.1f}s before next transaction...\n")
+                # Realistic banking transaction frequency (15-45 seconds between transactions)
+                wait_time = random.uniform(15, 45)
+                print(f"   ⏳ Next transaction in {wait_time:.1f}s...\n")
                 time.sleep(wait_time)
                 
         except KeyboardInterrupt:
-            print("\n🛑 Coordinated producer stopped")
+            print(f"\n🛑 Banking producer stopped after {transaction_count} transactions")
+            print("📊 System ready for reconciliation analysis")
 
 if __name__ == "__main__":
     producer = CoordinatedProducer()
