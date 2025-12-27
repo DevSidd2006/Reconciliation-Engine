@@ -1,0 +1,94 @@
+version: '3.8'
+
+services:
+  # Keycloak Authentication Server
+  keycloak:
+    image: quay.io/keycloak/keycloak:23.0.0
+    container_name: reconciliation_keycloak
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD:-admin123}
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://keycloak-postgres:5432/keycloak
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: ${KEYCLOAK_DB_PASSWORD:-keycloak123}
+      KC_HOSTNAME: localhost
+      KC_HOSTNAME_PORT: 8080
+      KC_HOSTNAME_STRICT: false
+      KC_HOSTNAME_STRICT_HTTPS: false
+      KC_HTTP_ENABLED: true
+      KC_HEALTH_ENABLED: true
+      KC_METRICS_ENABLED: true
+    ports:
+      - "8080:8080"
+    depends_on:
+      - keycloak-postgres
+    volumes:
+      - ./keycloak/themes:/opt/keycloak/themes
+      - ./keycloak/realm-export.json:/opt/keycloak/data/import/realm-export.json
+    command: 
+      - start-dev
+      - --import-realm
+    networks:
+      - banking-security
+
+  # Keycloak Database
+  keycloak-postgres:
+    image: postgres:15
+    container_name: keycloak_postgres
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: ${KEYCLOAK_DB_PASSWORD:-keycloak123}
+    volumes:
+      - keycloak_postgres_data:/var/lib/postgresql/data
+    networks:
+      - banking-security
+
+  # Nginx Reverse Proxy with TLS
+  nginx-proxy:
+    image: nginx:alpine
+    container_name: reconciliation_nginx
+    ports:
+      - "443:443"
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/ssl:/etc/nginx/ssl
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - keycloak
+    networks:
+      - banking-security
+
+  # Certificate Authority (for development)
+  ca-generator:
+    image: alpine/openssl
+    container_name: cert_generator
+    volumes:
+      - ./nginx/ssl:/certs
+    command: >
+      sh -c "
+        if [ ! -f /certs/server.crt ]; then
+          echo 'Generating self-signed certificates for development...';
+          openssl req -x509 -nodes -days 365 -newkey rsa:2048 
+            -keyout /certs/server.key 
+            -out /certs/server.crt 
+            -subj '/C=US/ST=CA/L=SF/O=Banking/OU=Reconciliation/CN=localhost'
+            -addext 'subjectAltName=DNS:localhost,DNS:*.localhost,IP:127.0.0.1';
+          chmod 644 /certs/server.crt;
+          chmod 600 /certs/server.key;
+          echo 'Certificates generated successfully';
+        else
+          echo 'Certificates already exist';
+        fi
+      "
+    networks:
+      - banking-security
+
+volumes:
+  keycloak_postgres_data:
+
+networks:
+  banking-security:
+    driver: bridge

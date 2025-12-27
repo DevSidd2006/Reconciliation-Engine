@@ -1,0 +1,311 @@
+{
+  "id": "banking-reconciliation",
+  "realm": "banking-reconciliation",
+  "displayName": "Banking Reconciliation System",
+  "displayNameHtml": "<div class=\"kc-logo-text\"><span>Banking Reconciliation</span></div>",
+  "notBefore": 0,
+  "defaultSignatureAlgorithm": "RS256",
+  "revokeRefreshToken": false,
+  "refreshTokenMaxReuse": 0,
+  "accessTokenLifespan": 300,
+  "accessTokenLifespanForImplicitFlow": 900,
+  "ssoSessionIdleTimeout": 1800,
+  "ssoSessionMaxLifespan": 36000,
+  "ssoSessionIdleTimeoutRememberMe": 0,
+  "ssoSessionMaxLifespanRememberMe": 0,
+  "offlineSessionIdleTimeout": 2592000,
+  "offlineSessionMaxLifespanEnabled": false,
+  "offlineSessionMaxLifespan": 5184000,
+  "clientSessionIdleTimeout": 0,
+  "clientSessionMaxLifespan": 0,
+  "clientOfflineSessionIdleTimeout": 0,
+  "clientOfflineSessionMaxLifespan": 0,
+  "accessCodeLifespan": 60,
+  "accessCodeLifespanUserAction": 300,
+  "accessCodeLifespanLogin": 1800,
+  "actionTokenGeneratedByAdminLifespan": 43200,
+  "actionTokenGeneratedByUserLifespan": 300,
+  "oauth2DeviceCodeLifespan": 600,
+  "oauth2DevicePollingInterval": 5,
+  "enabled": true,
+  "sslRequired": "external",
+  "registrationAllowed": false,
+  "registrationEmailAsUsername": false,
+  "rememberMe": false,
+  "verifyEmail": false,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "resetPasswordAllowed": true,
+  "editUsernameAllowed": false,
+  "bruteForceProtected": true,
+  "permanentLockout": false,
+  "maxFailureWaitSeconds": 900,
+  "minimumQuickLoginWaitSeconds": 60,
+  "waitIncrementSeconds": 60,
+  "quickLoginCheckMilliSeconds": 1000,
+  "maxDeltaTimeSeconds": 43200,
+  "failureFactor": 30,
+  "roles": {
+    "realm": [
+      {
+        "id": "admin-role",
+        "name": "admin",
+        "description": "Banking Administrator - Full system access",
+        "composite": false,
+        "clientRole": false,
+        "containerId": "banking-reconciliation"
+      },
+      {
+        "id": "auditor-role",
+        "name": "auditor",
+        "description": "Banking Auditor - Read-only access to all data",
+        "composite": false,
+        "clientRole": false,
+        "containerId": "banking-reconciliation"
+      },
+      {
+        "id": "operator-role",
+        "name": "operator",
+        "description": "Banking Operator - Limited operational access",
+        "composite": false,
+        "clientRole": false,
+        "containerId": "banking-reconciliation"
+      }
+    ]
+  },
+  "groups": [
+    {
+      "id": "banking-admins",
+      "name": "Banking Administrators",
+      "path": "/Banking Administrators",
+      "realmRoles": ["admin"],
+      "clientRoles": {},
+      "subGroups": []
+    },
+    {
+      "id": "banking-auditors",
+      "name": "Banking Auditors",
+      "path": "/Banking Auditors",
+      "realmRoles": ["auditor"],
+      "clientRoles": {},
+      "subGroups": []
+    },
+    {
+      "id": "banking-operators",
+      "name": "Banking Operators",
+      "path": "/Banking Operators",
+      "realmRoles": ["operator"],
+      "clientRoles": {},
+      "subGroups": []
+    }
+  ],
+  "users": [
+    {
+      "id": "admin-user",
+      "username": "admin",
+      "enabled": true,
+      "totp": false,
+      "emailVerified": true,
+      "firstName": "System",
+      "lastName": "Administrator",
+      "email": "admin@banking.local",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "admin123",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["admin"],
+      "groups": ["/Banking Administrators"]
+    },
+    {
+      "id": "auditor-user",
+      "username": "auditor",
+      "enabled": true,
+      "totp": false,
+      "emailVerified": true,
+      "firstName": "Banking",
+      "lastName": "Auditor",
+      "email": "auditor@banking.local",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "auditor123",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["auditor"],
+      "groups": ["/Banking Auditors"]
+    },
+    {
+      "id": "operator-user",
+      "username": "operator",
+      "enabled": true,
+      "totp": false,
+      "emailVerified": true,
+      "firstName": "Banking",
+      "lastName": "Operator",
+      "email": "operator@banking.local",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "operator123",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["operator"],
+      "groups": ["/Banking Operators"]
+    }
+  ],
+  "clients": [
+    {
+      "id": "reconciliation-frontend",
+      "clientId": "reconciliation-frontend",
+      "name": "Reconciliation Frontend",
+      "description": "React frontend application for banking reconciliation",
+      "enabled": true,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "reconciliation-frontend-secret",
+      "redirectUris": [
+        "https://localhost/*",
+        "http://localhost:3001/*"
+      ],
+      "webOrigins": [
+        "https://localhost",
+        "http://localhost:3001"
+      ],
+      "protocol": "openid-connect",
+      "publicClient": true,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": true,
+      "serviceAccountsEnabled": false,
+      "fullScopeAllowed": true,
+      "nodeReRegistrationTimeout": -1,
+      "protocolMappers": [
+        {
+          "name": "roles",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-realm-role-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.attribute": "roles",
+            "access.token.claim": "true",
+            "claim.name": "roles",
+            "jsonType.label": "String",
+            "multivalued": "true"
+          }
+        },
+        {
+          "name": "groups",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-group-membership-mapper",
+          "consentRequired": false,
+          "config": {
+            "full.path": "false",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "groups",
+            "userinfo.token.claim": "true"
+          }
+        }
+      ]
+    },
+    {
+      "id": "reconciliation-backend",
+      "clientId": "reconciliation-backend",
+      "name": "Reconciliation Backend API",
+      "description": "FastAPI backend service for banking reconciliation",
+      "enabled": true,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "reconciliation-backend-secret",
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "standardFlowEnabled": false,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": true,
+      "fullScopeAllowed": true,
+      "bearerOnly": true
+    }
+  ],
+  "clientScopes": [
+    {
+      "id": "banking-scope",
+      "name": "banking",
+      "description": "Banking operations scope",
+      "protocol": "openid-connect",
+      "attributes": {
+        "include.in.token.scope": "true",
+        "display.on.consent.screen": "true"
+      },
+      "protocolMappers": [
+        {
+          "name": "banking-audience",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "config": {
+            "included.client.audience": "reconciliation-backend",
+            "id.token.claim": "false",
+            "access.token.claim": "true"
+          }
+        }
+      ]
+    }
+  ],
+  "defaultDefaultClientScopes": [
+    "role_list",
+    "profile",
+    "email",
+    "banking"
+  ],
+  "browserSecurityHeaders": {
+    "contentSecurityPolicyReportOnly": "",
+    "xContentTypeOptions": "nosniff",
+    "xRobotsTag": "none",
+    "xFrameOptions": "SAMEORIGIN",
+    "contentSecurityPolicy": "frame-src 'self'; frame-ancestors 'self'; object-src 'none';",
+    "xXSSProtection": "1; mode=block",
+    "strictTransportSecurity": "max-age=31536000; includeSubDomains"
+  },
+  "smtpServer": {},
+  "eventsEnabled": true,
+  "eventsListeners": ["jboss-logging"],
+  "enabledEventTypes": [
+    "LOGIN",
+    "LOGIN_ERROR",
+    "LOGOUT",
+    "LOGOUT_ERROR",
+    "REGISTER",
+    "REGISTER_ERROR",
+    "UPDATE_PASSWORD",
+    "UPDATE_PASSWORD_ERROR",
+    "UPDATE_PROFILE",
+    "UPDATE_PROFILE_ERROR"
+  ],
+  "adminEventsEnabled": true,
+  "adminEventsDetailsEnabled": true,
+  "internationalizationEnabled": false,
+  "supportedLocales": [],
+  "defaultLocale": "",
+  "authenticationFlows": [],
+  "authenticatorConfig": [],
+  "requiredActions": [],
+  "browserFlow": "browser",
+  "registrationFlow": "registration",
+  "directGrantFlow": "direct grant",
+  "resetCredentialsFlow": "reset credentials",
+  "clientAuthenticationFlow": "clients",
+  "dockerAuthenticationFlow": "docker auth",
+  "attributes": {
+    "cibaBackchannelTokenDeliveryMode": "poll",
+    "cibaExpiresIn": "120",
+    "cibaInterval": "5",
+    "cibaAuthRequestedUserHint": "login_hint",
+    "parRequestUriLifespan": "60",
+    "frontendUrl": "",
+    "consoleDisplayName": "Banking Reconciliation Console"
+  },
+  "keycloakVersion": "23.0.0"
+}
