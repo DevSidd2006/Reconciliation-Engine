@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banking Reconciliation System Launcher</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏦 Banking Reconciliation System</h1>
+            <p>Desktop Launcher & Orchestrator</p>
+        </header>
+
+        <main>
+            <!-- Docker Status Section -->
+            <section class="status-section">
+                <h2>🐳 Docker Status</h2>
+                <div id="docker-status" class="status-card">
+                    <div class="status-indicator" id="docker-indicator">⏳</div>
+                    <div class="status-text" id="docker-text">Checking Docker installation...</div>
+                </div>
+            </section>
+
+            <!-- System Status Section -->
+            <section class="status-section">
+                <h2>⚙️ System Status</h2>
+                <div id="system-status" class="status-card">
+                    <div class="status-indicator" id="system-indicator">⭕</div>
+                    <div class="status-text" id="system-text">System not started</div>
+                </div>
+            </section>
+
+            <!-- Activity Log Section -->
+            <section class="log-section">
+                <h2>📋 Activity Log</h2>
+                <div id="activity-log" class="log-container">
+                    <div class="log-entry">System ready for launch...</div>
+                </div>
+            </section>
+
+            <!-- Control Buttons -->
+            <section class="controls">
+                <button id="start-btn" class="btn btn-primary" disabled>
+                    🚀 Start System
+                </button>
+                <button id="stop-btn" class="btn btn-secondary" disabled>
+                    🛑 Stop System
+                </button>
+                <button id="frontend-btn" class="btn btn-accent" disabled>
+                    🌐 Open Dashboard
+                </button>
+                <button id="retry-btn" class="btn btn-outline">
+                    🔄 Retry Docker Check
+                </button>
+            </section>
+
+            <!-- Error Section -->
+            <section id="error-section" class="error-section" style="display: none;">
+                <div class="error-card">
+                    <h3>❌ Error</h3>
+                    <p id="error-message"></p>
+                    <div class="error-actions">
+                        <button id="install-docker-btn" class="btn btn-outline" style="display: none;">
+                            📥 Download Docker Desktop
+                        </button>
+                        <button id="dismiss-error-btn" class="btn btn-outline">
+                            ✖️ Dismiss
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>Enterprise Banking Reconciliation System v1.0</p>
+            <p>Powered by Docker • FastAPI • React • Kafka</p>
+        </footer>
+    </div>
+
+    <script src="renderer.js"></script>
+</body>
+</html>

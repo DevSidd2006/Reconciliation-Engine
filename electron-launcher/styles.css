@@ -1,0 +1,295 @@
+/* Banking Reconciliation System Launcher Styles */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 700px;
+    overflow: hidden;
+}
+
+header {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+header p {
+    opacity: 0.9;
+    font-size: 0.95rem;
+}
+
+main {
+    padding: 2rem;
+}
+
+.status-section {
+    margin-bottom: 1.5rem;
+}
+
+.status-section h2 {
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+.status-card {
+    display: flex;
+    align-items: center;
+    background: #f8f9fa;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    padding: 1rem;
+    transition: all 0.3s ease;
+}
+
+.status-card.success {
+    border-color: #28a745;
+    background: #d4edda;
+}
+
+.status-card.error {
+    border-color: #dc3545;
+    background: #f8d7da;
+}
+
+.status-card.warning {
+    border-color: #ffc107;
+    background: #fff3cd;
+}
+
+.status-indicator {
+    font-size: 1.5rem;
+    margin-right: 1rem;
+    min-width: 2rem;
+}
+
+.status-text {
+    flex: 1;
+    font-weight: 500;
+}
+
+.log-section {
+    margin-bottom: 1.5rem;
+}
+
+.log-section h2 {
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+.log-container {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    height: 120px;
+    overflow-y: auto;
+    padding: 0.75rem;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.85rem;
+}
+
+.log-entry {
+    margin-bottom: 0.25rem;
+    color: #495057;
+    line-height: 1.4;
+}
+
+.log-entry.success {
+    color: #28a745;
+}
+
+.log-entry.error {
+    color: #dc3545;
+}
+
+.log-entry.warning {
+    color: #ffc107;
+}
+
+.controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.btn {
+    padding: 0.75rem 1rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.btn-primary {
+    background: #007bff;
+    color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+    background: #0056b3;
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background: #6c757d;
+    color: white;
+}
+
+.btn-secondary:hover:not(:disabled) {
+    background: #545b62;
+    transform: translateY(-1px);
+}
+
+.btn-accent {
+    background: #28a745;
+    color: white;
+}
+
+.btn-accent:hover:not(:disabled) {
+    background: #1e7e34;
+    transform: translateY(-1px);
+}
+
+.btn-outline {
+    background: transparent;
+    color: #007bff;
+    border: 2px solid #007bff;
+}
+
+.btn-outline:hover:not(:disabled) {
+    background: #007bff;
+    color: white;
+    transform: translateY(-1px);
+}
+
+.error-section {
+    margin-bottom: 1.5rem;
+}
+
+.error-card {
+    background: #f8d7da;
+    border: 2px solid #dc3545;
+    border-radius: 8px;
+    padding: 1.5rem;
+}
+
+.error-card h3 {
+    color: #721c24;
+    margin-bottom: 0.75rem;
+    font-size: 1.1rem;
+}
+
+.error-card p {
+    color: #721c24;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+.error-actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+footer {
+    background: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+    padding: 1rem 2rem;
+    text-align: center;
+    color: #6c757d;
+    font-size: 0.8rem;
+}
+
+footer p {
+    margin-bottom: 0.25rem;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .container {
+        width: 95%;
+        margin: 1rem;
+    }
+    
+    .controls {
+        grid-template-columns: 1fr;
+    }
+    
+    header {
+        padding: 1.5rem;
+    }
+    
+    main {
+        padding: 1.5rem;
+    }
+}
+
+/* Animation for status indicators */
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+.status-indicator.loading {
+    animation: pulse 1.5s infinite;
+}
+
+/* Scrollbar styling for log container */
+.log-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.log-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.log-container::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}
+
+.log-container::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}

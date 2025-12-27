@@ -16,24 +16,106 @@ class CoordinatedProducer:
             'mobile': 'mobile_txns'
         }
         
-    def send_to_kafka_via_docker(self, topic, message):
-        """Send message to Kafka using docker exec"""
+    def test_kafka_connection(self):
+        """Test Kafka connectivity before starting production"""
         try:
-            json_message = json.dumps(message)
+            import os
+            from confluent_kafka import Consumer
             
-            cmd = [
-                "docker", "exec", "-i", "kafka-kafka-1",
-                "kafka-console-producer",
-                "--bootstrap-server", "localhost:9092",
-                "--topic", topic
-            ]
+            bootstrap_servers = os.getenv('KAFKA_BOOTSTRAP_SERVERS', 'localhost:9092')
+            print(f"🔍 Testing Kafka connection to: {bootstrap_servers}", flush=True)
             
-            process = subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-            stdout, stderr = process.communicate(input=json_message)
+            # Create a simple consumer to test connection and list topics
+            conf = {
+                'bootstrap.servers': bootstrap_servers,
+                'group.id': 'test-group',
+                'auto.offset.reset': 'earliest',
+                'session.timeout.ms': 10000,
+                'request.timeout.ms': 10000
+            }
             
-            return process.returncode == 0
+            consumer = Consumer(conf)
+            
+            # Get cluster metadata to verify connection
+            metadata = consumer.list_topics(timeout=10)
+            available_topics = list(metadata.topics.keys())
+            consumer.close()
+            
+            print(f"✅ Kafka connection successful!", flush=True)
+            print(f"📋 Available topics: {available_topics}", flush=True)
+            
+            # Check if our required topics exist
+            required_topics = list(self.topics.values())
+            missing_topics = [t for t in required_topics if t not in available_topics]
+            
+            if missing_topics:
+                print(f"⚠️  Missing topics: {missing_topics}", flush=True)
+                print(f"🔧 These topics will be auto-created on first message", flush=True)
+            else:
+                print(f"✅ All required topics exist: {required_topics}", flush=True)
+            
+            return True
+            
         except Exception as e:
-            print(f"Exception sending message: {e}")
+            print(f"❌ Kafka connection test failed: {str(e)}", flush=True)
+            print(f"❌ Exception type: {type(e).__name__}", flush=True)
+            return False
+        
+    def send_to_kafka(self, topic, message):
+        """Send message to Kafka using confluent-kafka client"""
+        try:
+            import os
+            import json
+            from confluent_kafka import Producer
+            
+            # Get Kafka bootstrap servers from environment or use default
+            bootstrap_servers = os.getenv('KAFKA_BOOTSTRAP_SERVERS', 'localhost:9092')
+            print(f"🔗 Connecting to Kafka at: {bootstrap_servers}", flush=True)
+            
+            # Configure Confluent Kafka producer
+            conf = {
+                'bootstrap.servers': bootstrap_servers,
+                'client.id': 'banking-producer',
+                'acks': 'all',
+                'retries': 5,
+                'retry.backoff.ms': 1000,
+                'request.timeout.ms': 30000,
+                'delivery.timeout.ms': 60000,
+                'compression.type': 'gzip',
+                'linger.ms': 100,  # Allow batching
+                'batch.size': 16384  # Batch size
+            }
+            
+            producer = Producer(conf)
+            
+            print(f"📤 Sending message to topic: {topic}", flush=True)
+            
+            # Serialize message to JSON
+            message_json = json.dumps(message)
+            
+            # Callback function to handle delivery reports
+            def delivery_callback(err, msg):
+                if err:
+                    print(f"❌ Message delivery failed: {err}", flush=True)
+                else:
+                    print(f"✅ Message delivered to {msg.topic()} [{msg.partition()}] at offset {msg.offset()}", flush=True)
+            
+            # Send message with callback
+            producer.produce(topic, value=message_json, callback=delivery_callback)
+            
+            # Wait for message to be delivered with longer timeout
+            remaining_messages = producer.flush(timeout=60)  # 60 second timeout
+            
+            if remaining_messages > 0:
+                print(f"⚠️ {remaining_messages} messages still in queue after flush", flush=True)
+                return False
+            else:
+                print(f"✅ Message sent to {topic} successfully", flush=True)
+                return True
+            
+        except Exception as e:
+            print(f"❌ Exception sending message to {topic}: {str(e)}", flush=True)
+            print(f"❌ Exception type: {type(e).__name__}", flush=True)
             return False
     
     def generate_base_transaction(self):
@@ -96,7 +178,7 @@ class CoordinatedProducer:
             source_txn["processing_time"] = datetime.now().isoformat()
             source_txn["source_system_id"] = f"{source.upper()}_SYS_{random.randint(100, 999)}"
             
-            success = self.send_to_kafka_via_docker(topic, source_txn)
+            success = self.send_to_kafka(topic, source_txn)
             
             if success:
                 mismatch_emoji = "✅" if mismatch == "CORRECT" else "⚠️"
@@ -111,26 +193,39 @@ class CoordinatedProducer:
     
     def run(self):
         """Run the realistic banking transaction producer"""
-        print("🏦 Starting Realistic Banking Transaction Producer...")
-        print("🔄 Simulating real-time Indian banking transactions with reconciliation")
-        print("📊 Features: INR currency, Various channels, Realistic amounts, Banking workflows")
-        print("Press Ctrl+C to stop\n")
+        print("🏦 Starting Realistic Banking Transaction Producer...", flush=True)
+        print("🔄 Simulating real-time Indian banking transactions with reconciliation", flush=True)
+        print("📊 Features: INR currency, Various channels, Realistic amounts, Banking workflows", flush=True)
+        
+        # Test Kafka connection first
+        print("\n🔍 Testing Kafka connectivity...", flush=True)
+        if not self.test_kafka_connection():
+            print("❌ Kafka connection failed. Retrying in 30 seconds...", flush=True)
+            time.sleep(30)
+            if not self.test_kafka_connection():
+                print("❌ Kafka connection failed again. Exiting...", flush=True)
+                return
+        
+        print("Press Ctrl+C to stop\n", flush=True)
         
         try:
             transaction_count = 0
             while True:
                 transaction_count += 1
-                print(f"📈 Transaction #{transaction_count}")
+                print(f"� Tranasaction #{transaction_count}", flush=True)
                 self.send_coordinated_transaction()
                 
                 # Realistic banking transaction frequency (15-45 seconds between transactions)
                 wait_time = random.uniform(15, 45)
-                print(f"   ⏳ Next transaction in {wait_time:.1f}s...\n")
+                print(f"   ⏳ Next transaction in {wait_time:.1f}s...\n", flush=True)
                 time.sleep(wait_time)
                 
         except KeyboardInterrupt:
-            print(f"\n🛑 Banking producer stopped after {transaction_count} transactions")
-            print("📊 System ready for reconciliation analysis")
+            print(f"\n🛑 Banking producer stopped after {transaction_count} transactions", flush=True)
+            print("📊 System ready for reconciliation analysis", flush=True)
+        except Exception as e:
+            print(f"❌ Producer error: {e}", flush=True)
+            raise
 
 if __name__ == "__main__":
     producer = CoordinatedProducer()

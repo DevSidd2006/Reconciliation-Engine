@@ -1,0 +1,14 @@
+# Assets directory for application icons and resources
+# 
+# Required files:
+# - icon.ico (Windows application icon)
+# - icon.png (Electron window icon)
+#
+# Icon requirements:
+# - icon.ico: 256x256 pixels, Windows ICO format
+# - icon.png: 512x512 pixels, PNG format
+#
+# You can generate these from a single high-resolution image using:
+# - Online converters (PNG to ICO)
+# - ImageMagick: convert icon.png -resize 256x256 icon.ico
+# - Electron Icon Maker tools
