@@ -2,7 +2,7 @@ const { contextBridge, ipcRenderer } = require('electron');
 
 // Expose protected methods that allow the renderer process to use
 // the ipcRenderer without exposing the entire object
-contextBridge.exposeInMainWorld('electronAPI', {
+contextBridge.exposeInMainWorld('electron', {
   checkDocker: () => ipcRenderer.invoke('check-docker'),
   startSystem: () => ipcRenderer.invoke('start-system'),
   stopSystem: () => ipcRenderer.invoke('stop-system'),

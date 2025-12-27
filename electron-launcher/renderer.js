@@ -46,7 +46,7 @@ class LauncherUI {
         this.dismissErrorBtn.addEventListener('click', () => this.dismissError());
 
         // Listen for status updates from main process
-        window.electronAPI.onStatusUpdate((data) => {
+        window.electron.onStatusUpdate((data) => {
             this.handleStatusUpdate(data);
         });
     }
@@ -61,7 +61,7 @@ class LauncherUI {
         this.addLogEntry('Checking Docker installation and daemon status...');
 
         try {
-            const result = await window.electronAPI.checkDocker();
+            const result = await window.electron.checkDocker();
             
             if (result.success) {
                 this.updateDockerStatus('success', 
@@ -85,7 +85,7 @@ class LauncherUI {
 
     async checkSystemStatus() {
         try {
-            const status = await window.electronAPI.getSystemStatus();
+            const status = await window.electron.getSystemStatus();
             this.isSystemRunning = status.isRunning;
             this.updateSystemControls();
         } catch (error) {
@@ -99,7 +99,7 @@ class LauncherUI {
         this.addLogEntry('🚀 Starting Banking Reconciliation System...');
 
         try {
-            const result = await window.electronAPI.startSystem();
+            const result = await window.electron.startSystem();
             
             if (result.success) {
                 this.isSystemRunning = true;
@@ -124,7 +124,7 @@ class LauncherUI {
         this.addLogEntry('🛑 Stopping Banking Reconciliation System...');
 
         try {
-            const result = await window.electronAPI.stopSystem();
+            const result = await window.electron.stopSystem();
             
             if (result.success) {
                 this.isSystemRunning = false;
@@ -144,7 +144,7 @@ class LauncherUI {
     async openFrontend() {
         this.addLogEntry('🌐 Opening Banking Dashboard...');
         try {
-            await window.electronAPI.openFrontend();
+            await window.electron.openFrontend();
             this.addLogEntry('✅ Dashboard opened in new window', 'success');
         } catch (error) {
             this.addLogEntry(`❌ Failed to open dashboard: ${error.message}`, 'error');
@@ -154,7 +154,7 @@ class LauncherUI {
     async openDockerDesktop() {
         this.addLogEntry('📥 Opening Docker Desktop download page...');
         try {
-            await window.electronAPI.openDockerDesktop();
+            await window.electron.openDockerDesktop();
         } catch (error) {
             this.addLogEntry(`❌ Failed to open Docker Desktop page: ${error.message}`, 'error');
         }

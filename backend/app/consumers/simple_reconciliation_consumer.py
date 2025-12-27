@@ -1,4 +1,4 @@
-import subprocess
+from confluent_kafka import Consumer, KafkaError
 import json
 import threading
 import time
@@ -19,66 +19,70 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 def consume_topic(topic_name):
-    """Consume messages from a specific Kafka topic"""
+    """Consume messages from a specific Kafka topic using Python client"""
     logger.info(f"🚀 Starting consumer for {topic_name}")
     
-    cmd = [
-        "docker", "exec", "kafka-kafka-1",
-        "kafka-console-consumer",
-        "--bootstrap-server", "localhost:9092",
-        "--topic", topic_name,
-        "--from-beginning"
-    ]
+    # Kafka consumer configuration
+    consumer_config = {
+        'bootstrap.servers': 'kafka:9092',
+        'group.id': f'reconciliation_consumer_{topic_name}',
+        'auto.offset.reset': 'earliest',
+        'enable.auto.commit': True,
+        'session.timeout.ms': 30000,
+        'heartbeat.interval.ms': 10000
+    }
+    
+    consumer = Consumer(consumer_config)
     
     try:
-        process = subprocess.Popen(
-            cmd, 
-            stdout=subprocess.PIPE, 
-            stderr=subprocess.PIPE, 
-            text=True,
-            encoding='utf-8',
-            errors='ignore',
-            bufsize=1
-        )
-        
-        logger.info(f"✅ Consumer started for {topic_name}")
+        # Subscribe to the topic
+        consumer.subscribe([topic_name])
+        logger.info(f"✅ Consumer subscribed to {topic_name}")
         
         while True:
-            line = process.stdout.readline()
-            if line:
-                line = line.strip()
-                if line:
-                    try:
-                        transaction = json.loads(line)
-                        logger.info(f"📥 [{topic_name}] Received: {transaction.get('txn_id', 'unknown')}")
-                        
-                        # Save to database
-                        try:
-                            try:
-                                from services.database_service import db_service
-                            except ImportError:
-                                from app.services.database_service import db_service
-                            db_service.save_transaction(transaction)
-                        except Exception as e:
-                            logger.warning(f"Failed to save transaction to database: {e}")
-                        
-                        # Add to reconciliation engine
-                        reconciliation_engine.add_transaction(transaction)
-                        
-                    except json.JSONDecodeError:
-                        logger.warning(f"❌ [{topic_name}] Invalid JSON: {line}")
-                    except Exception as e:
-                        logger.error(f"❌ [{topic_name}] Error: {e}")
+            # Poll for messages
+            msg = consumer.poll(timeout=1.0)
             
-            # Check if process ended
-            if process.poll() is not None:
-                break
+            if msg is None:
+                continue
+                
+            if msg.error():
+                if msg.error().code() == KafkaError._PARTITION_EOF:
+                    logger.info(f"📄 [{topic_name}] End of partition reached")
+                else:
+                    logger.error(f"❌ [{topic_name}] Consumer error: {msg.error()}")
+                continue
+            
+            # Process the message
+            try:
+                message_value = msg.value().decode('utf-8')
+                transaction = json.loads(message_value)
+                logger.info(f"📥 [{topic_name}] Received: {transaction.get('txn_id', 'unknown')}")
+                
+                # Save to database
+                try:
+                    try:
+                        from services.database_service import db_service
+                    except ImportError:
+                        from app.services.database_service import db_service
+                    db_service.save_transaction(transaction)
+                    logger.info(f"💾 [{topic_name}] Saved to DB: {transaction.get('txn_id')}")
+                except Exception as e:
+                    logger.warning(f"Failed to save transaction to database: {e}")
+                
+                # Add to reconciliation engine
+                reconciliation_engine.add_transaction(transaction)
+                
+            except json.JSONDecodeError:
+                logger.warning(f"❌ [{topic_name}] Invalid JSON: {message_value}")
+            except Exception as e:
+                logger.error(f"❌ [{topic_name}] Processing error: {e}")
                 
     except Exception as e:
         logger.error(f"❌ Consumer error for {topic_name}: {e}")
     finally:
-        if 'process' in locals():
-            process.terminate()
+        consumer.close()
+        logger.info(f"🛑 Consumer closed for {topic_name}")
 
 def main():
     """Start consumers for all topics"""

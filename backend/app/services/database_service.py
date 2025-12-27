@@ -34,17 +34,33 @@ class DatabaseService:
         """Save a transaction to database"""
         db = self.get_db()
         try:
-            # Use current time for all transactions to ensure correct timestamps
-            timestamp = datetime.now()
+            # Use timestamp from transaction data if available, otherwise current time
+            if 'timestamp' in transaction_data and transaction_data['timestamp']:
+                try:
+                    # Parse the ISO timestamp from the transaction
+                    from dateutil import parser
+                    parsed_timestamp = parser.parse(transaction_data['timestamp'])
+                    # Convert to naive datetime (remove timezone info) to store as local time
+                    if parsed_timestamp.tzinfo is not None:
+                        # Convert to local time and make it naive
+                        timestamp = parsed_timestamp.replace(tzinfo=None)
+                    else:
+                        timestamp = parsed_timestamp
+                except Exception as e:
+                    print(f"Error parsing timestamp: {e}")
+                    # Fallback to current time if parsing fails
+                    timestamp = datetime.now()
+            else:
+                timestamp = datetime.now()
             
-            # Get current time for all timestamp fields
+            # Get current time for created_at and updated_at
             current_time = datetime.now()
             
             transaction = Transaction(
                 txn_id=transaction_data['txn_id'],
                 amount=float(transaction_data.get('amount', 0)),
                 status=transaction_data.get('status', 'UNKNOWN'),
-                timestamp=current_time,
+                timestamp=timestamp,  # Use the actual transaction timestamp (naive)
                 currency=transaction_data.get('currency', 'INR'),
                 account_id=transaction_data.get('account_id'),
                 source=transaction_data['source'],

@@ -1,3 +1,4 @@
 confluent-kafka==2.3.0
 fastavro==1.9.4
 kafka-python==2.0.2
+pytz==2023.3

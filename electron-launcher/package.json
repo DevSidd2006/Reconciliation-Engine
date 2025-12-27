@@ -33,14 +33,40 @@
     },
     "files": [
       "main.js",
+      "preload.js",
       "renderer.js",
       "index.html",
       "styles.css",
       "package.json"
     ],
+    "extraResources": [
+      {
+        "from": "../docker-compose.yml",
+        "to": "docker-compose.yml"
+      },
+      {
+        "from": "../backend",
+        "to": "backend"
+      },
+      {
+        "from": "../frontend",
+        "to": "frontend"
+      },
+      {
+        "from": "../producers",
+        "to": "producers"
+      },
+      {
+        "from": "../.env",
+        "to": ".env"
+      }
+    ],
     "win": {
-      "target": "nsis",
-      "icon": "assets/icon.ico"
+      "target": "portable",
+      "signAndEditExecutable": false
+    },
+    "mac": {
+      "identity": null
     },
     "nsis": {
       "oneClick": false,

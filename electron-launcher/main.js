@@ -103,38 +103,49 @@ class BankingSystemLauncher {
     });
   }
 
+  getResourcesRoot() {
+    return app.isPackaged 
+      ? process.resourcesPath 
+      : path.resolve(__dirname, '..');
+  }
+
   async startDockerServices() {
-    const projectRoot = path.resolve(__dirname, '..');
+    const projectRoot = this.getResourcesRoot();
+    const composePath = path.join(projectRoot, 'docker-compose.yml');
     
     return new Promise((resolve, reject) => {
       this.sendStatusUpdate('system', 'Starting complete Banking Reconciliation System...');
+      this.sendStatusUpdate('system', `Using compose file: ${composePath}`);
       
-      // Start all services with single docker-compose
-      const systemProcess = spawn('docker', ['compose', 'up', '-d', '--build'], {
-        cwd: projectRoot,
-        stdio: 'pipe'
+      const systemProcess = spawn(
+        'docker',
+        ['compose', '-f', composePath, 'up', '-d', '--build'],
+        {
+          cwd: projectRoot,
+          stdio: 'pipe',
+          windowsHide: true
+        }
+      );
+
+      let output = '';
+
+      systemProcess.stdout.on('data', d => {
+        output += d.toString();
+        this.sendStatusUpdate('system', d.toString().trim());
       });
 
-      let systemOutput = '';
-      systemProcess.stdout.on('data', (data) => {
-        systemOutput += data.toString();
-        const output = data.toString().trim();
-        this.sendStatusUpdate('system', `Starting services: ${output}`);
+      systemProcess.stderr.on('data', d => {
+        output += d.toString();
+        this.sendStatusUpdate('system', `System: ${d.toString().trim()}`);
       });
 
-      systemProcess.stderr.on('data', (data) => {
-        systemOutput += data.toString();
-        const output = data.toString().trim();
-        this.sendStatusUpdate('system', `System: ${output}`);
-      });
-
-      systemProcess.on('close', (code) => {
+      systemProcess.on('close', code => {
         if (code === 0) {
           this.sendStatusUpdate('system', 'All services started successfully');
           this.isSystemRunning = true;
-          resolve({ success: true, output: systemOutput });
+          resolve({ success: true });
         } else {
-          reject({ success: false, error: `System failed to start (exit code: ${code})`, output: systemOutput });
+          reject(new Error(`docker compose failed with code ${code}`));
         }
       });
 
@@ -143,16 +154,17 @@ class BankingSystemLauncher {
   }
 
   async stopDockerServices() {
-    const projectRoot = path.resolve(__dirname, '..');
+    const projectRoot = this.getResourcesRoot();
+    const composePath = path.join(projectRoot, 'docker-compose.yml');
     
     return new Promise((resolve) => {
       this.sendStatusUpdate('system', 'Stopping Banking Reconciliation System...');
       
-      // Stop all services with single docker-compose
-      const systemProcess = spawn('docker', ['compose', 'down'], {
-        cwd: projectRoot,
-        stdio: 'pipe'
-      });
+      const systemProcess = spawn(
+        'docker',
+        ['compose', '-f', composePath, 'down'],
+        { cwd: projectRoot }
+      );
 
       systemProcess.on('close', () => {
         this.sendStatusUpdate('system', 'All services stopped successfully');
