@@ -138,7 +138,21 @@ const OperationsDashboard = () => {
  className={`btn btn-sm ${autoRefresh ? 'btn-success' : 'btn-secondary'}`}
  title={autoRefresh ? 'Auto-refresh enabled' : 'Auto-refresh disabled'}
  >
- <span className="icon">{autoRefresh ? 'REF' : '⏸'}</span>
+ <span className="icon">
+   {autoRefresh ? (
+     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+       <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/>
+       <path d="M21 3v5h-5"/>
+       <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/>
+       <path d="M3 21v-5h5"/>
+     </svg>
+   ) : (
+     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+       <rect x="6" y="4" width="4" height="16"/>
+       <rect x="14" y="4" width="4" height="16"/>
+     </svg>
+   )}
+ </span>
  {autoRefresh ? 'AUTO' : 'MANUAL'}
  </button>
  
