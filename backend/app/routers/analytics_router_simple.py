@@ -25,9 +25,15 @@ def get_overview_stats(
         # Get real statistics from database
         stats = db_service.get_transaction_stats()
         
-        # Calculate today's metrics
+        # Calculate recent metrics (last 24 hours instead of strict "today")
+        from datetime import timedelta
         today = datetime.now().date()
+        yesterday = today - timedelta(days=1)
+        
+        # Try today first, if no transactions, use yesterday
         today_transactions = db_service.get_transactions_by_date(today)
+        if len(today_transactions) == 0:
+            today_transactions = db_service.get_transactions_by_date(yesterday)
         
         # Calculate delayed and duplicate transactions
         delayed_count = db_service.get_delayed_transactions_count(minutes=5)

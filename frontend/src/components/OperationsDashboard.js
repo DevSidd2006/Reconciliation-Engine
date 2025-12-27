@@ -18,10 +18,21 @@ const OperationsDashboard = () => {
  const [selectedTransaction, setSelectedTransaction] = useState(null);
  const [autoRefresh, setAutoRefresh] = useState(true);
  const [refreshInterval, setRefreshInterval] = useState(10); // seconds
+ const [currentTheme, setCurrentTheme] = useState('dark'); // Add theme state
  const [dateRange, setDateRange] = useState({
  from: new Date().toISOString().split('T')[0],
  to: new Date().toISOString().split('T')[0]
  });
+
+ // Listen for theme changes
+ useEffect(() => {
+ const handleThemeChange = (event) => {
+ setCurrentTheme(event.detail.theme);
+ };
+ 
+ window.addEventListener('themeChanged', handleThemeChange);
+ return () => window.removeEventListener('themeChanged', handleThemeChange);
+ }, []);
 
  // Auto-refresh functionality
  useEffect(() => {
@@ -55,20 +66,45 @@ const OperationsDashboard = () => {
  };
 
  return (
- <div className="dashboard-layout">
- {/* Sidebar Navigation */}
- <Sidebar 
- activeTab={activeTab}
- setActiveTab={setActiveTab}
- selectedTransaction={selectedTransaction}
- onLogout={logout}
- />
+   <div className="dashboard-layout" style={{ 
+     backgroundColor: 'var(--bg-secondary)', 
+     color: 'var(--text-primary)',
+     minHeight: '100vh',
+     transition: 'background-color 0.3s ease, color 0.3s ease'
+   }}>
+     {/* Sidebar Navigation */}
+     <Sidebar 
+       activeTab={activeTab}
+       setActiveTab={setActiveTab}
+       selectedTransaction={selectedTransaction}
+       onLogout={logout}
+     />
 
- {/* Main Content */}
- <div className="main-content">
- {/* Header */}
- <div className="main-header">
- <h1 className="main-header-title">{getPageTitle()}</h1>
+     {/* Main Content */}
+     <div className="main-content" style={{
+       backgroundColor: 'var(--bg-secondary)',
+       color: 'var(--text-primary)'
+     }}>
+       {/* Header */}
+       <div className="main-header" style={{
+         backgroundColor: 'var(--bg-primary)',
+         color: 'var(--text-primary)',
+         borderBottom: '1px solid var(--border-color)'
+       }}>
+         <h1 className="main-header-title">
+           {getPageTitle()}
+           <span style={{
+             marginLeft: '12px',
+             padding: '4px 8px',
+             fontSize: '10px',
+             backgroundColor: currentTheme === 'light' ? 'var(--primary-blue)' : 'var(--success-green)',
+             color: 'white',
+             borderRadius: '4px',
+             fontWeight: 'normal'
+           }}>
+             {currentTheme === 'light' ? 'LIGHT MODE' : 'DARK MODE'}
+           </span>
+         </h1>
  
  <div className="main-header-controls">
  {/* Date Range Picker */}
