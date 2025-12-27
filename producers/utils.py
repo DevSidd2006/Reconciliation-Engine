@@ -3,16 +3,17 @@ import uuid
 from datetime import datetime, timedelta
 
 # Weighted mismatch probabilities (realistic banking distribution)
+# Banking systems typically maintain 95%+ accuracy
 MISMATCH_WEIGHTS = {
-    "CORRECT": 50,
-    "AMOUNT_MISMATCH": 20,
-    "STATUS_MISMATCH": 10,
-    "TIME_MISMATCH": 5,
-    "CURRENCY_MISMATCH": 5,
-    "MISSING_FIELD": 3,
-    "WRONG_ACCOUNT": 2,
-    "WRONG_SCHEMA": 2,
-    "DUPLICATE": 3
+    "CORRECT": 85,
+    "AMOUNT_MISMATCH": 7,
+    "STATUS_MISMATCH": 4,
+    "TIME_MISMATCH": 2,
+    "CURRENCY_MISMATCH": 1,
+    "MISSING_FIELD": 1,
+    "WRONG_ACCOUNT": 0,
+    "WRONG_SCHEMA": 0,
+    "DUPLICATE": 0
 }
 
 STATUSES = ["SUCCESS", "FAILED", "PENDING"]
@@ -38,7 +39,16 @@ def generate_txn(source):
 
 def apply_mismatch(txn, mismatch_type):
     if mismatch_type == "AMOUNT_MISMATCH":
-        txn["amount"] += random.randint(10, 200)
+        # More sophisticated variance to simulate real banking scenarios:
+        # rounding errors, fee discrepancies, percentage-based differences
+        variation_type = random.choice(["rounding", "fee", "percentage"])
+        if variation_type == "rounding":
+            txn["amount"] = round(txn["amount"] + random.uniform(-0.50, 0.50), 2)
+        elif variation_type == "fee":
+            txn["amount"] += random.choice([2.50, 5.00, 10.00, 25.00])
+        else:  # percentage
+            txn["amount"] *= random.uniform(0.98, 1.02)  # ±2% variation
+        txn["amount"] = round(txn["amount"], 2)
     
     elif mismatch_type == "STATUS_MISMATCH":
         txn["status"] = random.choice(["FAILED", "SUCCESS"])
@@ -57,8 +67,10 @@ def apply_mismatch(txn, mismatch_type):
         txn["account_id"] = str(random.randint(1000000, 9999999))
     
     elif mismatch_type == "WRONG_SCHEMA":
-        # Send completely invalid structure - Schema Registry will reject this
-        return {"invalid": "schema", "malformed": True}
+        # Maintain base structure but add invalid field to trigger validation errors
+        # This preserves downstream processing compatibility
+        txn["_invalid_field"] = "schema_error"
+        txn["malformed_data"] = True
     
     elif mismatch_type == "DUPLICATE":
         # Keep same txn_id but change source to create duplicate scenario
