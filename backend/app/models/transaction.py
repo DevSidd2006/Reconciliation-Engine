@@ -1,24 +1,18 @@
-from sqlalchemy import Column, String, Float, DateTime, Integer, Text, Boolean
-from sqlalchemy.sql import func
-from ..db.database import Base
+from sqlalchemy import Column, String, Float, DateTime, Index, UniqueConstraint
+from db.database import Base
 
 class Transaction(Base):
     __tablename__ = "transactions"
     
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    txn_id = Column(String, nullable=False, index=True)
-    amount = Column(Float, nullable=False)
-    status = Column(String, nullable=False)  # SUCCESS, FAILED, PENDING
-    timestamp = Column(DateTime, nullable=True)
-    currency = Column(String, default="INR")
+    txn_id = Column(String, primary_key=True, index=True)
+    amount = Column(Float)
+    status = Column(String, index=True)
+    timestamp = Column(DateTime, nullable=True, index=True)
+    currency = Column(String, nullable=True)
     account_id = Column(String, nullable=True)
-    source = Column(String, nullable=False, index=True)  # core, gateway, mobile
+    source = Column(String, index=True)
     
-    # Reconciliation fields
-    reconciliation_status = Column(String, nullable=True)  # MATCHED, MISMATCH, PENDING
-    reconciled_at = Column(DateTime, nullable=True)
-    reconciled_with_sources = Column(Text, nullable=True)  # JSON array of sources
-    
-    # Audit fields - use application time instead of server time
-    created_at = Column(DateTime, nullable=True)
-    updated_at = Column(DateTime, nullable=True)
+    __table_args__ = (
+        UniqueConstraint('txn_id', 'source', name='unique_txn_per_source'),
+        Index('ix_txn_source_time', 'source', 'timestamp'),
+    )
