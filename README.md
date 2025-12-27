@@ -46,13 +46,28 @@ A **complete banking reconciliation system** that processes transactions in real
 
 ## 🚀 **Quick Start**
 
-### **🎯 Automated Startup (Recommended)**
+### **🎯 One-Click Startup (Easiest)**
 ```bash
-# Windows - Double-click or run:
+# Windows - Just double-click this file:
+🚀 START_BANKING_SYSTEM.bat
+
+# Or run from command line:
+"🚀 START_BANKING_SYSTEM.bat"
+```
+
+### **🔧 Advanced Startup Options**
+```bash
+# Enhanced PowerShell version (recommended):
+powershell -ExecutionPolicy Bypass -File start_project.ps1
+
+# Standard batch version:
 start_project.bat
 
 # For clean restart if issues:
 clean_restart.bat
+
+# To stop all services:
+🛑 STOP_BANKING_SYSTEM.bat
 ```
 
 ### **📖 Detailed Instructions**
